@@ -2,8 +2,6 @@ package BL;
 
 import DAL.Product_Data;
 import SharedClasses.Date;
-import SharedClasses.Products;
-import SharedClasses.Supplier;
 
 /**
  * Created by Shahar on 29/03/17.

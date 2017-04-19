@@ -2,7 +2,6 @@ package DAL;
 
 import SharedClasses.Category;
 import SharedClasses.Date;
-import SharedClasses.Products;
 
 import java.sql.*;
 import java.util.ArrayList;

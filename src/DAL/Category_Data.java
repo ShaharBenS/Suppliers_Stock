@@ -1,10 +1,8 @@
 package DAL;
 
 import SharedClasses.Category;
-import SharedClasses.Products;
 
 import java.sql.*;
-import java.util.SimpleTimeZone;
 
 /**
  * Created by Shahar on 29/03/17.
