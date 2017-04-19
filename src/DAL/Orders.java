@@ -22,7 +22,7 @@ public class Orders {
             ps.setInt(1, order.getOrderID());
             ps.setInt(2, order.getSupplier());
             ps.setString(3, order.getSupplierName());
-            ps.setString(4,order.getDate());
+            ps.setString(4,order.getDate().toString());
             ps.setString(5,order.getContactNum());
 
             ps.executeUpdate();

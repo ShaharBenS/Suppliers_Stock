@@ -156,7 +156,28 @@ public class ProgramLauncher
             stmt.execute(sql);
             stmt.close();
 
-            
+            /*
+                Quantities : ID, Location, Defects, Warehouse, Minimum, Store, Order. (Current = Store+Warehouse+Defects)
+             */
+            stmt = c.createStatement();
+            sql =   "CREATE TABLE IF NOT EXISTS QUANTITIES " +
+                    "(ID INT REFERENCES Items(ID)," +
+                    "LOCATION TEXT NOT NULL," +
+                    "MINIMUM INT NOT NULL," +
+                    "ORDER INT SET DEFAULT MINIMUM*3," +
+                    "WAREHOUSE INT NOT NULL," +
+                    "STORE INT NOT NULL," +
+                    "DEFECTS INT NOT NULL);";
+            stmt.execute(sql);
+            stmt.close();
+
+            /*
+                Prices : ItemID, OrderID, SellPrice, BuyPrice, Percentage, DateStart, DateEnd.
+            */
+            stmt = c.createStatement();
+            sql = "CREATE TABLE IF NOT EXISTS PRICES";
+
+
             c.commit();
             stmt.close();
 
