@@ -17,7 +17,7 @@ public class ProgramLauncher
         new Menu().start();
     }
 
-    public static Connection getConnectionAndInitDatabase(String dataBaseName) {
+    private static Connection getConnectionAndInitDatabase(String dataBaseName) {
         Connection c = null;
         Statement stmt = null;
         try {
@@ -175,8 +175,15 @@ public class ProgramLauncher
                 Prices : ItemID, OrderID, SellPrice, BuyPrice, Percentage, DateStart, DateEnd.
             */
             stmt = c.createStatement();
-            sql = "CREATE TABLE IF NOT EXISTS PRICES";
-
+            sql = "CREATE TABLE IF NOT EXISTS PRICES" +
+                    "(ItemID INT REFERENCES Item(ID)," +
+                    "OrderID INT REFERENCES ORDER(OrderID)," +
+                    "SellPrice REAL REFERENCES SupplierItems(Cost)," +
+                    "BuyPrice INT REFERENCES OrdersItems(FinalCost)," +
+                    "DateStart TEXT," +
+                    "DateEnd TEXT);";
+            stmt.execute(sql);
+            stmt.close();
 
             c.commit();
             stmt.close();
