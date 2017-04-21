@@ -174,7 +174,7 @@ public class SupplierBL {
                 return item.setCategory(id, newCategory);
             case 4:
                 String manufacture = (String) change;
-                return item.setmanufacture(id, manufacture);
+                return item.setManufacture(id, manufacture);
             default:
                 return false;
         }

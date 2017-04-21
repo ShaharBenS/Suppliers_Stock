@@ -164,7 +164,7 @@ public class ProgramLauncher
              */
             stmt = c.createStatement();
             sql =   "CREATE TABLE IF NOT EXISTS QUANTITIES " +
-                    "(ID INT REFERENCES Items(ID)," +
+                    "(ID INT REFERENCES Items(ID) ON UPDATE CASCADE ON DELETE CASCADE ," +
                     "LOCATION TEXT NOT NULL," +
                     "MINIMUM INT NOT NULL," +
                     "ORDER INT SET DEFAULT MINIMUM*3," +
@@ -179,7 +179,7 @@ public class ProgramLauncher
             */
             stmt = c.createStatement();
             sql = "CREATE TABLE IF NOT EXISTS PRICES" +
-                    "(ItemID INT REFERENCES Item(ID)," +
+                    "(ItemID INT REFERENCES Item(ID) ON UPDATE CASCADE ON DELETE CASCADE ," +
                     "OrderID INT REFERENCES ORDER(OrderID)," +
                     "SellPrice REAL REFERENCES SupplierItems(Cost)," +
                     "BuyPrice INT REFERENCES OrdersItems(FinalCost)," +

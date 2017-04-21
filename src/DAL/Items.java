@@ -1,16 +1,12 @@
 package DAL;
 
 import SharedClasses.Item;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 
 public class Items {
-    Connection c;
-    java.sql.Statement stmt;
+    private Connection c;
+    private Statement stmt;
 
 
     public Items(Connection c) {
@@ -19,7 +15,8 @@ public class Items {
     }
 
     public boolean addItem(Item item) {
-        try {
+        try
+        {
             PreparedStatement ps = c.prepareStatement("INSERT INTO Items (ID, Name, CategoryNumber, Manufacture) " +
                     "VALUES (?,?,?,?);");
             ps.setInt(1, item.getItemID());
@@ -27,6 +24,7 @@ public class Items {
             ps.setInt(3, item.getCategoryNumber());
             ps.setString(4, item.getManufacture());
             ps.executeUpdate();
+
             c.commit();
             ps.close();
             stmt.close();
@@ -103,7 +101,7 @@ public class Items {
     }
 
 
-    public boolean setmanufacture(int id, String manufacture){
+    public boolean setManufacture(int id, String manufacture){
         try {
             String sql = "UPDATE Items SET Manufacture = ? WHERE ID = ?";
 

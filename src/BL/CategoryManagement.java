@@ -1,6 +1,6 @@
 package BL;
 
-import DAL.Category_Data;
+import DAL.Categories;
 import DAL.Product_Data;
 import SharedClasses.Category;
 
@@ -9,10 +9,10 @@ import SharedClasses.Category;
  */
 //hi
 public class CategoryManagement {
-    private Category_Data _CD;
+    private Categories _CD;
     private Product_Data PD;
 
-    public CategoryManagement(Category_Data cd, Product_Data pd) {
+    public CategoryManagement(Categories cd, Product_Data pd) {
         _CD = cd;
         this.PD = pd;
     }

@@ -7,10 +7,10 @@ import java.sql.*;
 /**
  * Created by Shahar on 29/03/17.
  */
-public class  Category_Data
+public class Categories
 {
     private Connection connection;
-    public Category_Data(Connection c)
+    public Categories(Connection c)
     {
         connection = c;
     }
