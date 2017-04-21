@@ -19,8 +19,8 @@ public class Suppliers {
 
     public boolean addSupplier(Supplier sup) {
         try {
-            PreparedStatement ps = c.prepareStatement("INSERT INTO Suppliers (ID,Name, BankNum, BranchNum, AccountNum, Payment, DeliveryMethod, SupplyTime) " +
-                    "VALUES (?,?,?,?,?,?,?);");
+            PreparedStatement ps = c.prepareStatement("INSERT INTO Suppliers (ID,Name, BankNum, BranchNum, AccountNum, Payment, DeliveryMethod, SupplyTime, Address) " +
+                    "VALUES (?,?,?,?,?,?,?,?);");
             ps.setInt(1, sup.getId());
             ps.setString(2, sup.getName());
             ps.setInt(3, sup.getBankNum());
@@ -29,6 +29,7 @@ public class Suppliers {
             ps.setString(6, sup.getPayment());
             ps.setString(7, sup.getDeliveryMethod());
             ps.setString(8, sup.getSupplyTime());
+            ps.setString(9, sup.getAddress());
 
             ps.executeUpdate();
             c.commit();
@@ -213,6 +214,30 @@ public class Suppliers {
             return false;
         }
     }
+    
+    public boolean setAddress(int id, String address){
+    	 try {
+             String sql = "UPDATE Suppliers SET Address = ? WHERE ID = ?";
+
+             PreparedStatement pstmt = c.prepareStatement(sql);
+
+             // set the corresponding param
+             pstmt.setString(1, address);
+             pstmt.setInt(2, id);
+             // update
+             pstmt.executeUpdate();
+
+             c.commit();
+             pstmt.close();
+             return true;
+         } catch (SQLException e)
+
+         {
+             System.out.println(e);
+
+             return false;
+         }
+    }
 
 
     public Supplier getSupplier(int id) {
@@ -222,7 +247,7 @@ public class Suppliers {
             stmt = c.createStatement();
             ResultSet rs = stmt.executeQuery(sqlQuary);
 
-            sup = new Supplier(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getString(6), rs.getString(7), rs.getString(8));
+            sup = new Supplier(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9));
 
             rs.close();
             stmt.close();

@@ -1,9 +1,10 @@
 package PL;
 
+import java.util.Scanner;
+
 import BL.CategoryManagement;
 import BL.PriceManagement;
 import BL.ProductManagement;
-import java.util.Scanner;
 
 
 public class PL_Stock

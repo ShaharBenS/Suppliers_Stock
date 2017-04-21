@@ -1,5 +1,7 @@
 package DAL;
 
+import SharedClasses.Item;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

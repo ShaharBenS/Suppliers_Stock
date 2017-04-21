@@ -1,8 +1,8 @@
 package PL;
 
-import BL.SupplierBL;
-
 import java.util.Scanner;
+
+import BL.SupplierBL;
 
 
 public class PL_Supplier {

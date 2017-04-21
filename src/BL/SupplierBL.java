@@ -70,12 +70,12 @@ public class SupplierBL {
         return contacts.removeContact(id, supId);
     }
 
-    public boolean addSupplier(int ID, String name, int BankNum, int BranchNum, int AccountNum, String payment, String DeliveryMethod, String SupplyTime) {
-        Supplier supplier = new Supplier(ID, name, BankNum, BranchNum, AccountNum, payment, DeliveryMethod, SupplyTime);
+    public boolean addSupplier(int ID, String name, int BankNum, int BranchNum, int AccountNum, String payment, String DeliveryMethod, String SupplyTime, String address) {
+        Supplier supplier = new Supplier(ID, name, BankNum, BranchNum, AccountNum, payment, DeliveryMethod, SupplyTime, address);
         return sup.addSupplier(supplier);
     }
 
-    public boolean setSupplier(int id, Object change, int code) {// 1- ID,2-name, 3- BankNum, 4- BranchNum, 5-AccountNum, 6-payment, 7-DeliveryMethod,8-SupplyTime
+    public boolean setSupplier(int id, Object change, int code) {// 1- ID,2-name, 3- BankNum, 4- BranchNum, 5-AccountNum, 6-payment, 7-DeliveryMethod,8-SupplyTime, 9-address
         switch (code) {
             case 1:
                 int newID = ((Integer) change).intValue();
@@ -101,6 +101,9 @@ public class SupplierBL {
             case 8:
                 String SupplyTime = (String) change;
                 return sup.setSupplyTime(id, SupplyTime);
+            case 9:
+            	 String address = (String) change;
+                 return sup.setAddress(id, address);
             default:
                 return false;
         }
@@ -251,7 +254,36 @@ public class SupplierBL {
         }
         return ord.getOrderID();
     }
-
+    
+    public boolean setOrder(int orderID,int itemID,  Object change, int code){//1-contact number,2- item quantity
+    	switch (code) {
+        case 1:
+            String conNum = ((String) change);
+            return order.setContactNum(orderID, conNum);
+        case 2:
+            int quantity = ((Integer) change).intValue();
+            return OI.setQuantity(orderID, itemID, quantity);
+        default:
+            return false;
+    	}
+    }
+    public Order getOrder(int orderID){
+    	Order ord;
+    	Order got= order.getOrder(orderID);
+    	ord= new Order(got,OI.getOrderItems(orderID));
+    	return ord;
+    }
+    
+    public Order[] getOrderOfSup(int supID){
+    	Order[] toReturn;
+    	Order[] orderSup=order.getOrderSup(supID);
+    	toReturn= new Order[orderSup.length];
+    	for(int i=0; i<orderSup.length;i++){
+    		toReturn[i]=new Order(orderSup[i],OI.getOrderItems(orderSup[i].getOrderID()));
+    	}
+    	return toReturn;
+    }
+    
     public boolean addOrderItem(int orderID,int supplierID,int itemID, int quantity){
         int disco = dis.getDiscountPer(supplierID, itemID, quantity);
         double cost =si.getCost(itemID,supplierID);
@@ -259,10 +291,24 @@ public class SupplierBL {
         OrderItem orderItem = new OrderItem(orderID,si.getCatalogNumber(itemID,supplierID), item.getItemName(itemID), quantity,cost, disco, finalCost);
         return OI.addOrderItem(orderItem);
     }
-    //TODO implement this
-    int getSupplierID(int itemID)
+    
+    public boolean removeOrder(int orderID) {
+        return order.removeOrder(orderID);
+    }
+    
+    public boolean removeOrderItem(int orderID, int itemID){
+    	int supID= si.getSupplierID(itemID);
+    	int catalogNum = si.getCatalogNumber(itemID, supID);
+    	return OI.removeOrderItem(orderID,catalogNum);
+    }
+
+    public int getSupplierID(int itemID)
     {
-        return -1;
+        return si.getSupplierID(itemID);
+    }
+    
+    public boolean checkOrderExist(int orderID){
+    	return order.checkOrderExist(orderID);
     }
 
 

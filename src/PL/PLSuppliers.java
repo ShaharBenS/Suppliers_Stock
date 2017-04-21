@@ -1,9 +1,12 @@
 package PL;
 
-import BL.SupplierBL;
 import SharedClasses.Supplier;
 
 import java.util.Scanner;
+
+import javax.swing.SingleSelectionModel;
+
+import BL.SupplierBL;
 
 public class PLSuppliers {
     SupplierBL bl;
@@ -78,7 +81,7 @@ public class PLSuppliers {
 
         if (!Exists) {
             int BankNum, BranchNum, AccountNum;
-            String Name, Payment, DeliveryMethod, SupplyTime;
+            String Name, Payment, DeliveryMethod, SupplyTime, address;
             try {
                 System.out.println("Please enter supplier's name");
                 Name = sc.nextLine();
@@ -101,6 +104,9 @@ public class PLSuppliers {
                 System.out.println("invalid payment manner");
                 return;
             }
+            System.out.println("Please enter supplier's address");
+            address = sc.nextLine();
+            
 
             System.out.println("Please enter supplier's delivery method: with delivery or without delivery");
             DeliveryMethod = sc.nextLine();
@@ -117,8 +123,8 @@ public class PLSuppliers {
                 }
 
 
-                bl.addSupplier(ID,Name, BankNum, BranchNum, AccountNum, Payment, DeliveryMethod, SupplyTime);
-            } else bl.addSupplier(ID,Name, BankNum, BranchNum, AccountNum, Payment, DeliveryMethod, "NULL");
+                bl.addSupplier(ID,Name, BankNum, BranchNum, AccountNum, Payment, DeliveryMethod, SupplyTime, address);
+            } else bl.addSupplier(ID,Name, BankNum, BranchNum, AccountNum, Payment, DeliveryMethod, "NULL",address);
             System.out.println("Supplier has been added");
         } else {
             System.out.println("Supplier ID is already exist");
@@ -153,7 +159,8 @@ public class PLSuppliers {
                 System.out.println("6 - update supplier's payment manner");
                 System.out.println("7 - update supplier's delivery method");
                 System.out.println("8 - update supplier's supply time");
-                System.out.println("9 - back");
+                System.out.println("9 - update supplier's address");
+                System.out.println("10 - back");
 
                 try {
                     choose = Integer.parseInt(sc.nextLine());
@@ -274,6 +281,11 @@ public class PLSuppliers {
                         ERROR = !bl.setSupplier(ID, SupplyTime, 8);
                         break;
                     case 9:
+                    	System.out.println("Please enter supplier's address");
+                        String address = sc.nextLine();
+                        ERROR = !bl.setSupplier(ID, address, 9);
+                        break;
+                    case 10:
                         return;
                     default:
                         System.out.println("ERROR! invalid operation");
@@ -314,6 +326,7 @@ public class PLSuppliers {
             ans += "Payment: " + sup.getPayment() + "\n";
             ans += "Delivery Method: " + sup.getDeliveryMethod() + "\n";
             ans += "Supply Time: " + sup.getSupplyTime() + "\n";
+            ans+= "Address: " + sup.getAddress();
             System.out.println(ans);
         } else {
             System.out.println("ERROR! invalid supplier ID");

@@ -10,9 +10,9 @@ public class Order {
     private String supName;
     private Date date;
     private String ContactNum;
-    private OrderItem orderItems;
+    private OrderItem[] orderItems;
 
-    public Order(int OrderID, int supplierID, String supName, Date date, String ContactNum, OrderItem orderItems){
+    public Order(int OrderID, int supplierID, String supName, Date date, String ContactNum, OrderItem[] orderItems){
         this.orderID = OrderID;
         this.supplierID = supplierID;
         this.supName= supName;
@@ -26,6 +26,15 @@ public class Order {
         this.supName= supName;
         this.date = new Date(date);
         this.ContactNum = ContactNum;
+    }
+    
+    public Order(Order ord, OrderItem[] orderItems){
+    	this.orderID = ord.getOrderID();
+        this.supplierID = ord.getSupplier();
+        this.supName= ord.getSupplierName();
+        this.date = ord.getDate();
+        this.ContactNum = ord.getContactNum();
+        this.orderItems = orderItems;
     }
 
     public int getOrderID(){ return orderID;}
@@ -48,11 +57,11 @@ public class Order {
 
     public void setContactNum(String contactNum){this.ContactNum = contactNum;}
 
-    public OrderItem getOrderItems() {
+    public OrderItem[] getOrderItems() {
         return orderItems;
     }
 
-    public void setOrderItems(OrderItem orderItems) {
+    public void setOrderItems(OrderItem[] orderItems) {
         this.orderItems = orderItems;
     }
 }

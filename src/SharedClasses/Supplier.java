@@ -12,8 +12,9 @@ public class Supplier {
     private String payment;
     private String deliveryMethod;
     private String supplyTime;
+    private String address;
 
-    public Supplier(int id, String name, int bankNum, int branchNum, int accountNum, String payment, String deliveryMethod, String supplyTime){
+    public Supplier(int id, String name, int bankNum, int branchNum, int accountNum, String payment, String deliveryMethod, String supplyTime, String address){
         this.id = id;
         this.name = name;
         this.bankNum = bankNum;
@@ -22,6 +23,7 @@ public class Supplier {
         this.payment = payment;
         this.deliveryMethod = deliveryMethod;
         this.supplyTime = supplyTime;
+        this.address=address;
     }
     public int getId() {
         return id;
@@ -85,6 +87,14 @@ public class Supplier {
 
     public void setSupplyTime(String supplyTime) {
         this.supplyTime = supplyTime;
+    }
+    
+    public String getAddress(){
+    	return address;
+    }
+    
+    public void setAddress(String address){
+    	this.address=address;
     }
 
 }
