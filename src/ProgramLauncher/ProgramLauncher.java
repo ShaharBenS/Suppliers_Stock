@@ -142,10 +142,10 @@ public class ProgramLauncher
                               ItemName(FR), Cost(FR), Discount(FR).
              */
             stmt = c.createStatement();
-            sql = "CREATE TABLE IF NOT EXISTS OrdersItems " +
+            sql =    "CREATE TABLE IF NOT EXISTS OrdersItems " +
                     "(OrderID INT PRIMARY KEY  NOT NULL," +
-                    "catalogNumber INT   NOT NULL," +
-                    "ItemName TEXT NOT NULL,"+
+                    " catalogNumber INT   NOT NULL," +
+                    " ItemName TEXT NOT NULL,"+
                     " Quantity INT  NOT NULL, " +
                     " Cost REAL  NOT NULL, " +
                     " Discount INT  NOT NULL, " +
@@ -154,17 +154,17 @@ public class ProgramLauncher
                     " FOREIGN KEY(catalogNumber) REFERENCES SupplierItems(catalogNumber) ON UPDATE CASCADE ON DELETE CASCADE,"+
                     " FOREIGN KEY(ItemName) REFERENCES Items(Name) ON UPDATE CASCADE ON DELETE CASCADE,"+
                     " FOREIGN KEY(Cost) REFERENCES SupplierItems(Cost) ON UPDATE CASCADE ON DELETE CASCADE,"+
-                    "FOREIGN KEY(Discount) REFERENCES Discounts(DiscountPercentage) ON DELETE CASCADE ON UPDATE CASCADE); " ;
+                    " FOREIGN KEY(Discount) REFERENCES Discounts(DiscountPercentage) ON DELETE CASCADE ON UPDATE CASCADE); " ;
             stmt.execute(sql);
             stmt.close();
 
 
             /*
-                Quantities : ID, Location, Defects, Warehouse, Minimum, Store, Order. (Current = Store+Warehouse+Defects)
+                Quantities : OrderID, Location, Defects, Warehouse, Minimum, Store, Order. (Current = Store+Warehouse+Defects)
              */
             stmt = c.createStatement();
             sql =   "CREATE TABLE IF NOT EXISTS QUANTITIES " +
-                    "(ID INT REFERENCES Items(ID) ON UPDATE CASCADE ON DELETE CASCADE ," +
+                    "(OrderID INT REFERENCES ORDER(OrderID)," +
                     "LOCATION TEXT NOT NULL," +
                     "MINIMUM INT NOT NULL," +
                     "ORDER INT SET DEFAULT MINIMUM*3," +
@@ -175,16 +175,15 @@ public class ProgramLauncher
             stmt.close();
 
             /*
-                Prices : ItemID, OrderID, SellPrice, BuyPrice, Percentage, DateStart, DateEnd.
+                Prices : OrderID, SellPrice,, Percentage, DateStart, DateEnd.
             */
             stmt = c.createStatement();
             sql = "CREATE TABLE IF NOT EXISTS PRICES" +
-                    "(ItemID INT REFERENCES Item(ID) ON UPDATE CASCADE ON DELETE CASCADE ," +
-                    "OrderID INT REFERENCES ORDER(OrderID)," +
-                    "SellPrice REAL REFERENCES SupplierItems(Cost)," +
-                    "BuyPrice INT REFERENCES OrdersItems(FinalCost)," +
-                    "DateStart TEXT," +
-                    "DateEnd TEXT);";
+                    "(OrderID INT REFERENCES QUANTITIES(OrderID)," +
+                    "SellPrice INT NOT NULL," +
+                    "Percentage INT "+
+                    "DateStart DATE," +
+                    "DateEnd DATE);";
             stmt.execute(sql);
             stmt.close();
 

@@ -5,7 +5,7 @@ package SharedClasses;
  */
 public class Quantity {
 
-    private int id;
+    private int OrderID;
     private String location;
     private int defects;
     private int warehouse;
@@ -14,9 +14,9 @@ public class Quantity {
     private int amount_to_order;
     private int current;
 
-    public Quantity(int id, String location, int defects, int warehouse, int minimum, int store, int amount_to_order)
+    public Quantity(int OrderID, String location, int defects, int warehouse, int minimum, int store, int amount_to_order)
     {
-        this.id = id;
+        this.OrderID = OrderID;
         this.location = location;
         this.defects = defects;
         this.warehouse = warehouse;
@@ -28,12 +28,12 @@ public class Quantity {
 
     private void UpdateCurrent() { this.current = store+warehouse+defects; }
 
-    public int getId() {
-        return id;
+    public int getOrderID() {
+        return OrderID;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setOrderID(int orderID) {
+        this.OrderID = orderID;
     }
 
     public String getLocation() {

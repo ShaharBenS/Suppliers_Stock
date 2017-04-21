@@ -23,9 +23,9 @@ public class Quantities
     {
         try
         {
-            PreparedStatement p_stmt = conn.prepareStatement("INSERT INTO Quantites(ID,LOCATION,MINIMUM,ORDER,WAREHOUSE," +
+            PreparedStatement p_stmt = conn.prepareStatement("INSERT INTO Quantites(OrderID,LOCATION,MINIMUM,ORDER,WAREHOUSE," +
                     "STORE,DEFECTS) VALUES(?,?,?,?,?,?,?);");
-            p_stmt.setInt(1,quantity.getId());
+            p_stmt.setInt(1,quantity.getOrderID());
             p_stmt.setString(2,quantity.getLocation());
             p_stmt.setInt(3,quantity.getMinimum());
             p_stmt.setInt(4,quantity.getAmount_to_order());
@@ -47,9 +47,9 @@ public class Quantities
     /*
         This method will update 'fieldName' to 'newValue'.
      */
-    public boolean updateField(String fieldName,int itemID,Object newValue)
+    private boolean updateField(String fieldName, int orderID, Object newValue)
     {
-        String query = "UPDATE QUANTITIES SET "+fieldName+" = '"+newValue+"' WHERE ID = "+itemID+";";
+        String query = "UPDATE QUANTITIES SET "+fieldName+" = '"+newValue+"' WHERE ID = "+orderID+";";
         try
         {
             Statement stmt = conn.createStatement();

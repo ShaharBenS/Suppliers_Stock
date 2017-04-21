@@ -1,5 +1,7 @@
 package SharedClasses;
 
+import java.sql.SQLData;
+
 /**
  * Created by Shahar on 30/03/17.
  */
@@ -51,11 +53,28 @@ public class Date
 
     @Override public String toString()
     {
-        return ""+day+"."+month+"."+year;
+        String date = "";
+        if(day < 10)
+        {
+            date = date + "0";
+        }
+        date = date + day + ".";
+        if(month < 10)
+        {
+            date = date + "0";
+        }
+        date = date + month + "."+year;
+        return date;
     }
     public boolean equals(Date date)
     {
         if(date == null){return false;}
         return year == date.year && month == date.month && this.day == date.day;
+    }
+
+    public java.sql.Date toSQLdate()
+    {
+        //TODO test this
+        return new java.sql.Date(year,month,day);
     }
 }
