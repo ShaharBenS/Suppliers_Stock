@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 import PL.Menu;
+import SharedClasses.Date;
 
 /**
  * Created by Shahar on 06/04/17.
@@ -12,9 +13,10 @@ public class ProgramLauncher
 {
     public static void main(String [] args) {
         //TODO create all layers.
+        Date d = new Date(new java.util.Date());
 
-        Connection conn = getConnectionAndInitDatabase("Database.db");
-        new Menu().start();
+        //Connection conn = getConnectionAndInitDatabase("Database.db");
+        //new Menu().start();
     }
 
     private static Connection getConnectionAndInitDatabase(String dataBaseName) {
@@ -30,7 +32,7 @@ public class ProgramLauncher
             /*Creating Tables if they are NOT existed */
 
             /*
-                Suppliers Table : ID, Name, BankNum, BranchBum, AccountNum, Payment, DeliveryMethod, SupplyTime.
+                Suppliers Table : ID, Name, BankNum, BranchBum, AccountNum, Payment, DeliveryMethod, SupplyTime, Address.
              */
             stmt = c.createStatement();
             String sql = "CREATE TABLE IF NOT EXISTS Suppliers " +
@@ -41,7 +43,8 @@ public class ProgramLauncher
                     " AccountNum				INT     NOT NULL, " +
                     " Payment         TEXT	NOT NULL," +
                     " DeliveryMethod TEXT NOT NULL," +
-                    " SupplyTime TEXT);";               // TODO add address field!
+                    " SupplyTime TEXT" +
+                    "Address TEXT NOT NULL);";
             stmt.execute(sql);
             stmt.close();
 
@@ -61,15 +64,26 @@ public class ProgramLauncher
             stmt.execute(sql);
             stmt.close();
 
+            /*
+                Category : ID, Name, ID_Father. When ID_father is -1, that category has no father.
+             */
+            stmt = c.createStatement();
+            sql =   "CREATE TABLE IF NOT EXISTS CATEGORY " +
+                    "(ID INT PRIMARY KEY     NOT NULL ," +
+                    " NAME           CHAR(50) NOT NULL, " +
+                    " ID_FATHER  INT NOT NULL DEFAULT -1 REFERENCES CATEGORY(ID) " +
+                    " ON UPDATE CASCADE ON DELETE SET NULL);";
+            stmt.execute(sql);
+            stmt.close();
 
             /*
                 Items : ID, Name, CategoryNumber, Manufacture.
              */
             stmt = c.createStatement();
             sql = "  CREATE TABLE IF NOT EXISTS Items " +
-                  " (ID   INT PRIMARY KEY  NOT NULL," +
+                    " (ID   INT PRIMARY KEY  NOT NULL," +
                     " NAME   TEXT NOT NULL, " +
-                    " CategoryNumber       TEXT    NOT NULL, " +
+                    " CategoryNumber       TEXT    REFERENCES CATEGORY(ID) ON DELETE SET NULL ON UPDATE CASCADE, " +
                     " Manufacture          TEXT    NOT NULL);";
             stmt.execute(sql);
             stmt.close();
@@ -144,17 +158,6 @@ public class ProgramLauncher
             stmt.execute(sql);
             stmt.close();
 
-            /*
-                Category : ID, Name, ID_Father. When ID_father is -1, that category has no father.
-             */
-            stmt = c.createStatement();
-            sql =   "CREATE TABLE IF NOT EXISTS CATEGORY " +
-                    "(ID INT PRIMARY KEY     NOT NULL ," +
-                    " NAME           CHAR(50) NOT NULL, " +
-                    " ID_FATHER  INT NOT NULL DEFAULT -1 REFERENCES CATEGORY(ID) " +
-                    " ON UPDATE CASCADE ON DELETE SET NULL);";
-            stmt.execute(sql);
-            stmt.close();
 
             /*
                 Quantities : ID, Location, Defects, Warehouse, Minimum, Store, Order. (Current = Store+Warehouse+Defects)
