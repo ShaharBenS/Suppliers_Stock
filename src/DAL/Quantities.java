@@ -2,10 +2,10 @@ package DAL;
 
 import SharedClasses.Quantity;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
+import javax.lang.model.element.QualifiedNameable;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Shahar on 21/04/17.
@@ -89,5 +89,54 @@ public class Quantities
     {
         return updateField("DEFECTS",id,defects_amount);
     }
+
+
+    public Quantity[] getAllDefectItems()
+    {
+        Quantity[] items = null;
+        List<Quantity> itemList = new ArrayList<Quantity>();
+        String query =  "SELECT * " +
+                "FROM QUANTITIES" +
+                "WHERE DEFECTS > 0";
+
+        try
+        {
+            Statement statement = conn.createStatement();
+            ResultSet result = statement.executeQuery(query);
+
+            int index = 0;
+            while(result.next())
+            {
+                Quantity quantity = buildQuantityFromResultSet(result);
+                if(quantity == null)
+                {
+                    return null;
+                }
+                itemList.add(quantity);
+                index++;
+            }
+            items = new Quantity[index];
+            return itemList.toArray(items);
+
+        } catch (SQLException e)
+        {
+            return null;
+        }
+    }
+
+    private Quantity buildQuantityFromResultSet(ResultSet result)
+    {
+        try
+        {
+            return new Quantity(result.getInt("OrderID"),result.getString("LOCATION"),
+                    result.getInt("DEFECTS"),result.getInt("WAREHOUSE"),result.getInt("MINIMUM"),
+                    result.getInt("STORE"),result.getInt("ORDER"));
+        } catch (SQLException e)
+        {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 
 }
