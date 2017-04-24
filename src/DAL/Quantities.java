@@ -22,7 +22,7 @@ public class Quantities
     {
         try
         {
-            PreparedStatement p_stmt = conn.prepareStatement("INSERT INTO Quantites(ItemID,LOCATION,MINIMUM,ORDER,WAREHOUSE," +
+            PreparedStatement p_stmt = conn.prepareStatement("INSERT INTO Quantites(ItemID,LOCATION,MINIMUM,ORDER_AMOUNT,WAREHOUSE," +
                     "STORE,DEFECTS) VALUES(?,?,?,?,?,?,?);");
             p_stmt.setInt(1,quantity.getItemID());
             p_stmt.setString(2,quantity.getLocation());
@@ -43,13 +43,6 @@ public class Quantities
         }
     }
 
-    //TODO::returning array containing all quantities with defects
-    public Quantity[] getAllDefects()
-    {
-        Quantity[] quantities = null;
-
-        return quantities;
-    }
 
     /*
         returning Quantities object by given id, or null if not exist
@@ -65,7 +58,7 @@ public class Quantities
             ResultSet resultSet = stmt.executeQuery(query);
             q = new Quantity(resultSet.getInt("ItemID"),resultSet.getString("LOCATION"),
                     resultSet.getInt("DEFECTS"),resultSet.getInt("WAREHOUSE"),resultSet.getInt("MINIMUM"),
-                    resultSet.getInt("STORE"),resultSet.getInt("ORDER"));
+                    resultSet.getInt("STORE"),resultSet.getInt("ORDER_AMOUNT"));
             stmt.close();
         }
         catch (Exception e)
@@ -104,7 +97,7 @@ public class Quantities
     }
     public boolean updateOrder(int id, int order_amount)
     {
-        return updateField("ORDER",id,order_amount);
+        return updateField("ORDER_AMOUNT",id,order_amount);
     }
 
     public boolean updateWarehouse(int id, int warehouse_amount)
@@ -162,7 +155,7 @@ public class Quantities
         {
             return new Quantity(result.getInt("ItemID"),result.getString("LOCATION"),
                     result.getInt("DEFECTS"),result.getInt("WAREHOUSE"),result.getInt("MINIMUM"),
-                    result.getInt("STORE"),result.getInt("ORDER"));
+                    result.getInt("STORE"),result.getInt("ORDER_AMOUNT"));
         } catch (SQLException e)
         {
             e.printStackTrace();

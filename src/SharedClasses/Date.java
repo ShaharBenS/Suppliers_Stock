@@ -1,6 +1,7 @@
 package SharedClasses;
 
 import java.sql.SQLData;
+import java.util.Calendar;
 
 /**
  * Created by Shahar on 30/03/17.
@@ -48,7 +49,12 @@ public class Date
     }
 
     public Date(java.util.Date date) {
-        //TODO !#$!#$ implement
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        year = (short) cal.get(Calendar.YEAR);
+        month = (byte) (cal.get(Calendar.MONTH)+1);
+        day = (byte) cal.get(Calendar.DAY_OF_MONTH);
+
     }
 
     @Override
@@ -77,7 +83,10 @@ public class Date
 
     public java.sql.Date toSQLdate()
     {
-        //TODO test this
-        return new java.sql.Date(year,month,day);
+        Calendar cal = Calendar.getInstance();
+        cal.set( Calendar.YEAR, year );
+        cal.set( Calendar.MONTH, month - 1);
+        cal.set( Calendar.DATE, day );
+        return new java.sql.Date( cal.getTimeInMillis() );
     }
 }

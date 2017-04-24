@@ -18,33 +18,6 @@ public class Prices
         CATEGORIES = categories;
     }
 
-    // true if was able to update, false otherwise
-    //NOTE: @param: newDiscount is in %
-    //TODO:: do it! just. do IT!
-    public boolean updateItemDiscount(int id, int newDiscount)
-    {
-        if(newDiscount < 0) return false;
-
-        return false;
-    }
-
-    //TODO:: do it
-    //true if updated, false otherwise
-    //NOTE: @param:startDate = date start of discount
-    public boolean updateStartDate(int id, Date startDate)
-    {
-        return false;
-    }
-
-
-    //TODO:: do it
-    //true if updated, false otherwise
-    //NOTE: @param:endDate = date end of discount
-    public boolean updateEndDate(int id, Date endDate)
-    {
-        return false;
-    }
-
     /*
         returning price object or null if id does not exist
      */

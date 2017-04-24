@@ -11,12 +11,12 @@ import SharedClasses.Date;
  */
 public class ProgramLauncher
 {
-    public static void main(String [] args) {
-        //TODO create all layers.
-        Date d = new Date(new java.util.Date());
+    public static void main(String [] args)
+    {
+        //TODO Create all layers
 
-        //Connection conn = getConnectionAndInitDatabase("Database.db");
-        //new Menu().start();
+        Connection conn = getConnectionAndInitDatabase("Database.db");
+        new Menu().start();
     }
 
     private static Connection getConnectionAndInitDatabase(String dataBaseName) {
@@ -167,7 +167,7 @@ public class ProgramLauncher
                     "(ItemID INT REFERENCES Items(ID)," +
                     "LOCATION TEXT NOT NULL," +
                     "MINIMUM INT NOT NULL," +
-                    "ORDER INT SET DEFAULT MINIMUM*3," +
+                    "ORDER_AMOUNT INT DEFAULT 0," +
                     "WAREHOUSE INT NOT NULL," +
                     "STORE INT NOT NULL," +
                     "DEFECTS INT NOT NULL);";

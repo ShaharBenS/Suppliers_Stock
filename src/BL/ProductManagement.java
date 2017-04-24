@@ -216,7 +216,7 @@ public class ProductManagement {
     }
 
     public String[] getAllDefectProducts() {
-        Quantity[] quantities = QUANTITIES.getAllDefects();
+        Quantity[] quantities = QUANTITIES.getAllDefectItems();
         int size = quantities.length;
         if(size == 0) return new String[]{"No Defects were found !"};
         Item[] items = new Item[size];

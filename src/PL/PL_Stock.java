@@ -14,7 +14,6 @@ public class PL_Stock
     private PriceManagement PriceM;
     private CategoryManagement CategoryM;
 
-    //TODO fix this shit - 'exit' to 'back'
     private final String[] MENU = {"Choose an option:" ,
             "1) Add new Item" ,
             "2) Add new Category" ,
@@ -31,15 +30,14 @@ public class PL_Stock
             "11) Update item Minimal Amount" ,
             "12) Update item Amount of Defects" ,
             "13) Update item Category Code" ,
-            "14) Update item Buy Price" ,
-            "15) Update item Sell Price" ,
+            "14) Update item Sell Price" ,
             "** OTHER USEFUL OPERATIONS **",
-            "16) Add new Discount",
-            "17) Stock report by item ID",
-            "18) Stock report by category/ies",
-            "19) Defect Items report",
-            "20) Show all Items",
-            "21) Exit"};
+            "15) Add new Discount",
+            "16) Stock report by item ID",
+            "17) Stock report by category/ies",
+            "18) Defect Items report",
+            "19) Show all Items",
+            "20) Back"};
 
     public PL_Stock(ProductManagement pm, PriceManagement price_m, CategoryManagement cm)
     {
@@ -152,29 +150,23 @@ public class PL_Stock
                     break;
                 case 14:
                     System.out.print("Enter properties in the following structure:\n" +
-                            "[ID] [NEW BUY PRICE]\n");
-                    prop = scanner.nextLine();
-                    printUpdate(PriceM.updateBuyPrice(prop));
-                    break;
-                case 15:
-                    System.out.print("Enter properties in the following structure:\n" +
                             "[ID] [NEW SELL PRICE]\n");
                     prop = scanner.nextLine();
                     printUpdate(PriceM.updateSellPrice(prop));
                     break;
-                case 16:
+                case 15:
                     System.out.print("Enter properties in the following structure:\n" +
                             "[ID-of item or category] [DISCOUNT(in %)] [START DATE] [END DATE] **DATE FORM: DD.MM.YYYY\n");
                     prop = scanner.nextLine();
                     printUpdate(PriceM.addDiscount(prop));
                     break;
-                case 17:
+                case 16:
                     System.out.print("Enter properties in the following structure:\n" +
                             "[ID]\n");
                     prop = scanner.nextLine();
                     System.out.print(ProductM.ItemReport(prop));
                     break;
-                case 18:
+                case 17:
                     System.out.print("Enter properties in the following structure:\n" +
                             "[ID CATEGORY 1] [ID CATEGORY 2] ...... [ID CATEGORY n]\n");
                     prop = scanner.nextLine();
@@ -182,18 +174,18 @@ public class PL_Stock
                     for(int i=0; i<productsbyCat.length; i++)
                         System.out.print(productsbyCat[i]);
                     break;
-                case 19:
+                case 18:
                     String[] prodDef = ProductM.getAllDefectProducts();
                     for(int i=0; i<prodDef.length; i++)
                         System.out.print(prodDef[i]);
                     break;
-                case 20:
+                case 19:
                     String[] prod = ProductM.getAllItems();
                     for(int i=0; i<prod.length; i++)
                         System.out.print(prod[i]);
                     break;
-                case 21:
-                    return; // EXITING!
+                case 20:
+                    return; // GOING BACK!
                 default: System.out.print("Invalid Operation!!! Try again...\n\n\n");
                     break;
 

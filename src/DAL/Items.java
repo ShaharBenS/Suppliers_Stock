@@ -4,6 +4,8 @@ import SharedClasses.Item;
 import SharedClasses.Quantity;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Items {
@@ -38,12 +40,34 @@ public class Items {
     }
 
 
-    //TODO::returning array containing all items
     public Item[] getAllItems()
     {
         Item[] items = null;
+        List<Item> itemList = new ArrayList<>();
+        String query =  "SELECT * " +
+                "FROM ITEMS;";
 
-        return items;
+        try
+        {
+            Statement statement = c.createStatement();
+            ResultSet result = statement.executeQuery(query);
+
+            int index = 0;
+            while(result.next())
+            {
+                Item item = new Item(result.getInt("ID"),result.getString("NAME"),
+                        result.getInt("CategoryNumber"),result.getString("MANUFACTURE"));
+
+                itemList.add(item);
+                index++;
+            }
+            items = new Item[index];
+            return itemList.toArray(items);
+
+        } catch (SQLException e)
+        {
+            return null;
+        }
     }
 
     public boolean setID(int id, int newId) {

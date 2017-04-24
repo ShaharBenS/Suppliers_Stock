@@ -38,7 +38,7 @@ public class PriceManagement
                if(start.length != 3 || end.length != 3) return false;
                SharedClasses.Date Dstart = new SharedClasses.Date(Integer.parseInt(start[2]),Integer.parseInt(start[1]),Integer.parseInt(start[0]));
                SharedClasses.Date Dend = new SharedClasses.Date(Integer.parseInt(end[2]),Integer.parseInt(end[1]),Integer.parseInt(end[0]));
-               return (PRICES.updateItemDiscount(id, disc) && PRICES.updateStartDate(id,Dstart) && PRICES.updateEndDate(id, Dend));
+               return (PRICES.updatePercentage(id, disc) && PRICES.updateDate(true,id,Dstart) && PRICES.updateDate(false,id, Dend));
            }
            else if(prop[0].length() == 3)
            {
