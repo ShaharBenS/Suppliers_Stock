@@ -23,7 +23,7 @@ public class Prices
     {
         try
         {
-            PreparedStatement p_stmt = conn.prepareStatement("INSERT INTO PRICES(OrderID,SellPrice,Percentage,DateStart," +
+            PreparedStatement p_stmt = conn.prepareStatement("INSERT INTO PRICES(ItemID,SellPrice,Percentage,DateStart," +
                     "DateEnd) VALUES(?,?,?,?,?,?);");
             p_stmt.setInt(1,price.getItemID());
             p_stmt.setInt(2,price.getSell_price());

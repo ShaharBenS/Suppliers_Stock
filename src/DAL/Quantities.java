@@ -22,7 +22,7 @@ public class Quantities
     {
         try
         {
-            PreparedStatement p_stmt = conn.prepareStatement("INSERT INTO Quantites(OrderID,LOCATION,MINIMUM,ORDER,WAREHOUSE," +
+            PreparedStatement p_stmt = conn.prepareStatement("INSERT INTO Quantites(ItemID,LOCATION,MINIMUM,ORDER,WAREHOUSE," +
                     "STORE,DEFECTS) VALUES(?,?,?,?,?,?,?);");
             p_stmt.setInt(1,quantity.getItemID());
             p_stmt.setString(2,quantity.getLocation());
@@ -127,7 +127,7 @@ public class Quantities
     {
         try
         {
-            return new Quantity(result.getInt("OrderID"),result.getString("LOCATION"),
+            return new Quantity(result.getInt("ItemID"),result.getString("LOCATION"),
                     result.getInt("DEFECTS"),result.getInt("WAREHOUSE"),result.getInt("MINIMUM"),
                     result.getInt("STORE"),result.getInt("ORDER"));
         } catch (SQLException e)
