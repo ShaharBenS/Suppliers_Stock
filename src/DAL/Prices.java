@@ -25,7 +25,7 @@ public class Prices
         {
             PreparedStatement p_stmt = conn.prepareStatement("INSERT INTO PRICES(OrderID,SellPrice,Percentage,DateStart," +
                     "DateEnd) VALUES(?,?,?,?,?,?);");
-            p_stmt.setInt(1,price.getOrder_id());
+            p_stmt.setInt(1,price.getItemID());
             p_stmt.setInt(2,price.getSell_price());
             p_stmt.setInt(3,price.getPerecentage());
             p_stmt.setDate(4,price.getStart().toSQLdate());

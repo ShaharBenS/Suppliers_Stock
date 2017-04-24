@@ -2,7 +2,6 @@ package DAL;
 
 import SharedClasses.Quantity;
 
-import javax.lang.model.element.QualifiedNameable;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +24,7 @@ public class Quantities
         {
             PreparedStatement p_stmt = conn.prepareStatement("INSERT INTO Quantites(OrderID,LOCATION,MINIMUM,ORDER,WAREHOUSE," +
                     "STORE,DEFECTS) VALUES(?,?,?,?,?,?,?);");
-            p_stmt.setInt(1,quantity.getOrderID());
+            p_stmt.setInt(1,quantity.getItemID());
             p_stmt.setString(2,quantity.getLocation());
             p_stmt.setInt(3,quantity.getMinimum());
             p_stmt.setInt(4,quantity.getAmount_to_order());

@@ -2,6 +2,8 @@ package BL;
 
 import DAL.Product_Data;
 import SharedClasses.Date;
+import SharedClasses.Item;
+import SharedClasses.Quantity;
 
 /**
  * Created by Shahar on 29/03/17.
@@ -17,35 +19,28 @@ public class ProductManagement {
     }
 
     // ADD NEW PRODUCT TO DATABASE
-    // FORMAT: [0:ID] [1:LOCATION] [2:MANUFACTURE] [3:CURRENT AMOUNT] [4:MINIMAL AMOUNT] [5:CATEGORY CODE] [6:BUY PRICE] [7:SELL PRICE]
+     // FORMAT: [0:ID] [1:LOCATION] [2:MANUFACTURE] [3:MINIMAL AMOUNT] [4:CATEGORY CODE] [5:NAME] [6:SELL PRICE]
     public boolean addProduct(String pLine) {
         String[] pParts = pLine.split("\\s+");
-        if (pParts.length != 8) return false;
-        Products p;
+        if (pParts.length != 7) return false;
+        Quantity quantity;
+        Item item;
         try {
             /*0*/
             int id = Integer.parseInt(pParts[0]);
             if (pParts[0].length() != 6) return false;
-            /*1*//*2*/ /* << NOTHING TO CHECK << */
             /*3*/
-            int amount = Integer.parseInt(pParts[3]);
+            int minimal = Integer.parseInt(pParts[3]);
             /*4*/
-            int minimal = Integer.parseInt(pParts[4]);
-            /*5*/
-            int cCode = Integer.parseInt(pParts[5]);
-            /*6*/
-            int buy = Integer.parseInt(pParts[6]);
-            /*7*/
-            int sell = Integer.parseInt(pParts[7]);
-            if (pParts[5].length() != 3) return false;
-
-
-            p = new Products(id, pParts[1], pParts[2], 0, amount, minimal, cCode, buy, sell);
+            int cCode = Integer.parseInt(pParts[4]);
+            if (pParts[4].length() != 3) return false;
+            item = new Item(id, pParts[5], cCode, pParts[2]);
+            quantity = new Quantity(00000, pParts[1],0,0,minimal,0,0);
 
         } catch (Exception e) {
             return false;
         }
-        return PD.addProduct(p);
+        return (PD.addProduct(p) && PD.addQuantity(quanti) );
     }
 
     //RETURN PRODUCT FROM DATABASE IF EXISTS, ELSE RETURN NULL

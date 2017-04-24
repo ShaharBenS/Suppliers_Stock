@@ -164,7 +164,7 @@ public class ProgramLauncher
              */
             stmt = c.createStatement();
             sql =   "CREATE TABLE IF NOT EXISTS QUANTITIES " +
-                    "(OrderID INT REFERENCES ORDER(OrderID)," +
+                    "(ItemID INT REFERENCES Items(ID)," +
                     "LOCATION TEXT NOT NULL," +
                     "MINIMUM INT NOT NULL," +
                     "ORDER INT SET DEFAULT MINIMUM*3," +
@@ -179,7 +179,7 @@ public class ProgramLauncher
             */
             stmt = c.createStatement();
             sql = "CREATE TABLE IF NOT EXISTS PRICES" +
-                    "(OrderID INT REFERENCES QUANTITIES(OrderID)," +
+                    "(ItemID INT REFERENCES Items(ID)," +
                     "SellPrice INT NOT NULL," +
                     "Percentage INT "+
                     "DateStart DATE," +
