@@ -54,4 +54,19 @@ public class Item {
     public void setManufacture(String manufacture) {
         this.manufacture = manufacture;
     }
+
+    //NOTE: PRINTING WITHOUT ID !
+    @Override
+    public String toString() {
+        String str = "";
+
+        str += "----- ITEM -----\n";
+        str += "ITEM ID: " + itemID + "\n";
+        str += "NAME: " + name +"\n";
+        str += "MANUFACTURE: " + manufacture +"\n";
+        str += "CATEGORY : " + categoryNumber +"\n";
+        str += "----- ITEM -----\n";
+
+        return str;
+    }
 }

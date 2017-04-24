@@ -60,4 +60,21 @@ public class Price
     }
 
 
+    //NOTE: PRINTING WITHOUT ID !
+    @Override
+    public String toString() {
+        String str = "";
+
+        str += "----- PRICE -----\n";
+        str += "SELL PRICE: " + sell_price +"\n";
+        str += "% DISCOUNT: " + perecentage +"\n";
+        if(start == null) str += "DATE START: NULL\n";
+        else str += "DATE START: " + start.toString() +"\n";
+        if(end == null) str += "DATE END: NULL\n";
+        else  str += "DATE END: " + end.toString() +"\n";
+        str += "----- PRICE -----\n";
+
+        return str;
+    }
+
 }

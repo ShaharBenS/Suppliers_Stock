@@ -51,7 +51,8 @@ public class Date
         //TODO !#$!#$ implement
     }
 
-    @Override public String toString()
+    @Override
+    public String toString()
     {
         String date = "";
         if(day < 10)
@@ -66,6 +67,8 @@ public class Date
         date = date + month + "."+year;
         return date;
     }
+
+
     public boolean equals(Date date)
     {
         if(date == null){return false;}

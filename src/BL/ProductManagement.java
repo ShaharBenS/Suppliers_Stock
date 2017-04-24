@@ -3,10 +3,7 @@ package BL;
 import DAL.Items;
 import DAL.Prices;
 import DAL.Quantities;
-import SharedClasses.Date;
-import SharedClasses.Item;
-import SharedClasses.Price;
-import SharedClasses.Quantity;
+import SharedClasses.*;
 
 public class ProductManagement {
     private Items ITEMS;
@@ -196,10 +193,26 @@ public class ProductManagement {
 
     public String[] getAllItems() {
         Item[] items = ITEMS.getAllItems();
-        String[] allP = new String[pList.length];
-        for (int i = 0; i < allP.length; i++)
-            allP[i] = pList[i].toString();
-        return allP;
+        int size = items.length;
+        Quantity[] quantities = new Quantity[size];
+        Price[] prices = new Price[size];
+        SupplierItem[] supplierItems = new SupplierItem[size];
+        String[] toStrings = new String[size];
+        for(int i = 0; i<size; i++) // init @param: quantities
+        {
+            int currID = items[i].getItemID();
+            quantities[i] = QUANTITIES.getQuantity(currID);
+            prices[i] = PRICES.getPrice(currID);
+            int supplierID = SBL.getSupplierID(currID);
+            supplierItems[i] = SBL.getSupplierItem(SBL.getCatalogNumber(currID,supplierID),supplierID);
+            toStrings[i] = "------- FULL ITEM -------\n";
+            toStrings[i] += items[i].toString();
+            toStrings[i] += quantities[i].toString();
+            toStrings[i] += prices[i].toString();
+            toStrings[i] += supplierItems[i].printPrice();
+            toStrings[i] += "------- FULL ITEM -------\n\n";
+        }
+        return toStrings;
     }
 
     public String[] getAllDefectProducts() {

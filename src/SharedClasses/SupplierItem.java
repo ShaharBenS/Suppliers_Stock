@@ -48,4 +48,9 @@ public class SupplierItem {
         this.cost = cost;
     }
 
+    public String printPrice()
+    {
+        return "COST PRICE: " + cost;
+    }
+
 }
