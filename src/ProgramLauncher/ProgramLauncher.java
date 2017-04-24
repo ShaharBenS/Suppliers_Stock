@@ -83,7 +83,7 @@ public class ProgramLauncher
             sql = "  CREATE TABLE IF NOT EXISTS Items " +
                     " (ID   INT PRIMARY KEY  NOT NULL," +
                     " NAME   TEXT NOT NULL, " +
-                    " CategoryNumber       TEXT    REFERENCES CATEGORY(ID) ON DELETE SET NULL ON UPDATE CASCADE, " +
+                    " CategoryNumber       INT    REFERENCES CATEGORY(ID) ON DELETE SET NULL ON UPDATE CASCADE, " +
                     " Manufacture          TEXT    NOT NULL);";
             stmt.execute(sql);
             stmt.close();

@@ -16,6 +16,13 @@ public class Item {
         this.manufacture = manufacture;
     }
 
+    public Item() {
+        itemID = 0;
+        categoryNumber = 0;
+        name = "";
+        manufacture = "";
+    }
+
     public int getItemID() {
         return itemID;
     }
