@@ -1,20 +1,27 @@
 package BL;
 
 import DAL.Categories;
-import DAL.Product_Data;
+import DAL.Items;
+import DAL.Prices;
+import DAL.Quantities;
 import SharedClasses.Category;
 
 /**
  * Created by Shahar on 29/03/17.
  */
-//hi
-public class CategoryManagement {
-    private Categories _CD;
-    private Product_Data PD;
 
-    public CategoryManagement(Categories cd, Product_Data pd) {
-        _CD = cd;
-        this.PD = pd;
+public class CategoryManagement {
+
+    private Categories _CD;
+    private Items ITEMS;
+    private Prices PRICES;
+    private Quantities QUANTITIES;
+
+    public CategoryManagement(Categories _CD, Items ITEMS, Prices PRICES, Quantities QUANTITIES) {
+        this._CD = _CD;
+        this.ITEMS = ITEMS;
+        this.PRICES = PRICES;
+        this.QUANTITIES = QUANTITIES;
     }
 
     public boolean addCategory(String line) {
@@ -88,21 +95,22 @@ public class CategoryManagement {
     public String[] productReportbyCategory(String line) {
         String[] cats = line.split("\\s+");
         Category[] cArr = new Category[cats.length];
-        for (int i = 0; i < cArr.length; i++) {
-            int id = 0;
-            try {
-                id = Integer.parseInt(cats[i]);
-            } catch (Exception e) {
+            for (int i = 0; i < cArr.length; i++) {
+                int id = 0;
+                try {
+                    id = Integer.parseInt(cats[i]);
+                } catch (Exception e) {
                 return new String[]{"1 or more INVALID ID"};
             }
             if (cats[i].length() != 3) return new String[]{"1 or more INVALID ID"};
             cArr[i] = _CD.getCategory(id);
         }
-        Products[] products = PD.getAllProductsbyCat(cArr);
+        //TODO call getAllProductsbyCat and then call getPRices getQunat and getItem by given IDs.
+        /*Products[] products = PD.getAllProductsbyCat(cArr);
         String[] plist = new String[products.length];
         for (int i = 0; i < plist.length; i++)
-            plist[i] = products[i].toString();
-        return plist;
+            plist[i] = products[i].toString();*/
+        return null;
     }
 
 }
