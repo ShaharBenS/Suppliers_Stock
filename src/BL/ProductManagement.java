@@ -186,18 +186,16 @@ public class ProductManagement {
         if (line.length() != 6) return "Invalid ID";
         try {
             int id = Integer.parseInt(line);
-            Item item = ITEMS.getItem(id);
             Quantity quantity = QUANTITIES.getQuantity(id);
-            Price price = PRICES.getPrice(id);
-            if (p == null) return "ID not found!";
-            else return p.toStringStock();
+            if (quantity==null) return "ID not found!";
+            else return quantity.toStringStock();
         } catch (Exception e) {
             return "Invalid ID";
         }
     }
 
-    public String[] getAllProducts() {
-        Products[] pList = PD.getAllProducts();
+    public String[] getAllItems() {
+        Item[] items = ITEMS.getAllItems();
         String[] allP = new String[pList.length];
         for (int i = 0; i < allP.length; i++)
             allP[i] = pList[i].toString();

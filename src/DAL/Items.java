@@ -35,6 +35,13 @@ public class Items {
 
     }
 
+    //TODO::returning array containing all items
+    public Item[] getAllItems()
+    {
+        Item[] items = null;
+
+        return items;
+    }
 
     public boolean setID(int id, int newId) {
         try {
