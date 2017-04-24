@@ -91,4 +91,19 @@ public class Quantity {
         return current;
     }
 
+    public String toStringStock()
+    {
+        String str = "";
+
+        str+="------ ITEM -----" + "\n";
+        str+="ITEM ID: " + itemID + "\n";
+        str+="CURRENT AMOUNT: " + current + "\n";
+        str+="STORE AMOUNT: " + store + "\n";
+        str+="WAREHOUSE AMOUNT: " + warehouse + "\n";
+        str+="DEFECT AMOUNT: " + defects + "\n";
+        str+="MINIMAL AMOUNT: " + minimum + "\n";
+        str+="------ ITEM -----" + "\n";
+
+        return str;
+    }
 }
