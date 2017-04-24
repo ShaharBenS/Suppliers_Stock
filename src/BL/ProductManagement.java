@@ -8,9 +8,6 @@ import SharedClasses.Item;
 import SharedClasses.Price;
 import SharedClasses.Quantity;
 
-/**
- * Created by Shahar on 29/03/17.
- */
 public class ProductManagement {
     private Items ITEMS;
     private Prices PRICES;
@@ -25,121 +22,141 @@ public class ProductManagement {
         this.SBL = sbl;
     }
 
-    // ADD NEW PRODUCT TO DATABASE
+    // ADD NEW item TO DATABASE
      // FORMAT: [0:ID] [1:LOCATION] [2:MANUFACTURE] [3:MINIMAL AMOUNT] [4:CATEGORY CODE] [5:NAME] [6:SELL PRICE]
-    public boolean addProduct(String pLine) {
-        String[] pParts = pLine.split("\\s+");
-        if (pParts.length != 7) return false;
+    public boolean addItem(String pLine) {
+        String[] iParts = pLine.split("\\s+");
+        if (iParts.length != 7) return false;
         Quantity quantity;
         Item item;
         Price price;
         try {
             /*0*/
-            int id = Integer.parseInt(pParts[0]);
-            if (pParts[0].length() != 6) return false;
+            int id = Integer.parseInt(iParts[0]);
+            if (iParts[0].length() != 6) return false;
             /*3*/
-            int minimal = Integer.parseInt(pParts[3]);
+            int minimal = Integer.parseInt(iParts[3]);
             /*4*/
-            int cCode = Integer.parseInt(pParts[4]);
-            if (pParts[4].length() != 3) return false;
-            int sell = Integer.parseInt(pParts[6]);
-            item = new Item(id, pParts[5], cCode, pParts[2]);
-            quantity = new Quantity(id, pParts[1],0,0,minimal,0,0);
+            int cCode = Integer.parseInt(iParts[4]);
+            if (iParts[4].length() != 3) return false;
+            int sell = Integer.parseInt(iParts[6]);
+            item = new Item(id, iParts[5], cCode, iParts[2]);
+            quantity = new Quantity(id, iParts[1],0,0,minimal,0,0);
             price = new Price(id, sell, 0, null,null);
 
-        } catch (Exception e) {
-            return false;
-        }
+        } catch (Exception e) { return false; }
         return (ITEMS.addItem(item) && PRICES.addItemPrice(price) && QUANTITIES.addItemQuantity(quantity));
     }
 
-    //RETURN PRODUCT FROM DATABASE IF EXISTS, ELSE RETURN NULL
-    public Products getProduct(int id) {
-        return PD.getProduct(id);
-    }
+    //RETURN item FROM DATABASE IF EXISTS, ELSE RETURN NULL
+    public Item getItem(int id) { return ITEMS.getItem(id); }
 
-    public boolean updateProductId(String ids) {
+    //[ID] [NEW ID]
+    public boolean updateItemId(String ids) {
         String[] sid = ids.split("\\s+");
         if (sid.length != 2) return false;
         try {
             int id = Integer.parseInt(sid[0]);
             int newId = Integer.parseInt(sid[1]);
-            return PD.updateProductId(id, newId);
-        } catch (Exception e) {
-            return false;
-        }
+            return ITEMS.setID(id, newId);
+        } catch (Exception e) { return false; }
     }
 
-    public boolean updateProductLocation(String line) {
+
+    public boolean updateItemLocation(String line) {
         String[] prop = line.split("\\s+");
         if (prop.length != 2) return false;
         try {
             int id = Integer.parseInt(prop[0]);
-            return PD.updateProductLocation(id, prop[1]);
-        } catch (Exception e) {
-            return false;
-        }
+            return QUANTITIES.updateLocation(id, prop[1]);
+        } catch (Exception e) { return false; }
     }
 
-    public boolean updateProductManufacture(String line) {
+    public boolean updateItemManufacture(String line) {
         String[] prop = line.split("\\s+");
         if (prop.length != 2) return false;
         try {
             int id = Integer.parseInt(prop[0]);
-            return PD.updateProductManufacture(id, prop[1]);
-        } catch (Exception e) {
-            return false;
-        }
+            return ITEMS.setManufacture(id, prop[1]);
+        } catch (Exception e) { return false; }
     }
 
-    public boolean updateProductAmountInWarehouse(String line) {
+    public boolean updateItemAmountInWarehouse(String line) {
         String[] prop = line.split("\\s+");
         if (prop.length != 2) return false;
         try {
             int num1 = Integer.parseInt(prop[0]);
             int num2 = Integer.parseInt(prop[1]);
-            boolean ans = PD.updateProductAmountInWarehouse(num1, num2);
+            boolean ans = QUANTITIES.updateWarehouse(num1, num2);
             checkIfNeedToAlert(num1);
             return ans;
-        } catch (Exception e) {
-            return false;
-        }
+        } catch (Exception e) { return false; }
     }
 
-    public boolean updateProductAmountInStore(String line) {
+
+    //NOTE : THIS FUNCTION TAKE AMOUNT FROM WAREHOUSE TO STORE !
+    public boolean updateItemAmountInStore(String line) {
         String[] prop = line.split("\\s+");
         if (prop.length != 2) return false;
         try {
-            int num1 = Integer.parseInt(prop[0]);
-            int num2 = Integer.parseInt(prop[1]);
-            Products p = PD.getProduct(num1);
-            if (p.getAmountInStore() > num2) {
-                return PD.updateProductAmountInStore(num1, num2);
-            } else {
-                if (p.getAmountInWarehouse() - num2 + p.getAmountInStore() < 0) return false;
-                boolean ans = updateProductAmountInWarehouse("" + num1 + " " + (p.getAmountInWarehouse() - num2 + p.getAmountInStore()));
+            int id = Integer.parseInt(prop[0]);
+            int postAmount = Integer.parseInt(prop[1]);
+            Quantity itemQuantity = QUANTITIES.getQuantity(id);
+            int store = itemQuantity.getStore();
+            int warehouse = itemQuantity.getWarehouse();
+            if(itemQuantity == null) return false;
+
+            //case: remove from store
+            if (store > postAmount) {
+                return QUANTITIES.updateStore(id, postAmount);
+            }
+            //case: move from warehouse to store
+            else {
+                //case: not enough items in warehouse
+                if (warehouse - postAmount + store < 0) return false;
+
+                boolean ans = updateItemAmountInWarehouse("" + id + " " + (warehouse - postAmount + store));
                 if (!ans) return false;
-                boolean ans2 = PD.updateProductAmountInStore(num1, num2);
-                return ans2;
+                ans = QUANTITIES.updateStore(id, postAmount);
+                return ans;
             }
         } catch (Exception e) {
             return false;
         }
     }
 
-    public boolean updateProductDefectAmount(String line) {
+    //NOTE: THIS FUNCTION REMOVE AMOUNT FROM THE STORE AS WELL !
+    public boolean updateItemDefectAmount(String line) {
         String[] prop = line.split("\\s+");
         if (prop.length != 2) return false;
         try {
-            int num1 = Integer.parseInt(prop[0]);
-            int num2 = Integer.parseInt(prop[1]);
-            return PD.updateProductDefectAmount(num1, num2);
+            int id = Integer.parseInt(prop[0]);
+            int postAmount = Integer.parseInt(prop[1]);
+            Quantity itemQuantity = QUANTITIES.getQuantity(id);
+            int defects = itemQuantity.getDefects();
+            int store = itemQuantity.getStore();
+            if(itemQuantity == null) return false;
+
+            //case: remove from defects
+            if (defects > postAmount) {
+                return QUANTITIES.updateDefects(id, postAmount);
+            }
+            //case: move from store to defects
+            else {
+                //case: not enough items in store
+                if (store - postAmount + defects < 0) return false;
+
+                boolean ans = updateItemAmountInStore("" + id + " " + (store - postAmount + defects));
+                if (!ans) return false;
+                ans = QUANTITIES.updateDefects(id, postAmount);
+                return ans;
+            }
         } catch (Exception e) {
             return false;
         }
     }
 
-    public boolean updateProductCategoryCode(String line) {
+    public boolean updateItemCategoryCode(String line) {
         String[] prop = line.split("\\s+");
         if (prop.length != 2) return false;
         try {

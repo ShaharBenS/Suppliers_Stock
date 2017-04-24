@@ -16,26 +16,26 @@ public class PL_Stock
 
     //TODO fix this shit - exit to back
     private final String[] MENU = {"Choose an option:" ,
-            "1) Add new Product" ,
+            "1) Add new Item" ,
             "2) Add new Category" ,
             "** CATEGORY SECTION **" ,
             "3) Update category ID" ,
             "4) Update category Name" ,
             "5) Update category Father ID" ,
-            "** PRODUCT SECTION **" ,
-            "6) Update product ID" ,
-            "7) Update product Location" ,
-            "8) Update product Manufacture" ,
-            "9) Update product Amount in Warehouse" ,
-            "10) Update product Amount in Store",
-            "11) Update product Minimal Amount" ,
-            "12) Update product Amount of Defects" ,
-            "13) Update product Category Code" ,
-            "14) Update product Buy Price" ,
-            "15) Update product Sell Price" ,
+            "** ITEM SECTION **" ,
+            "6) Update item ID" ,
+            "7) Update item Location" ,
+            "8) Update item Manufacture" ,
+            "9) Update item Amount in Warehouse" ,
+            "10) Update item Amount in Store",
+            "11) Update item Minimal Amount" ,
+            "12) Update item Amount of Defects" ,
+            "13) Update item Category Code" ,
+            "14) Update item Buy Price" ,
+            "15) Update item Sell Price" ,
             "** OTHER USEFUL OPERATIONS **",
             "16) Add new Discount",
-            "17) Stock report by product ID",
+            "17) Stock report by item ID",
             "18) Stock report by category/ies",
             "19) Defect products report",
             "20) Show all products",
@@ -72,8 +72,8 @@ public class PL_Stock
                     System.out.print("Enter the Products properties (separated by 1 space!) in the following structure:\n" +
                             "[ID] [LOCATION] [MANUFACTURE] [MINIMAL AMOUNT] [CATEGORY CODE] [NAME] [SELL PRICE]\n");
                     String productLine = scanner.nextLine();
-                    if(ProductM.addProduct(productLine))
-                        System.out.print(" >> Product added successfully\n");
+                    if(ProductM.addItem(productLine))
+                        System.out.print(" >> item added successfully\n");
                     else System.out.print(" >> Invalid arguments. Try again\n");
                     break;
                 case 2:
@@ -106,7 +106,7 @@ public class PL_Stock
                     System.out.print("Enter properties in the following structure:\n" +
                             "[ID] [NEW ID]\n");
                     prop = scanner.nextLine();
-                    printUpdate(ProductM.updateProductId(prop));
+                    printUpdate(ProductM.updateItemId(prop));
                     break;
                 case 7:
                     System.out.print("Enter properties in the following structure:\n" +
@@ -164,7 +164,7 @@ public class PL_Stock
                     break;
                 case 16:
                     System.out.print("Enter properties in the following structure:\n" +
-                            "[ID-of product or category] [DISCOUNT(in %)] [START DATE] [END DATE] **DATE FORM: DD.MM.YYYY\n");
+                            "[ID-of item or category] [DISCOUNT(in %)] [START DATE] [END DATE] **DATE FORM: DD.MM.YYYY\n");
                     prop = scanner.nextLine();
                     printUpdate(PriceM.addDiscount(prop));
                     break;

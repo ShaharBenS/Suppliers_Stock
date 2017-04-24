@@ -43,6 +43,14 @@ public class Quantities
         }
     }
 
+    //TODO:: returning Quantities object by given id, or null if not exist
+    public Quantity getQuantity(int id)
+    {
+        Quantity q = null;
+
+        return q;
+    }
+
     /*
         This method will update 'fieldName' to 'newValue'.
      */
