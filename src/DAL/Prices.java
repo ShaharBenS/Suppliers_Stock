@@ -2,11 +2,9 @@ package DAL;
 
 import SharedClasses.Date;
 import SharedClasses.Price;
+import SharedClasses.Quantity;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 /**
  * Created by Shahar on 21/04/17.
@@ -23,6 +21,21 @@ public class Prices
     public Price getPrice(int id)
     {
         Price price = null;
+
+        try
+        {
+            String query = "SELECT * FROM PRICES AS P WHERE Pa.itemID = "+id+";";
+            Statement stmt = conn.createStatement();
+            ResultSet resultSet = stmt.executeQuery(query);
+            price = new Price(resultSet.getInt("ItemID"),resultSet.getInt("SellPrice"),
+                    resultSet.getInt("Percentage"),new Date(resultSet.getDate("DateStart")),
+                    new Date(resultSet.getDate("DateEnd")));
+            stmt.close();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
 
         return price;
     }
