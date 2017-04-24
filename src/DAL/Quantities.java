@@ -43,10 +43,27 @@ public class Quantities
         }
     }
 
-    //TODO:: returning Quantities object by given id, or null if not exist
+    /*
+        returning Quantities object by given id, or null if not exist
+    */
     public Quantity getQuantity(int id)
     {
         Quantity q = null;
+
+        try
+        {
+            String query = "SELECT * FROM QUANTITIES AS Q WHERE Q.itemID = "+id+";";
+            Statement stmt = conn.createStatement();
+            ResultSet resultSet = stmt.executeQuery(query);
+            q = new Quantity(resultSet.getInt("ItemID"),resultSet.getString("LOCATION"),
+                    resultSet.getInt("DEFECTS"),resultSet.getInt("WAREHOUSE"),resultSet.getInt("MINIMUM"),
+                    resultSet.getInt("STORE"),resultSet.getInt("ORDER"));
+            stmt.close();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
 
         return q;
     }
