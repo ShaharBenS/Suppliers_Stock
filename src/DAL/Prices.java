@@ -19,6 +19,14 @@ public class Prices
         this.conn = conn;
     }
 
+    //TODO:: returning price object or null if id does not exist
+    public Price getPrice(int id)
+    {
+        Price price = null;
+
+        return price;
+    }
+
     public boolean addItemPrice(Price price)
     {
         try

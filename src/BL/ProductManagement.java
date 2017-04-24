@@ -160,33 +160,35 @@ public class ProductManagement {
         String[] prop = line.split("\\s+");
         if (prop.length != 2) return false;
         try {
-            int num1 = Integer.parseInt(prop[0]);
-            int num2 = Integer.parseInt(prop[1]);
-            return PD.updateProductCategoryCode(num1, num2);
+            int id = Integer.parseInt(prop[0]);
+            int newCategoryID = Integer.parseInt(prop[1]);
+            return ITEMS.setCategory(id, newCategoryID);
         } catch (Exception e) {
             return false;
         }
     }
 
-    public boolean updateProductMinimalAmount(String line) {
+    public boolean updateItemMinimalAmount(String line) {
         String[] prop = line.split("\\s+");
         if (prop.length != 2) return false;
         try {
-            int num1 = Integer.parseInt(prop[0]);
-            int num2 = Integer.parseInt(prop[1]);
-            boolean ans = PD.updateProductMinimalAmount(num1, num2);
-            checkIfNeedToAlert(num1);
+            int id = Integer.parseInt(prop[0]);
+            int newMinimal = Integer.parseInt(prop[1]);
+            boolean ans = QUANTITIES.updateMinimum(id, newMinimal);
+            checkIfNeedToAlert(id);
             return ans;
         } catch (Exception e) {
             return false;
         }
     }
 
-    public String productReport(String line) {
+    public String ItemReport(String line) {
         if (line.length() != 6) return "Invalid ID";
         try {
             int id = Integer.parseInt(line);
-            Products p = PD.getProduct(id);
+            Item item = ITEMS.getItem(id);
+            Quantity quantity = QUANTITIES.getQuantity(id);
+            Price price = PRICES.getPrice(id);
             if (p == null) return "ID not found!";
             else return p.toStringStock();
         } catch (Exception e) {
