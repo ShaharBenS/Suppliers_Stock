@@ -1,8 +1,7 @@
 package DAL;
 
+import SharedClasses.*;
 import SharedClasses.Date;
-import SharedClasses.Price;
-import SharedClasses.Quantity;
 
 import java.sql.*;
 
@@ -12,12 +11,16 @@ import java.sql.*;
 public class Prices
 {
     private Connection conn;
+    private Categories CATEGORIES;
 
-    public Prices(Connection conn) {
+    public Prices(Connection conn, Categories categories) {
         this.conn = conn;
+        CATEGORIES = categories;
     }
 
-    //TODO:: returning price object or null if id does not exist
+    /*
+        returning price object or null if id does not exist
+     */
     public Price getPrice(int id)
     {
         Price price = null;
@@ -87,4 +90,16 @@ public class Prices
     {
         return startOrEnd ? updateField("DateStart",orderId,newDate) : updateField("DateEnd",orderId,newDate);
     }
+
+    public boolean updateCategoryDiscount(int id, int discount, Date start, Date end)
+    {
+        Item[] products = CATEGORIES.getAllProductsbyCat(new Category[]{new Category(id,"")});
+        for (Item item : products) {
+            updatePercentage(item.getItemID(), discount);
+            updateDate(true,item.getItemID(), start);
+            updateDate(false,item.getItemID(), end);
+        }
+        return true;
+    }
+
 }

@@ -2,6 +2,7 @@ package DAL;
 
 import SharedClasses.Category;
 import SharedClasses.Item;
+import SharedClasses.Quantity;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -183,6 +184,7 @@ public class Categories
         }
         return products;
     }
+
 
     private Category buildCategoryFromResultSet(ResultSet resultSet)
     {
