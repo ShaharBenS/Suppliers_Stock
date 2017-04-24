@@ -122,4 +122,18 @@ public class Quantity {
 
         return str;
     }
+
+    public String toStringDefectsPart2()
+    {
+        String str ="";
+
+        str += "LOCATION: " + location + "\n";
+        str += "CURRENT AMOUNT: " + current + "\n";
+        str += "STORE AMOUNT: " + store + "\n";
+        str += "WAREHOUSE AMOUNT: " + warehouse + "\n";
+        str += "DEFECT AMOUNT: " + defects + "\n";
+        str += "----- DEFECTS -----\n";
+
+        return str;
+    }
 }

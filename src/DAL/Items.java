@@ -1,6 +1,8 @@
 package DAL;
 
 import SharedClasses.Item;
+import SharedClasses.Quantity;
+
 import java.sql.*;
 
 
@@ -34,6 +36,7 @@ public class Items {
         }
 
     }
+
 
     //TODO::returning array containing all items
     public Item[] getAllItems()

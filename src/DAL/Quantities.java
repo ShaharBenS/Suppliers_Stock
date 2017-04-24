@@ -43,6 +43,14 @@ public class Quantities
         }
     }
 
+    //TODO::returning array containing all quantities with defects
+    public Quantity[] getAllDefects()
+    {
+        Quantity[] quantities = null;
+
+        return quantities;
+    }
+
     /*
         returning Quantities object by given id, or null if not exist
     */

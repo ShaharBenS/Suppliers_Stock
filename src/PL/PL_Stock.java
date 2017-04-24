@@ -37,8 +37,8 @@ public class PL_Stock
             "16) Add new Discount",
             "17) Stock report by item ID",
             "18) Stock report by category/ies",
-            "19) Defect products report",
-            "20) Show all products",
+            "19) Defect Items report",
+            "20) Show all Items",
             "21) Exit"};
 
     public PL_Stock(ProductManagement pm, PriceManagement price_m, CategoryManagement cm)
@@ -69,10 +69,10 @@ public class PL_Stock
             switch(operation)
             {
                 case 1:
-                    System.out.print("Enter the Products properties (separated by 1 space!) in the following structure:\n" +
+                    System.out.print("Enter the Items properties (separated by 1 space!) in the following structure:\n" +
                             "[ID] [LOCATION] [MANUFACTURE] [MINIMAL AMOUNT] [CATEGORY CODE] [NAME] [SELL PRICE]\n");
-                    String productLine = scanner.nextLine();
-                    if(ProductM.addItem(productLine))
+                    String ItemLine = scanner.nextLine();
+                    if(ProductM.addItem(ItemLine))
                         System.out.print(" >> item added successfully\n");
                     else System.out.print(" >> Invalid arguments. Try again\n");
                     break;
@@ -112,43 +112,43 @@ public class PL_Stock
                     System.out.print("Enter properties in the following structure:\n" +
                             "[ID] [NEW LOCATION]\n");
                     prop = scanner.nextLine();
-                    printUpdate(ProductM.updateProductLocation(prop));
+                    printUpdate(ProductM.updateItemLocation(prop));
                     break;
                 case 8:
                     System.out.print("Enter properties in the following structure:\n" +
                             "[ID] [NEW MANUFACTURE]\n");
                     prop = scanner.nextLine();
-                    printUpdate(ProductM.updateProductManufacture(prop));
+                    printUpdate(ProductM.updateItemManufacture(prop));
                     break;
                 case 9:
                     System.out.print("Enter properties in the following structure:\n" +
                             "[ID] [NEW AMOUNT IN WAREHOUSE]\n");
                     prop = scanner.nextLine();
-                    printUpdate(ProductM.updateProductAmountInWarehouse(prop));
+                    printUpdate(ProductM.updateItemAmountInWarehouse(prop));
                     break;
                 case 10:
                     System.out.print("Enter properties in the following structure:\n" +
                             "[ID] [NEW AMOUNT IN STORE]\n");
                     prop = scanner.nextLine();
-                    printUpdate(ProductM.updateProductAmountInStore(prop));
+                    printUpdate(ProductM.updateItemAmountInStore(prop));
                     break;
                 case 11:
                     System.out.print("Enter properties in the following structure:\n" +
                             "[ID] [NEW MINIMAL AMOUNT]\n");
                     prop = scanner.nextLine();
-                    printUpdate(ProductM.updateProductMinimalAmount(prop));
+                    printUpdate(ProductM.updateItemMinimalAmount(prop));
                     break;
                 case 12:
                     System.out.print("Enter properties in the following structure:\n" +
                             "[ID] [NEW AMOUNT OF DEFECTS]\n");
                     prop = scanner.nextLine();
-                    printUpdate(ProductM.updateProductDefectAmount(prop));
+                    printUpdate(ProductM.updateItemDefectAmount(prop));
                     break;
                 case 13:
                     System.out.print("Enter properties in the following structure:\n" +
                             "[ID] [NEW CATEGORY CODE]\n");
                     prop = scanner.nextLine();
-                    printUpdate(ProductM.updateProductCategoryCode(prop));
+                    printUpdate(ProductM.updateItemCategoryCode(prop));
                     break;
                 case 14:
                     System.out.print("Enter properties in the following structure:\n" +
@@ -172,7 +172,7 @@ public class PL_Stock
                     System.out.print("Enter properties in the following structure:\n" +
                             "[ID]\n");
                     prop = scanner.nextLine();
-                    System.out.print(ProductM.productReport(prop));
+                    System.out.print(ProductM.ItemReport(prop));
                     break;
                 case 18:
                     System.out.print("Enter properties in the following structure:\n" +
@@ -188,7 +188,7 @@ public class PL_Stock
                         System.out.print(prodDef[i]);
                     break;
                 case 20:
-                    String[] prod = ProductM.getAllProducts();
+                    String[] prod = ProductM.getAllItems();
                     for(int i=0; i<prod.length; i++)
                         System.out.print(prod[i]);
                     break;

@@ -1,28 +1,16 @@
 package BL;
 
-import DAL.Product_Data;
+import DAL.Prices;
 
 public class PriceManagement
 {
-   private Product_Data PD;
+   private Prices PRICES;
 
-   public PriceManagement(Product_Data pd)
+   public PriceManagement(Prices PRICES)
    {
-       this.PD = pd;
+       this.PRICES = PRICES;
    }
 
-
-   /* DATA FOR PRICES */
-   public boolean updateBuyPrice(String line)
-   {
-       String[] prop = line.split("\\s+");
-       if(prop.length != 2) return false;
-       try{
-           int num1 = Integer.parseInt(prop[0]);
-           int num2 = Integer.parseInt(prop[1]);
-           return PD.updateBuyPrice(num1, num2);
-       } catch(Exception e){ return  false; }
-   }
 
    public boolean updateSellPrice(String line)
    {
@@ -30,9 +18,9 @@ public class PriceManagement
        String[] prop = line.split("\\s+");
        if(prop.length != 2) return false;
        try{
-           int num1 = Integer.parseInt(prop[0]);
-           int num2 = Integer.parseInt(prop[1]);
-           return PD.updateSellPrice(num1, num2);
+           int id = Integer.parseInt(prop[0]);
+           int newPrice = Integer.parseInt(prop[1]);
+           return PRICES.updateSellPrice(id, newPrice);
        } catch(Exception e){ return  false; }
    }
 
@@ -50,7 +38,7 @@ public class PriceManagement
                if(start.length != 3 || end.length != 3) return false;
                SharedClasses.Date Dstart = new SharedClasses.Date(Integer.parseInt(start[2]),Integer.parseInt(start[1]),Integer.parseInt(start[0]));
                SharedClasses.Date Dend = new SharedClasses.Date(Integer.parseInt(end[2]),Integer.parseInt(end[1]),Integer.parseInt(end[0]));
-               return (PD.updateProductDiscount(id, disc) && PD.updateStartDate(id,Dstart) && PD.updateEndDate(id, Dend));
+               return (PRICES.updateItemDiscount(id, disc) && PRICES.updateStartDate(id,Dstart) && PRICES.updateEndDate(id, Dend));
            }
            else if(prop[0].length() == 3)
            {
@@ -60,7 +48,7 @@ public class PriceManagement
                if(start.length != 3 || end.length != 3) return false;
                SharedClasses.Date Dstart = new SharedClasses.Date(Integer.parseInt(start[2]),Integer.parseInt(start[1]),Integer.parseInt(start[0]));
                SharedClasses.Date Dend = new SharedClasses.Date(Integer.parseInt(end[2]),Integer.parseInt(end[1]),Integer.parseInt(end[0]));
-               return (PD.updateCategoryDiscount(id, disc ,Dstart,Dend));
+               return (PRICES.updateCategoryDiscount(id, disc ,Dstart,Dend));
            }
            else return false;
        } catch(Exception e){ return  false; }

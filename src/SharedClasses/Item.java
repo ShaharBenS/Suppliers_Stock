@@ -69,4 +69,17 @@ public class Item {
 
         return str;
     }
+
+    public String toStringDefectsPart1()
+    {
+        String str ="";
+
+        str += "----- DEFECTS -----\n";
+        str += "ITEM ID: " + itemID + "\n";
+        str += "NAME: " + name +"\n";
+        str += "MANUFACTURE: " + manufacture +"\n";
+        str += "CATEGORY : " + categoryNumber +"\n";
+
+        return str;
+    }
 }

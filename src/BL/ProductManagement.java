@@ -216,17 +216,22 @@ public class ProductManagement {
     }
 
     public String[] getAllDefectProducts() {
-        Products[] pList = PD.getAllDefectProducts();
-        if (pList.length == 0) return new String[]{"No Defects found !"};
-        String[] allP = new String[pList.length];
-        for (int i = 0; i < allP.length; i++)
-            allP[i] = pList[i].toStringDefects();
-        return allP;
+        Quantity[] quantities = QUANTITIES.getAllDefects();
+        int size = quantities.length;
+        if(size == 0) return new String[]{"No Defects were found !"};
+        Item[] items = new Item[size];
+        String[] toStringsDefects = new String[size];
+        for(int i=0; i<size; i++)
+        {
+            items[i] = ITEMS.getItem(quantities[i].getItemID());
+            toStringsDefects[i] = items[i].toStringDefectsPart1() + quantities[i].toStringDefectsPart2();
+        }
+        return toStringsDefects;
     }
 
     private void checkIfNeedToAlert(int id) {
-        Products products = PD.getProduct(id);
-        if (products.getAmountInWarehouse() <= products.getMinimalAmount()) {
+        Quantity quantity = QUANTITIES.getQuantity(id);
+        if (quantity.getWarehouse() <= quantity.getMinimum()) {
             int supplierID = SBL.getSupplierID(id);
             int orderID = SBL.addOrder(supplierID,new Date(new java.util.Date()));
             SBL.addOrderItem(orderID,supplierID,id, -1 ); //TODO Order quantity
