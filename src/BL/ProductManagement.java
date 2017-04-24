@@ -1,20 +1,27 @@
 package BL;
 
-import DAL.Product_Data;
+import DAL.Items;
+import DAL.Prices;
+import DAL.Quantities;
 import SharedClasses.Date;
 import SharedClasses.Item;
+import SharedClasses.Price;
 import SharedClasses.Quantity;
 
 /**
  * Created by Shahar on 29/03/17.
  */
 public class ProductManagement {
-    Product_Data PD;
-    SupplierBL SBL;
+    private Items ITEMS;
+    private Prices PRICES;
+    private Quantities QUANTITIES;
+    private SupplierBL SBL;
 
-    public ProductManagement(Product_Data PD,SupplierBL sbl)
+    public ProductManagement(Items items, Prices prices, Quantities quantities ,SupplierBL sbl)
     {
-        this.PD = PD;
+        this.ITEMS = items;
+        this.PRICES = prices;
+        this.QUANTITIES = quantities;
         this.SBL = sbl;
     }
 
@@ -25,6 +32,7 @@ public class ProductManagement {
         if (pParts.length != 7) return false;
         Quantity quantity;
         Item item;
+        Price price;
         try {
             /*0*/
             int id = Integer.parseInt(pParts[0]);
@@ -34,13 +42,15 @@ public class ProductManagement {
             /*4*/
             int cCode = Integer.parseInt(pParts[4]);
             if (pParts[4].length() != 3) return false;
+            int sell = Integer.parseInt(pParts[6]);
             item = new Item(id, pParts[5], cCode, pParts[2]);
-            quantity = new Quantity(00000, pParts[1],0,0,minimal,0,0);
+            quantity = new Quantity(id, pParts[1],0,0,minimal,0,0);
+            price = new Price(id, sell, 0, null,null);
 
         } catch (Exception e) {
             return false;
         }
-        return (PD.addProduct(p) && PD.addQuantity(quanti) );
+        return (ITEMS.addItem(item) && PRICES.addItemPrice(price) && QUANTITIES.addItemQuantity(quantity));
     }
 
     //RETURN PRODUCT FROM DATABASE IF EXISTS, ELSE RETURN NULL

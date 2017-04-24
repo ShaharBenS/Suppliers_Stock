@@ -70,7 +70,7 @@ public class PL_Stock
             {
                 case 1:
                     System.out.print("Enter the Products properties (separated by 1 space!) in the following structure:\n" +
-                            "[ID] [LOCATION] [MANUFACTURE] [CURRENT AMOUNT] [MINIMAL AMOUNT] [CATEGORY CODE] [BUY PRICE] [SELL PRICE]\n");
+                            "[ID] [LOCATION] [MANUFACTURE] [MINIMAL AMOUNT] [CATEGORY CODE] [NAME] [SELL PRICE]\n");
                     String productLine = scanner.nextLine();
                     if(ProductM.addProduct(productLine))
                         System.out.print(" >> Product added successfully\n");

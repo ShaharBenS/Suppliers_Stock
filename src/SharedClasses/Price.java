@@ -11,7 +11,7 @@ public class Price
     private Date start;
     private Date end;
 
-    public Price(int item_id, int itemID, int sell_price, int buy_price, int perecentage, Date start, Date end) {
+    public Price(int itemID, int sell_price, int perecentage, Date start, Date end) {
         this.itemID = itemID;
         this.sell_price = sell_price;
         this.perecentage = perecentage;

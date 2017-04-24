@@ -14,9 +14,9 @@ public class Quantity {
     private int amount_to_order;
     private int current;
 
-    public Quantity(int OrderID, String location, int defects, int warehouse, int minimum, int store, int amount_to_order)
+    public Quantity(int itemID, String location, int defects, int warehouse, int minimum, int store, int amount_to_order)
     {
-        this.itemID = OrderID;
+        this.itemID = itemID;
         this.location = location;
         this.defects = defects;
         this.warehouse = warehouse;
