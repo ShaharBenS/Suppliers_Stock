@@ -1,10 +1,9 @@
 package PL;
 
+import BL.SupplierBL;
 import SharedClasses.Item;
 
 import java.util.Scanner;
-
-import BL.SupplierBL;
 
 public class PLItems {
 

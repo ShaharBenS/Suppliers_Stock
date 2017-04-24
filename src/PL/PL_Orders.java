@@ -1,7 +1,7 @@
 package PL;
-import java.util.Scanner;
-
 import BL.SupplierBL;
+
+import java.util.Scanner;
 /**
  * Created by Shahar on 19/04/17.
  */

@@ -1,10 +1,9 @@
 package PL;
 
+import BL.SupplierBL;
 import SharedClasses.Discount;
 
 import java.util.Scanner;
-
-import BL.SupplierBL;
 
 public class PLDiscount {
 

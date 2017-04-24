@@ -1,11 +1,10 @@
 package PL;
 
+import BL.SupplierBL;
 import SharedClasses.Contact;
 import SharedClasses.Discount;
 
 import java.util.Scanner;
-
-import BL.SupplierBL;
 
 public class PLContacts {
 
