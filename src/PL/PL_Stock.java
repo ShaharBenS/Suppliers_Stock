@@ -14,7 +14,7 @@ public class PL_Stock
     private PriceManagement PriceM;
     private CategoryManagement CategoryM;
 
-    //TODO fix this shit - exit to back
+    //TODO fix this shit - 'exit' to 'back'
     private final String[] MENU = {"Choose an option:" ,
             "1) Add new Product" ,
             "2) Add new Category" ,

@@ -1,8 +1,11 @@
 package DAL;
 
 import SharedClasses.Category;
+import SharedClasses.Item;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Shahar on 29/03/17.
@@ -117,5 +120,102 @@ public class Categories
             e.printStackTrace();
             return false;
         }
+    }
+    public Item[] getAllProductsbyCat(Category[] cArr)
+    {
+        Item [] products = {};
+        List<Item> productsList = new ArrayList<>();
+        int index = 0;
+        int c_index = 0;
+        try {
+            while (cArr.length != 0)
+            {
+                String query1 = "SELECT ITEMS.ID" +
+                                "FROM ITEMS" +
+                                "WHERE (";
+                for (int i = 0; i < cArr.length; i++) {
+                    if (i == cArr.length - 1) {
+                        query1 += "ITEMS.CategoryNumber = " + cArr[i].getId() + " );";
+                        break;
+                    }
+                    query1 += "ITEMS.CategoryNumber = " + cArr[i].getId() + " OR ";
+                }
+
+                Statement statement = connection.createStatement();
+                ResultSet resultSet = statement.executeQuery(query1);
+                while(resultSet.next())
+                {
+                    productsList.add(buildItemFromResultSet(resultSet));
+                    index++;
+                }
+                List<Category> c_list = new ArrayList<>();
+                String query2 = "SELECT C.* " +
+                        "FROM CATEGORY AS C " +
+                        "WHERE ( ";
+                for(int i = 0 ; i < cArr.length; i++)
+                {
+                    if(i == cArr.length-1)
+                    {
+                        query2+= "C.ID_FATHER = "+cArr[i].getId()+");";
+                        break;
+                    }
+                    query2 += "C.ID_FATHER = "+cArr[i].getId()+" OR ";
+                }
+                statement = connection.createStatement();
+                resultSet = statement.executeQuery(query2);
+                while(resultSet.next())
+                {
+                    c_list.add(buildCategoryFromResultSet(resultSet));
+                    c_index++;
+                }
+                cArr = new Category[c_index];
+                c_index = 0;
+                cArr = c_list.toArray(cArr);
+
+            }
+            products = new Item[index];
+            products = productsList.toArray(products);
+
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return products;
+    }
+
+    private Category buildCategoryFromResultSet(ResultSet resultSet)
+    {
+        Category c = new Category();
+
+        try
+        {
+            c.setId(resultSet.getInt("ID"));
+            c.setName(resultSet.getString("NAME"));
+            c.setIdFather(resultSet.getInt("ID_FATHER"));
+
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return c;
+    }
+
+    private Item buildItemFromResultSet(ResultSet resultSet)
+    {
+        Item item = new Item();
+
+        try{
+            item.setItemID(resultSet.getInt("ID"));
+            item.setName(resultSet.getString("NAME"));
+            item.setCategoryNumber(resultSet.getInt("CategoryNumber"));
+            item.setManufacture(resultSet.getString("Manufacture"));
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return item;
     }
 }
