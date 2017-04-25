@@ -47,8 +47,8 @@ public class Prices
     {
         try
         {
-            PreparedStatement p_stmt = conn.prepareStatement("INSERT INTO PRICES(ItemID,SellPrice,Percentage,DateStart," +
-                    "DateEnd) VALUES(?,?,?,?,?,?);");
+            PreparedStatement p_stmt = conn.prepareStatement("INSERT INTO PRICES (ItemID,SellPrice,Percentage,DateStart," +
+                    "DateEnd) VALUES(?,?,?,?,?);");
             p_stmt.setInt(1,price.getItemID());
             p_stmt.setInt(2,price.getSell_price());
             p_stmt.setInt(3,price.getPerecentage());

@@ -7,16 +7,25 @@ import java.util.Scanner;
  */
 public class Menu {
 
+    private PL_Stock pl_stock;
+    private Scanner scanner;
 
-    private Scanner scanner = new Scanner(System.in);
     private final String[] MENU =
             {   "Choose an Option:",
-                "1) Stocks Management",
-                "2) Supplier Management",
-                "3) Order Management"};
+                    "1) Stocks Management",
+                    "2) Supplier Management",
+                    "3) Order Management"};
+
+
+    public Menu(PL_Stock pl_stock) {
+        this.pl_stock = pl_stock;
+        this.scanner = new Scanner(System.in);
+    }
+
 
     public void start()
-    { int operation;
+    {
+        int operation;
 
         while(true) {
             for (int i = 0; i < MENU.length; i++) {
@@ -33,7 +42,7 @@ public class Menu {
             switch (operation)
             {
                 case 1:
-
+                    pl_stock.start();
                     break;
                 case 2:
 

@@ -31,7 +31,6 @@ public class Items {
 
             c.commit();
             ps.close();
-            stmt.close();
             return true;
         } catch (Exception e) {
             return false;

@@ -8,7 +8,7 @@ import java.util.Scanner;
  * Created by Shahar on 19/04/17.
  */
 public class PL_Orders
-{
+{/*
     public final int SLEEP_TIME = 1000; // In seconds
     SupplierBL bl;
     private Scanner sc = new Scanner(System.in);
@@ -417,4 +417,5 @@ public class PL_Orders
             bl.getO
         }
     }
+    */
 }

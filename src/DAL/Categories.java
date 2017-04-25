@@ -31,6 +31,7 @@ public class Categories
                 _ps.setInt(3, c.getIdFather());
 
             _ps.executeUpdate();
+            connection.commit();
             return true;
 
         } catch (SQLException e)
@@ -75,6 +76,7 @@ public class Categories
         }
         return category;
     }
+
     public boolean updateCategoryId(int id,int newID)
     {
         if(getCategory(id) == null) return false;
@@ -84,8 +86,8 @@ public class Categories
             _ps.setInt(1, newID);
             _ps.setInt(2, id);
             int result = _ps.executeUpdate();
+            connection.commit();
             return result > 0;
-
         } catch (SQLException e)
         {
             return false;
@@ -98,6 +100,7 @@ public class Categories
             PreparedStatement _ps = connection.prepareStatement(query);
             _ps.setString(1, name);
             _ps.setInt(2, id);
+            connection.commit();
             return _ps.executeUpdate() > 0;
 
         } catch (SQLException e)
@@ -113,6 +116,7 @@ public class Categories
              PreparedStatement _ps = connection.prepareStatement(query);
             _ps.setInt(1, newFatherId);
             _ps.setInt(2, id);
+            connection.commit();
             return _ps.executeUpdate()>0;
 
 

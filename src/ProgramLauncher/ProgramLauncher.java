@@ -3,8 +3,17 @@ package ProgramLauncher;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
+
+import BL.CategoryManagement;
+import BL.PriceManagement;
+import BL.ProductManagement;
+import BL.SupplierBL;
+import DAL.*;
 import PL.Menu;
+import PL.PL_Stock;
+import SharedClasses.Contact;
 import SharedClasses.Date;
+import SharedClasses.SupplierItem;
 
 /**
  * Created by Shahar on 06/04/17.
@@ -13,10 +22,34 @@ public class ProgramLauncher
 {
     public static void main(String [] args)
     {
-        //TODO Create all layers
-
         Connection conn = getConnectionAndInitDatabase("Database.db");
-        new Menu().start();
+
+        // DAL INIT
+        Items ITEMS = new Items(conn);
+        Quantities QUANTITIES = new Quantities(conn);
+        Categories CATEGORIES = new Categories(conn);
+        Prices PRICES = new Prices(conn, CATEGORIES);
+
+        Contacts CONTACTS = new Contacts(conn);
+        Discounts DISCOUNTS = new Discounts(conn);
+        Orders ORDERS = new Orders(conn);
+        OrdersItems ORDERS_ITEMS = new OrdersItems(conn);
+        SupplierItems SUPPLIER_ITEMS = new SupplierItems(conn);
+        Suppliers SUPPLIERS = new Suppliers(conn);
+
+        // BL INIT
+        SupplierBL SBL = new SupplierBL(CONTACTS, DISCOUNTS, ITEMS, SUPPLIER_ITEMS, SUPPLIERS, ORDERS, ORDERS_ITEMS);
+        ProductManagement PRODUCT_MANAGEMENT = new ProductManagement(ITEMS, PRICES, QUANTITIES, SBL);
+        CategoryManagement CATEGORY_MANAGEMENT = new CategoryManagement(CATEGORIES, ITEMS, PRICES, QUANTITIES);
+        PriceManagement PRICE_MANAGEMENT = new PriceManagement(PRICES);
+
+        // PL INIT
+        PL_Stock PL_STOCK = new PL_Stock(PRODUCT_MANAGEMENT, PRICE_MANAGEMENT, CATEGORY_MANAGEMENT);
+        Menu MENU = new Menu(PL_STOCK);
+
+
+        // start
+        MENU.start();
     }
 
     private static Connection getConnectionAndInitDatabase(String dataBaseName) {
@@ -71,7 +104,7 @@ public class ProgramLauncher
             sql =   "CREATE TABLE IF NOT EXISTS CATEGORY " +
                     "(ID INT PRIMARY KEY     NOT NULL ," +
                     " NAME           CHAR(50) NOT NULL, " +
-                    " ID_FATHER  INT NOT NULL DEFAULT -1 REFERENCES CATEGORY(ID) " +
+                    " ID_FATHER  INT DEFAULT NULL REFERENCES CATEGORY(ID) " +
                     " ON UPDATE CASCADE ON DELETE SET NULL);";
             stmt.execute(sql);
             stmt.close();
