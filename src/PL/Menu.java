@@ -8,6 +8,7 @@ import java.util.Scanner;
 public class Menu {
 
     private PL_Stock pl_stock;
+    private PL_Supplier pl_sup;
     private Scanner scanner;
 
     private final String[] MENU =
@@ -17,8 +18,9 @@ public class Menu {
                     "3) Order Management"};
 
 
-    public Menu(PL_Stock pl_stock) {
+    public Menu(PL_Stock pl_stock, PL_Supplier pl_sup) {
         this.pl_stock = pl_stock;
+        this.pl_sup = pl_sup;
         this.scanner = new Scanner(System.in);
     }
 
@@ -45,7 +47,7 @@ public class Menu {
                     pl_stock.start();
                     break;
                 case 2:
-
+                    pl_sup.start();
                     break;
                 case 3:
 

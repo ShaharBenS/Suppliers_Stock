@@ -15,7 +15,6 @@ public class PL_Supplier {
     }
 
     public void start() {
-        System.out.println("Hello User!");
         mainMenu();
     }
 

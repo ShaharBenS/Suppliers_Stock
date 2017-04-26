@@ -11,6 +11,7 @@ import BL.SupplierBL;
 import DAL.*;
 import PL.Menu;
 import PL.PL_Stock;
+import PL.PL_Supplier;
 import SharedClasses.Contact;
 import SharedClasses.Date;
 import SharedClasses.SupplierItem;
@@ -45,7 +46,8 @@ public class ProgramLauncher
 
         // PL INIT
         PL_Stock PL_STOCK = new PL_Stock(PRODUCT_MANAGEMENT, PRICE_MANAGEMENT, CATEGORY_MANAGEMENT);
-        Menu MENU = new Menu(PL_STOCK);
+        PL_Supplier pl_sup= new PL_Supplier (SBL);
+        Menu MENU = new Menu(PL_STOCK, pl_sup);
 
 
         // start
