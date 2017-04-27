@@ -78,8 +78,8 @@ public class ProgramLauncher
                     " AccountNum				INT     NOT NULL, " +
                     " Payment         TEXT	NOT NULL," +
                     " DeliveryMethod TEXT NOT NULL," +
-                    " SupplyTime TEXT" +
-                    "Address TEXT NOT NULL);";
+                    " SupplyTime TEXT," +
+                    " Address TEXT NOT NULL);";
             stmt.execute(sql);
             stmt.close();
 
