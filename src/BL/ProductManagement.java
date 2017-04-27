@@ -234,7 +234,7 @@ public class ProductManagement {
         if (quantity.getWarehouse() <= quantity.getMinimum()) {
             int supplierID = SBL.getSupplierID(id);
             int orderID = SBL.addOrder(supplierID,new Date(new java.util.Date()));
-            SBL.addOrderItem(orderID,supplierID,id, -1 ); //TODO Order quantity
+            SBL.addOrderItem(orderID,supplierID,id, QUANTITIES.getQuantity(id).getAmount_to_order() );
         }
     }
 

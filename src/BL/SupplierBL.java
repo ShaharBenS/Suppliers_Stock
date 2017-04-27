@@ -158,37 +158,6 @@ public class SupplierBL {
         return si.removeSupplierItem(id, supId);
     }
 
-    public boolean addItem(int ID,  String Name, int Category,String manufacture) {
-        Item itemToAdd = new Item(ID,  Name,Category, manufacture);
-        return item.addItem(itemToAdd);
-    }
-
-    public boolean setItem(int id, Object change, int code) {// 1- ID, 2- Name, 3- category, 4- manufacture
-        switch (code) {
-            case 1:
-                int newID = ((Integer) change).intValue();
-                return item.setID(id, newID);
-            case 2:
-                String Name = (String) change;
-                return item.setName(id, Name);
-            case 3:
-                int newCategory = ((Integer) change).intValue();
-                return item.setCategory(id, newCategory);
-            case 4:
-                String manufacture = (String) change;
-                return item.setManufacture(id, manufacture);
-            default:
-                return false;
-        }
-    }
-
-    public Item getItem(int itemId) {
-        return item.getItem(itemId);
-    }
-
-    public boolean removeItem(int id) {
-        return item.removeItem(id);
-    }
 
     public boolean addDiscount(int SupplierID, int ItemID, int Quantity, int DiscountPercentage) {
         Discount discount = new Discount(SupplierID, ItemID, Quantity, DiscountPercentage);
@@ -240,13 +209,15 @@ public class SupplierBL {
         return contacts.ifExist(supID, conID);
     }
 
-    public boolean checkExistItemID(int itemId) {
-        return item.ifExist(itemId);
-    }
-
     public boolean checkExistDis(int supID, int itemID, int Quantity) {
         return dis.ifExist(supID, itemID, Quantity);
     }
+
+    public boolean checkExistItemID(int itemId)
+    {
+        return item.ifExist(itemId);
+    }
+
 
     public int addOrder(int supplierId, Date date){
         Order ord = new Order(OrderID++,supplierId, sup.getSupplierName(supplierId),date, contacts.getContactNum(supplierId));

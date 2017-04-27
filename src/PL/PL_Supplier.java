@@ -46,10 +46,6 @@ public class PL_Supplier {
                         pld.case4();
                         break;
                     case 5:
-                        PLItems pli = new PLItems(bl, sc);
-                        pli.case5();
-                        break;
-                    case 6:
                         Continue = false;
                         exit();
                         break;
@@ -80,8 +76,7 @@ public class PL_Supplier {
         System.out.println("2- Supplier's items");
         System.out.println("3- Contacts");
         System.out.println("4- Discounts");
-        System.out.println("5- Items");
-        System.out.println("6- Exit");
+        System.out.println("5- Exit");
 
     }
 
