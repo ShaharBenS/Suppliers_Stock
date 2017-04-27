@@ -226,7 +226,7 @@ public class PL_Orders
         int supID = getSupID();
         //check if the supplier exist
         if (supID != 0) {
-            int ans = bl.addOrder(supID, new Date());
+            int ans = bl.addOrder(supID, new Date(new java.util.Date()));
             if(ans == -1 ) {
                 System.out.println("ERROR! something went wrong");
                 case1();
