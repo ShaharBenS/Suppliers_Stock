@@ -313,5 +313,5 @@ public class SupplierBL {
     	return order.checkOrderExist(orderID);
     }
 
-
+    public boolean checkItemExistInOrder(int orderID, int itemID){return order.checkItemExistInOrder(orderID, itemID);}
 }
