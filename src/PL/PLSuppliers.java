@@ -117,15 +117,21 @@ public class PLSuppliers {
             if (DeliveryMethod.equals("with delivery")) {
                 System.out.println("Please enter supplier's supply time:");
                 SupplyTime = sc.nextLine();
-                if (!SupplyTime.equals("Sunday") && !SupplyTime.equals("Monday") && !SupplyTime.equals("Tuesday") && !SupplyTime.equals("Wednesday") && !SupplyTime.equals("Thursday") && !SupplyTime.equals("Friday") && !SupplyTime.equals("Saturday")) {
-                    System.out.println("invalid supply time");
-                    return;
+                String []days = SupplyTime.split("\\s");
+                for(int i=0; i<days.length;i++){
+                    if (!days[i].equals("Sunday") && !days[i].equals("Monday") && !days[i].equals("Tuesday") && !days[i].equals("Wednesday") && !days[i].equals("Thursday") && !days[i].equals("Friday") && !days[i].equals("Saturday")) {
+                        System.out.println("invalid supply time");
+                        return;
+                   }
                 }
 
 
-                bl.addSupplier(ID,Name, BankNum, BranchNum, AccountNum, Payment, DeliveryMethod, SupplyTime, address);
-            } else bl.addSupplier(ID,Name, BankNum, BranchNum, AccountNum, Payment, DeliveryMethod, "NULL",address);
-            System.out.println("Supplier has been added");
+               if( bl.addSupplier(ID,Name, BankNum, BranchNum, AccountNum, Payment, DeliveryMethod, SupplyTime, address))
+                   System.out.println("Supplier has been added");
+                else System.out.println("something went wrong");
+            } else if(bl.addSupplier(ID,Name, BankNum, BranchNum, AccountNum, Payment, DeliveryMethod, "NULL",address))
+                    System.out.println("Supplier has been added");
+                    else System.out.println("something went wrong");
         } else {
             System.out.println("Supplier ID is already exist");
             case1();

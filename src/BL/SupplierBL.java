@@ -71,7 +71,9 @@ public class SupplierBL {
     }
 
     public boolean addSupplier(int ID, String name, int BankNum, int BranchNum, int AccountNum, String payment, String DeliveryMethod, String SupplyTime, String address) {
+        System.out.println("1");
         Supplier supplier = new Supplier(ID, name, BankNum, BranchNum, AccountNum, payment, DeliveryMethod, SupplyTime, address);
+        System.out.println("2");
         return sup.addSupplier(supplier);
     }
 
@@ -273,7 +275,6 @@ public class SupplierBL {
     	ord= new Order(got,OI.getOrderItems(orderID));
     	return ord;
     }
-
     
     public Order[] getOrderOfSup(int supID){
     	Order[] toReturn;
@@ -312,5 +313,5 @@ public class SupplierBL {
     	return order.checkOrderExist(orderID);
     }
 
-    public boolean checkItemExistInOrder(int orderID, int itemID){return order.checkItemExistInOrder(orderID, itemID);}
+
 }

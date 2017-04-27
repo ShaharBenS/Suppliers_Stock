@@ -19,8 +19,9 @@ public class Suppliers {
 
     public boolean addSupplier(Supplier sup) {
         try {
-            PreparedStatement ps = c.prepareStatement("INSERT INTO Suppliers (ID,Name, BankNum, BranchNum, AccountNum, Payment, DeliveryMethod, SupplyTime, Address) " +
-                    "VALUES (?,?,?,?,?,?,?,?);");
+            PreparedStatement ps = c.prepareStatement("INSERT INTO Suppliers (ID, Name, BankNum, BranchNum, AccountNum, Payment, DeliveryMethod, SupplyTime, Address) " +
+                    "VALUES (?,?,?,?,?,?,?,?,?);");
+
             ps.setInt(1, sup.getId());
             ps.setString(2, sup.getName());
             ps.setInt(3, sup.getBankNum());
@@ -37,6 +38,7 @@ public class Suppliers {
             stmt.close();
             return true;
         } catch (Exception e) {
+            System.out.println(e);
             return false;
         }
 

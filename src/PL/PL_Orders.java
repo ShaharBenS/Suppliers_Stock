@@ -2,14 +2,13 @@ package PL;
 import BL.SupplierBL;
 import SharedClasses.Date;
 import SharedClasses.Order;
-import SharedClasses.Supplier;
 
 import java.util.Scanner;
 /**
  * Created by Shahar on 19/04/17.
  */
 public class PL_Orders
-{
+{/*
     public final int SLEEP_TIME = 1000; // In seconds
     SupplierBL bl;
     private Scanner sc = new Scanner(System.in);
@@ -133,23 +132,6 @@ public class PL_Orders
         }
         return quantity;
     }
-    private String getPhoneNum(int supID) {
-        String conNum = "";
-        System.out.println("the contacts who works with supplier "+ supID + "are:");
-        System.out.println(bl.getSupllierContact(supID));
-        System.out.println("Please choose one contact number");
-
-        try {
-            if (conNum.length()<10) {
-                System.out.println("ERROR! invalid Quantity");
-                return "";
-            }
-        } catch (Exception e) {
-            System.out.println("ERROR! invalid Quantity");
-            return "";
-        }
-        return conNum;
-    }
 
     //OrderOptions
     public void orderCase() {
@@ -250,7 +232,7 @@ public class PL_Orders
             if (item != 0) {
                 quantity = getQuantity();
                 if (quantity != -1) {
-                    bl.addOrderItem(order, bl.getOrder(order).getSupplier(), item, quantity);
+                    bl.addOrderItem(order, bl.getOrder().getSupplier(), item, quantity);
                     System.out.println("Item has been added successfully");
                 } else {
                     System.out.println("ERROR! something went wrong");
@@ -299,12 +281,12 @@ public class PL_Orders
     //updateContactNumber
     public void case21() {
         int order = getOrderID();
-        String conNum;
+        int conNum;
         //check if the order exist
         if (order != 0) {
-            conNum = getPhoneNum(bl.getOrder(order).getSupplier());
-            if (conNum != "") {
-                bl.setOrder(order,0,conNum, 1);
+            conNum = getPhoneNum();
+            if (conNum != 0) {
+                bl.updateConNumberOrder(order,conNum);
                 System.out.println("Item has been added successfully");
             } else {
                 System.out.println("ERROR! something went wrong");
@@ -319,14 +301,14 @@ public class PL_Orders
     //updateItemQuantity
     public void case22() {
         int order = getOrderID();
-        int itemNum, quantity;
+        int itemNum;
         //check if the order exist
         if (order != 0) {
             itemNum = getItem();
-            if (itemNum != 0 && bl.checkItemExistInOrder(order, itemNum)) {
+            if (itemNum != 0 && bl.getItemInOrder) {
                 quantity = getQuantity();
                 if (quantity != -1) {
-                    bl.setOrder(order, itemNum, quantity, 2);
+                    bl.updateItemQuantity(order, itemNum, quantity);
                     System.out.println("Item Quantity has been updated successfully");
                 } else {
                     System.out.println("ERROR! something went wrong");
@@ -378,7 +360,7 @@ public class PL_Orders
         int order = getOrderID();
         //check if the order exist
         if (order != 0) {
-            bl.removeOrder(order);
+            bl.deleteOrder(order);
             System.out.println("Order has been removed successfully");
         } else {
             System.out.println("ERROR! something went wrong");
@@ -393,8 +375,8 @@ public class PL_Orders
         //check if the order exist
         if (order != 0) {
             itemNum = getItem();
-            if (itemNum != 0 && bl.checkItemExistInOrder(order, itemNum)) {
-                bl.removeOrderItem(order, itemNum);
+            if (itemNum != 0 && bl.getItemInOrder) {
+                bl.deleteItemFromOrder();
                 System.out.println("Item from order has been removed successfully");
             } else {
                 System.out.println("ERROR! something went wrong");
@@ -411,13 +393,13 @@ public class PL_Orders
         int orderNum = getOrderID();
         //check if the order exist
         if (orderNum != 0) {
-            Order order = bl.getOrder(orderNum);
-            Supplier sup = bl.getSupplier(order.getSupplier());
+            Order order = bl.getOrder(order);
             String ans ="";
             ans+="Order Number: " + order.getOrderID()+ "\n";
+            //?????????????????????//
             ans+= "Supplier Name: " + order.getSupplierName() + "\n";
             ans+= "Supplier ID: " + order.getSupplier() + "\n";
-            ans += "Address: " + sup.getAddress() + "\n";
+            ans += "Address: " + order.getAddress() + "\n";
             ans += "Order Date: " + order.getDate() + "\n";
             ans += "Contact Number: " + order.getContactNum() + "\n";
             System.out.println(ans);
@@ -432,16 +414,8 @@ public class PL_Orders
         int supID = getSupID();
         //check if the supplier exist
         if (supID != 0) {
-            System.out.println("the order's id of the supplier "+ supID+ "are:");
-            Order [] order  = bl.getOrderOfSup(supID);
-            for(int i=0; i<order.length; i++){
-                System.out.println(order[i].getOrderID());
-            }
-        }
-        else {
-            System.out.println("ERROR! something went wrong");
-            orderCase();
+            bl.getO
         }
     }
-
+    */
 }
