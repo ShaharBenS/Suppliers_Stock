@@ -1,5 +1,6 @@
 package PL;
 
+import javax.naming.SizeLimitExceededException;
 import java.util.Scanner;
 
 /**
@@ -15,7 +16,8 @@ public class Menu {
             {   "Choose an Option:",
                     "1) Stocks Management",
                     "2) Supplier Management",
-                    "3) Order Management"};
+                    "3) Order Management",
+                    "4) Exit"};
 
 
     public Menu(PL_Stock pl_stock, PL_Supplier pl_sup) {
@@ -51,6 +53,13 @@ public class Menu {
                     break;
                 case 3:
 
+                    break;
+                case 4: {
+                    System.out.println("Bye!");
+                    return;
+                }
+                default:
+                    System.out.println("No Such Option!");
                     break;
             }
         }

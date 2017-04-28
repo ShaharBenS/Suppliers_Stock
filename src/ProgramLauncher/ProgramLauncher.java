@@ -2,6 +2,7 @@ package ProgramLauncher;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 import BL.CategoryManagement;
@@ -52,6 +53,18 @@ public class ProgramLauncher
 
         // start
         MENU.start();
+
+        try
+        {
+            conn.commit();
+            conn.close();
+            Thread.sleep(1000);
+
+        } catch (SQLException | InterruptedException e)
+        {
+            e.printStackTrace();
+        }
+
     }
 
     private static Connection getConnectionAndInitDatabase(String dataBaseName) {
