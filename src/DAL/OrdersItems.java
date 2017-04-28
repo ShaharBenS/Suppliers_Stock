@@ -5,8 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import SharedClasses.Date;
-import SharedClasses.Order;
 import SharedClasses.OrderItem;
 /**
  * Created by rotem on 07/04/2017.
@@ -24,11 +22,11 @@ public class OrdersItems {
 
     public boolean addOrderItem(OrderItem orderItem) {
         try {
-            PreparedStatement ps = c.prepareStatement("INSERT INTO OrdersItems (OrderID, catalogNumber, ItemName, Quantity, Cost, Discount, FinalCost) " +
+            PreparedStatement ps = c.prepareStatement("INSERT INTO OrdersItems (OrderID, catalogNumber, ItemID, Quantity, Cost, Discount, FinalCost) " +
                     "VALUES (?,?,?,?,?,?,?);");
             ps.setInt(1, orderItem.getOrderID());
             ps.setInt(2, orderItem.getCatalogNumber());
-            ps.setString(3, orderItem.getItemName());
+            ps.setInt(3, orderItem.getItemID());
             ps.setInt(4,orderItem.getQuantity());
             ps.setDouble(5,orderItem.getCost());
             ps.setInt(6,orderItem.getDiscount());
@@ -74,7 +72,7 @@ public class OrdersItems {
             ResultSet rs = stmt.executeQuery(sqlQuary);
             orderItems= new OrderItem[rs.getFetchSize()];
             for(int i=0; i<orderItems.length;i++){
-            	orderItems[i] = new OrderItem(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4), rs.getDouble(5),rs.getInt(6),rs.getDouble(7) );
+            	orderItems[i] = new OrderItem(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getDouble(5),rs.getInt(6),rs.getDouble(7) );
             }
             rs.close();
             stmt.close();

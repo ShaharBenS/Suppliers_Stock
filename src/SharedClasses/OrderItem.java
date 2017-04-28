@@ -1,24 +1,22 @@
 package SharedClasses;
 
-import BL.SupplierBL;
-
 /**
  * Created by rotem on 07/04/2017.
  */
 public class OrderItem {
     private int orderID;
     private int catalogNumber;
-    private String ItemName;
+    private int ItemID;
     private int quantity;
     private double cost;
     private int discount;
     private double finalCost;
 
 
-    public OrderItem(int orderID, int catalogNumber,String ItemName, int quantity, double cost, int discount, double finalCost){
+    public OrderItem(int orderID, int catalogNumber,int ItemName, int quantity, double cost, int discount, double finalCost){
        this.orderID = orderID;
         this.catalogNumber =catalogNumber;
-        this.ItemName = ItemName;
+        this.ItemID = ItemName;
         this.quantity = quantity;
         this.cost = cost;
         this.discount = discount;
@@ -34,9 +32,9 @@ public class OrderItem {
 
     public void setCatalogNumber(int catalogNumber){this.catalogNumber=catalogNumber;}
 
-    public String getItemName(){return ItemName;}
+    public int getItemID(){return ItemID;}
 
-    public void setItemName(String itemName){this.ItemName = itemName;}
+    public void setItemID(int itemID){this.ItemID = itemID;}
 
     public int getQuantity(){return quantity;}
 

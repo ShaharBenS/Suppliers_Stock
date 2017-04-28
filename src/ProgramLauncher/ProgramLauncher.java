@@ -74,8 +74,8 @@ public class ProgramLauncher
                     "(ID INT PRIMARY KEY     NOT NULL," +
                     " Name          TEXT    NOT NULL, " +
                     " BankNum          INT    NOT NULL, " +
-                    " BranchNum           INT    NOT NULL, " +
-                    " AccountNum				INT     NOT NULL, " +
+                    " BranchNum        INT    NOT NULL, " +
+                    " AccountNum	   INT    NOT NULL, " +
                     " Payment         TEXT	NOT NULL," +
                     " DeliveryMethod TEXT NOT NULL," +
                     " SupplyTime TEXT," +
@@ -166,7 +166,7 @@ public class ProgramLauncher
                     " Date TEXT  NOT NULL, " +
                     " ContactNumber TEXT  NOT NULL, " +
                     " FOREIGN KEY(SupplierID) REFERENCES Suppliers(ID) ON UPDATE CASCADE ON DELETE CASCADE,"+
-                    "FOREIGN KEY(ContactNumber) REFERENCES SupplierItems(PhoneNumber) ON DELETE CASCADE ON UPDATE CASCADE); " ;
+                    "FOREIGN KEY(ContactNumber) REFERENCES Contacts(PhoneNumber) ON DELETE CASCADE ON UPDATE CASCADE); " ;
             stmt.execute(sql);
             stmt.close();
 
@@ -180,14 +180,14 @@ public class ProgramLauncher
             sql =    "CREATE TABLE IF NOT EXISTS OrdersItems " +
                     "(OrderID INT PRIMARY KEY  NOT NULL," +
                     " catalogNumber INT   NOT NULL," +
-                    " ItemName TEXT NOT NULL,"+
+                    " ItemID TEXT NOT NULL,"+
                     " Quantity INT  NOT NULL, " +
                     " Cost REAL  NOT NULL, " +
                     " Discount INT  NOT NULL, " +
                     " FinalCost REAL  NOT NULL, " +
                     " FOREIGN KEY(OrderID) REFERENCES Orders(OrderID) ON UPDATE CASCADE ON DELETE CASCADE,"+
                     " FOREIGN KEY(catalogNumber) REFERENCES SupplierItems(catalogNumber) ON UPDATE CASCADE ON DELETE CASCADE,"+
-                    " FOREIGN KEY(ItemName) REFERENCES Items(Name) ON UPDATE CASCADE ON DELETE CASCADE,"+
+                    " FOREIGN KEY(ItemID) REFERENCES Items(ID) ON UPDATE CASCADE ON DELETE CASCADE,"+
                     " FOREIGN KEY(Cost) REFERENCES SupplierItems(Cost) ON UPDATE CASCADE ON DELETE CASCADE,"+
                     " FOREIGN KEY(Discount) REFERENCES Discounts(DiscountPercentage) ON DELETE CASCADE ON UPDATE CASCADE); " ;
             stmt.execute(sql);
