@@ -22,15 +22,14 @@ public class OrdersItems {
 
     public boolean addOrderItem(OrderItem orderItem) {
         try {
-            PreparedStatement ps = c.prepareStatement("INSERT INTO OrdersItems (OrderID, catalogNumber, ItemID, Quantity, Cost, Discount, FinalCost) " +
+            PreparedStatement ps = c.prepareStatement("INSERT INTO OrdersItems (OrderID, catalogNumber,SupplierID, ItemID, Quantity, FinalCost) " +
                     "VALUES (?,?,?,?,?,?,?);");
             ps.setInt(1, orderItem.getOrderID());
             ps.setInt(2, orderItem.getCatalogNumber());
-            ps.setInt(3, orderItem.getItemID());
-            ps.setInt(4,orderItem.getQuantity());
-            ps.setDouble(5,orderItem.getCost());
-            ps.setInt(6,orderItem.getDiscount());
-            ps.setDouble(7,orderItem.getFinalCost());
+            ps.setInt(3,orderItem.getSupplierID());
+            ps.setInt(4, orderItem.getItemID());
+            ps.setInt(5,orderItem.getQuantity());
+            ps.setDouble(6,orderItem.getFinalCost());
 
             ps.executeUpdate();
             c.commit();
@@ -72,7 +71,7 @@ public class OrdersItems {
             ResultSet rs = stmt.executeQuery(sqlQuary);
             orderItems= new OrderItem[rs.getFetchSize()];
             for(int i=0; i<orderItems.length;i++){
-            	orderItems[i] = new OrderItem(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getDouble(5),rs.getInt(6),rs.getDouble(7) );
+            	orderItems[i] = new OrderItem(rs.getInt(1), rs.getInt(2),rs.getInt(3), rs.getInt(4), rs.getInt(5),rs.getDouble(6) );
             }
             rs.close();
             stmt.close();

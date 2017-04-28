@@ -194,15 +194,12 @@ public class ProgramLauncher
                     "(OrderID INT PRIMARY KEY  NOT NULL," +
                     " catalogNumber INT   NOT NULL," +
                     " ItemID TEXT NOT NULL,"+
-                    " Quantity INT  NOT NULL, " +
-                    " Cost REAL  NOT NULL, " +
-                    " Discount INT  NOT NULL, " +
+                    " Quantity INT  NOT NULL," +
+                    " SupplierID INT NOT NULL, " +
                     " FinalCost REAL  NOT NULL, " +
                     " FOREIGN KEY(OrderID) REFERENCES Orders(OrderID) ON UPDATE CASCADE ON DELETE CASCADE,"+
                     " FOREIGN KEY(catalogNumber) REFERENCES SupplierItems(catalogNumber) ON UPDATE CASCADE ON DELETE CASCADE,"+
-                    " FOREIGN KEY(ItemID) REFERENCES Items(ID) ON UPDATE CASCADE ON DELETE CASCADE,"+
-                    " FOREIGN KEY(Cost) REFERENCES SupplierItems(Cost) ON UPDATE CASCADE ON DELETE CASCADE,"+
-                    " FOREIGN KEY(Discount) REFERENCES Discounts(DiscountPercentage) ON DELETE CASCADE ON UPDATE CASCADE); " ;
+                    " FOREIGN KEY(SupplierID, ItemID, Quantity) REFERENCES Discounts(SupplierID, ItemID, Quantity) ON UPDATE CASCADE ON DELETE CASCADE);";
             stmt.execute(sql);
             stmt.close();
 
