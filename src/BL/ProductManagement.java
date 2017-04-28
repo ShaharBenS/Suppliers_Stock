@@ -82,10 +82,10 @@ public class ProductManagement {
         String[] prop = line.split("\\s+");
         if (prop.length != 2) return false;
         try {
-            int num1 = Integer.parseInt(prop[0]);
-            int num2 = Integer.parseInt(prop[1]);
-            boolean ans = QUANTITIES.updateWarehouse(num1, num2);
-            checkIfNeedToAlert(num1);
+            int id = Integer.parseInt(prop[0]);
+            int newAmount = Integer.parseInt(prop[1]);
+            boolean ans = QUANTITIES.updateWarehouse(id, newAmount);
+            if(ans) checkIfNeedToAlert(id);
             return ans;
         } catch (Exception e) { return false; }
     }
@@ -235,6 +235,7 @@ public class ProductManagement {
             int supplierID = SBL.getSupplierID(id);
             int orderID = SBL.addOrder(supplierID,new Date(new java.util.Date()));
             SBL.addOrderItem(orderID,supplierID,id, QUANTITIES.getQuantity(id).getAmount_to_order() );
+            //TODO:: ^^ when need to alert, return -1 and printing "java.sql.SQLException: ResultSet closed"
         }
     }
 
