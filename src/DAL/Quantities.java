@@ -74,11 +74,13 @@ public class Quantities
      */
     private boolean updateField(String fieldName, int orderID, Object newValue)
     {
-        String query = "UPDATE QUANTITIES SET "+fieldName+" = '"+newValue+"' WHERE ID = "+orderID+";";
+        String query = "UPDATE QUANTITIES SET "+fieldName+" = '"+newValue+"' WHERE ItemID = "+orderID+";";
         try
         {
             Statement stmt = conn.createStatement();
-            return stmt.executeUpdate(query) > 0;
+            boolean ans = stmt.executeUpdate(query) > 0;
+            conn.commit();
+            return ans;
         }
         catch (SQLException e)
         {
