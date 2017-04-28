@@ -192,13 +192,11 @@ public class ProgramLauncher
             stmt = c.createStatement();
             sql =    "CREATE TABLE IF NOT EXISTS OrdersItems " +
                     "(OrderID INT PRIMARY KEY  NOT NULL," +
-                    " catalogNumber INT   NOT NULL," +
                     " ItemID TEXT NOT NULL,"+
                     " Quantity INT  NOT NULL," +
                     " SupplierID INT NOT NULL, " +
                     " FinalCost REAL  NOT NULL, " +
                     " FOREIGN KEY(OrderID) REFERENCES Orders(OrderID) ON UPDATE CASCADE ON DELETE CASCADE,"+
-                    " FOREIGN KEY(catalogNumber) REFERENCES SupplierItems(catalogNumber) ON UPDATE CASCADE ON DELETE CASCADE,"+
                     " FOREIGN KEY(SupplierID, ItemID, Quantity) REFERENCES Discounts(SupplierID, ItemID, Quantity) ON UPDATE CASCADE ON DELETE CASCADE);";
             stmt.execute(sql);
             stmt.close();
@@ -209,7 +207,7 @@ public class ProgramLauncher
              */
             stmt = c.createStatement();
             sql =   "CREATE TABLE IF NOT EXISTS QUANTITIES " +
-                    "(ItemID INT REFERENCES Items(ID)," +
+                    "(ItemID INT REFERENCES Items(ID) ON UPDATE CASCADE," +
                     "LOCATION TEXT NOT NULL," +
                     "MINIMUM INT NOT NULL," +
                     "ORDER_AMOUNT INT DEFAULT 0," +
@@ -224,7 +222,7 @@ public class ProgramLauncher
             */
             stmt = c.createStatement();
             sql = "CREATE TABLE IF NOT EXISTS PRICES" +
-                    "(ItemID INT REFERENCES Items(ID)," +
+                    "(ItemID INT REFERENCES Items(ID)  ON UPDATE CASCADE," +
                     "SellPrice INT NOT NULL," +
                     "Percentage INT,"+
                     "DateStart DATE," +

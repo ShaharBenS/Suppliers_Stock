@@ -71,7 +71,7 @@ public class OrdersItems {
             ResultSet rs = stmt.executeQuery(sqlQuary);
             orderItems= new OrderItem[rs.getFetchSize()];
             for(int i=0; i<orderItems.length;i++){
-            	orderItems[i] = new OrderItem(rs.getInt(1), rs.getInt(2),rs.getInt(3), rs.getInt(4), rs.getInt(5),rs.getDouble(6) );
+            	orderItems[i] = new OrderItem(rs.getInt(1),rs.getInt(3), rs.getInt(4), rs.getInt(5),rs.getDouble(6) );
             }
             rs.close();
             stmt.close();

@@ -43,8 +43,7 @@ public class Items {
     {
         Item[] items = null;
         List<Item> itemList = new ArrayList<>();
-        String query =  "SELECT * " +
-                        "FROM ITEMS;";
+        String query =  "SELECT * FROM ITEMS;";
 
         try
         {
@@ -83,7 +82,6 @@ public class Items {
 
             c.commit();
             pstmt.close();
-            stmt.close();
             return true;
         } catch (SQLException e) {
             return false;
@@ -126,7 +124,6 @@ public class Items {
 
             c.commit();
             pstmt.close();
-            stmt.close();
             return true;
         } catch (SQLException e) {
             return false;

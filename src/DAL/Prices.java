@@ -27,7 +27,7 @@ public class Prices
 
         try
         {
-            String query = "SELECT * FROM PRICES AS P WHERE Pa.itemID = "+id+";";
+            String query = "SELECT * FROM PRICES WHERE itemID = "+id+";";
             Statement stmt = conn.createStatement();
             ResultSet resultSet = stmt.executeQuery(query);
             price = new Price(resultSet.getInt("ItemID"),resultSet.getInt("SellPrice"),
