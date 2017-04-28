@@ -80,6 +80,7 @@ public class Quantities
             Statement stmt = conn.createStatement();
             boolean ans = stmt.executeUpdate(query) > 0;
             conn.commit();
+            stmt.close();
             return ans;
         }
         catch (SQLException e)

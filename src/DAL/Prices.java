@@ -71,7 +71,10 @@ public class Prices
         try
         {
             Statement stmt = conn.createStatement();
-            return stmt.executeUpdate(query) > 0;
+            boolean returnV = stmt.executeUpdate(query) > 0;
+            conn.commit();
+            stmt.close();
+            return returnV;
         }
         catch (SQLException e)
         {
