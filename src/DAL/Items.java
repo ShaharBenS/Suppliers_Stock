@@ -84,7 +84,8 @@ public class Items {
             c.commit();
             pstmt.close();
             return true;
-        } catch (SQLException e) {
+        } catch (SQLException e)
+        {
             return false;
         }
     }
@@ -125,7 +126,6 @@ public class Items {
 
             c.commit();
             pstmt.close();
-            stmt.close();
             return true;
         } catch (SQLException e) {
             return false;

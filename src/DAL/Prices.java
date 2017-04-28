@@ -27,12 +27,12 @@ public class Prices
 
         try
         {
-            String query = "SELECT * FROM PRICES AS P WHERE Pa.itemID = "+id+";";
+            String query = "SELECT * FROM PRICES AS P WHERE P.itemID = "+id+";";
             Statement stmt = conn.createStatement();
             ResultSet resultSet = stmt.executeQuery(query);
             price = new Price(resultSet.getInt("ItemID"),resultSet.getInt("SellPrice"),
-                    resultSet.getInt("Percentage"),new Date(resultSet.getDate("DateStart")),
-                    new Date(resultSet.getDate("DateEnd")));
+                    resultSet.getInt("Percentage"),resultSet.getDate("DateStart") == null ? null: new Date(resultSet.getDate("DateStart")),
+                    resultSet.getDate("DateEnd") == null ? null : new Date(resultSet.getDate("DateEnd")));
             stmt.close();
         }
         catch (Exception e)
