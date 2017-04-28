@@ -43,8 +43,7 @@ public class Items {
     {
         Item[] items = null;
         List<Item> itemList = new ArrayList<>();
-        String query =  "SELECT * " +
-                        "FROM ITEMS;";
+        String query =  "SELECT * FROM ITEMS;";
 
         try
         {
