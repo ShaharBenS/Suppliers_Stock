@@ -22,7 +22,7 @@ public class Quantities
     {
         try
         {
-            PreparedStatement p_stmt = conn.prepareStatement("INSERT INTO Quantites(ItemID,LOCATION,MINIMUM,ORDER_AMOUNT,WAREHOUSE," +
+            PreparedStatement p_stmt = conn.prepareStatement("INSERT INTO Quantities(ItemID,LOCATION,MINIMUM,ORDER_AMOUNT,WAREHOUSE," +
                     "STORE,DEFECTS) VALUES(?,?,?,?,?,?,?);");
             p_stmt.setInt(1,quantity.getItemID());
             p_stmt.setString(2,quantity.getLocation());

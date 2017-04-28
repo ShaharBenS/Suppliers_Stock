@@ -216,7 +216,7 @@ public class ProgramLauncher
             sql = "CREATE TABLE IF NOT EXISTS PRICES" +
                     "(ItemID INT REFERENCES Items(ID)," +
                     "SellPrice INT NOT NULL," +
-                    "Percentage INT "+
+                    "Percentage INT,"+
                     "DateStart DATE," +
                     "DateEnd DATE);";
             stmt.execute(sql);
