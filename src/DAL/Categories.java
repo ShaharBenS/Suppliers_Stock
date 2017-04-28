@@ -100,8 +100,9 @@ public class Categories
             PreparedStatement _ps = connection.prepareStatement(query);
             _ps.setString(1, name);
             _ps.setInt(2, id);
+            int result = _ps.executeUpdate();
             connection.commit();
-            return _ps.executeUpdate() > 0;
+            return result > 0;
 
         } catch (SQLException e)
         {
@@ -116,9 +117,9 @@ public class Categories
              PreparedStatement _ps = connection.prepareStatement(query);
             _ps.setInt(1, newFatherId);
             _ps.setInt(2, id);
+            int result = _ps.executeUpdate();
             connection.commit();
-            return _ps.executeUpdate()>0;
-
+            return result > 0;
 
         } catch (SQLException e)
         {
