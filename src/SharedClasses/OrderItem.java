@@ -14,9 +14,8 @@ public class OrderItem {
     private double finalCost;
 
 
-    public OrderItem(int orderID, int catalogNumber,int supplierID,int ItemID, int quantity, double finalCost){
-       this.orderID = orderID;
-        this.catalogNumber =catalogNumber;
+    public OrderItem(int orderID, int supplierID,int ItemID, int quantity, double finalCost){
+        this.orderID = orderID;
         this.SupplierID = supplierID;
         this.ItemID = ItemID;
         this.quantity = quantity;
