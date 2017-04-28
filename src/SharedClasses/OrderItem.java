@@ -13,10 +13,10 @@ public class OrderItem {
     private double finalCost;
 
 
-    public OrderItem(int orderID, int catalogNumber,int ItemName, int quantity, double cost, int discount, double finalCost){
+    public OrderItem(int orderID, int catalogNumber,int ItemID, int quantity, double cost, int discount, double finalCost){
        this.orderID = orderID;
         this.catalogNumber =catalogNumber;
-        this.ItemID = ItemName;
+        this.ItemID = ItemID;
         this.quantity = quantity;
         this.cost = cost;
         this.discount = discount;
