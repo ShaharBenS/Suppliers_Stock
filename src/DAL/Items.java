@@ -10,12 +10,10 @@ import java.util.List;
 
 public class Items {
     private Connection c;
-    private Statement stmt;
 
 
     public Items(Connection c) {
         this.c = c;
-        stmt = null;
     }
 
     public boolean addItem(Item item) {
@@ -103,7 +101,6 @@ public class Items {
 
             c.commit();
             pstmt.close();
-            stmt.close();
             return true;
         } catch (SQLException e) {
             return false;
@@ -153,15 +150,15 @@ public class Items {
     }
 
     public Item getItem(int id) {
-        Item item = null;
+        Item item;
         try {
-            String sqlQuary = "SELECT * FROM Items WHERE ID = " + id + ";";
-            stmt = c.createStatement();
-            ResultSet rs = stmt.executeQuery(sqlQuary);
-            item = new Item(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getString(4));
-            rs.close();
+            String sqlQuery = "SELECT * FROM Items WHERE ID = " + id + ";";
+            Statement stmt = c.createStatement();
+            ResultSet rs = stmt.executeQuery(sqlQuery);
+            item = new Item(rs.getInt("ID"), rs.getString("NAME"), rs.getInt("CategoryNumber"), rs.getString("Manufacture"));
             stmt.close();
         } catch (Exception e) {
+            return null;
         }
         return item;
     }
@@ -170,7 +167,7 @@ public class Items {
         String itemName = "";
         try {
             String sqlQuary = "SELECT Name FROM Items WHERE ID = " + id + ";";
-            stmt = c.createStatement();
+            Statement stmt = c.createStatement();
             ResultSet rs = stmt.executeQuery(sqlQuary);
             itemName = rs.getString(1);
             rs.close();
@@ -203,7 +200,7 @@ public class Items {
 
     public boolean ifExist(int itemId) {
         try {
-            stmt = c.createStatement();
+            Statement stmt = c.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM Items where ID = '" + itemId + "';");
             if (rs.next()) {
                 rs.close();

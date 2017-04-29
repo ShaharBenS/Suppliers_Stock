@@ -1,7 +1,9 @@
 package DAL;
 
-import SharedClasses.*;
+import SharedClasses.Category;
 import SharedClasses.Date;
+import SharedClasses.Item;
+import SharedClasses.Price;
 
 import java.sql.*;
 
@@ -27,12 +29,13 @@ public class Prices
 
         try
         {
-            String query = "SELECT * FROM PRICES AS P WHERE P.itemID = "+id+";";
+            String query = "SELECT * FROM PRICES AS P WHERE P.ItemID = "+id+";";
             Statement stmt = conn.createStatement();
             ResultSet resultSet = stmt.executeQuery(query);
-            price = new Price(resultSet.getInt("ItemID"),resultSet.getInt("SellPrice"),
-                    resultSet.getInt("Percentage"),resultSet.getDate("DateStart") == null ? null: new Date(resultSet.getDate("DateStart")),
-                    resultSet.getDate("DateEnd") == null ? null : new Date(resultSet.getDate("DateEnd")));
+            price = new Price(resultSet.getInt("ItemID"),resultSet.getDouble("SellPrice"),
+                    resultSet.getInt("Percentage"),
+                    resultSet.getString("DateStart") == null ? null: new Date(resultSet.getString("DateStart")),
+                    resultSet.getString("DateEnd") == null ? null : new Date(resultSet.getString("DateEnd")));
             stmt.close();
         }
         catch (Exception e)

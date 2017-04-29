@@ -1,5 +1,6 @@
 package ProgramLauncher;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -14,6 +15,7 @@ import PL.Menu;
 import PL.PL_Orders;
 import PL.PL_Stock;
 import PL.PL_Supplier;
+import SharedClasses.*;
 
 import javax.swing.plaf.nimbus.State;
 
@@ -51,6 +53,44 @@ public class ProgramLauncher
         PL_Orders pl_ord= new PL_Orders(SBL);
         Menu MENU = new Menu(PL_STOCK, pl_sup, pl_ord);
 
+        /*
+            Database init
+         */
+        CATEGORIES.addCategory(new Category(103,"Drinks"));
+        CATEGORIES.addCategory(new Category(102,"KARTON",103));
+        CATEGORIES.addCategory(new Category(100,"Milk",102));
+        CATEGORIES.addCategory(new Category(101,"Meat"));
+        CATEGORIES.addCategory(new Category(104,"Bread"));
+        CATEGORIES.addCategory(new Category(105,"35%", 101));
+
+        SUPPLIERS.addSupplier(new Supplier(100000,"TNUVA",111, 1, 15,"LEOMI",
+                "BY HAND","10:50","netivot"));
+        SUPPLIERS.addSupplier(new Supplier(200000,"TARA",222, 2, 16,"HAPOALIM",
+                "INTERNET ONLY","13:00","shfaram"));
+
+        CONTACTS.addContact(new Contact("20202020",100000, "NEUMI SHEMER",
+                "0500500550","a@a.a" ));
+
+        CONTACTS.addContact(new Contact("30303030",200000, "NER NESHAMA",
+                "0500500550","b@b.b" ));
+
+
+        ITEMS.addItem(new Item(111111, "KORNFLEKS", 102, "SHKEL-INC"));
+
+
+        SUPPLIER_ITEMS.addSupplierItem(new SupplierItem(100000, 111111, 100000, 12.5));
+
+        ORDERS.addOrder(new Order(123456, 100000, new Date(new java.util.Date()),"20202020"));
+
+        ORDERS_ITEMS.addOrderItem(new OrderItem(123456, 100000, 111111, 30, 12.5));
+
+        QUANTITIES.addItemQuantity(new Quantity(111111, "SHELF 2-A",0,
+                30,10, 0, 30));
+
+        PRICES.addItemPrice(new Price(111111, 20.5, 0, null, null));
+
+        ORDERS.setArrivalDate(123456,new Date(new java.util.Date()));
+
 
         // start
         MENU.start();
@@ -59,12 +99,13 @@ public class ProgramLauncher
         {
             conn.commit();
             conn.close();
-            Thread.sleep(1000);
+         //   Thread.sleep(1000);
 
-        } catch (SQLException | InterruptedException e)
+        } catch (Exception e)
         {
         }
-
+        File f = new File("Database.db"); //TODO delete this
+        f.delete();
     }
 
     private static Connection getConnectionAndInitDatabase(String dataBaseName) {
@@ -174,8 +215,9 @@ public class ProgramLauncher
             sql = "CREATE TABLE IF NOT EXISTS Orders " +
                     "(OrderID INT PRIMARY KEY  NOT NULL," +
                     " SupplierID INT   NOT NULL," +
-                    " Date DATE  NOT NULL, " +
+                    " Date  DATE  NOT NULL, " +
                     " ContactID TEXT  NOT NULL, " +
+                    "ArrivalDate Date DEFAULT NULL," +
                     " FOREIGN KEY(SupplierID , ContactID) REFERENCES Contacts(SupplierID, ID) ON UPDATE CASCADE ON DELETE CASCADE);";
             stmt.execute(sql);
             stmt.close();
@@ -208,7 +250,7 @@ public class ProgramLauncher
                     "(ItemID INT REFERENCES Items(ID) ON UPDATE CASCADE ON DELETE CASCADE ," +
                     "LOCATION TEXT NOT NULL," +
                     "MINIMUM INT NOT NULL," +
-                    "ORDER_AMOUNT INT DEFAULT 0," +
+                    "ORDER_AMOUNT INT DEFAULT 0," +  //TODO set minimum*3 and add option to change it.
                     "WAREHOUSE INT NOT NULL," +
                     "STORE INT NOT NULL," +
                     "DEFECTS INT NOT NULL);";
@@ -240,21 +282,21 @@ public class ProgramLauncher
     }
 
 
-    private static void initializeDatabase(Connection conn)
+    /*private static void initializeDatabase(Connection conn)
     {
-        String [] Queries = {"",
-                             "",
-                             "",
-                             "",
-                             "",
-                             "",
-                             "",
-                             "",
-                             "",
-                             "",
-                             "",
-                             "",
-                             ""};
+        String [] Queries = {"INSERT INTO CATEGORY (ID,NAME,ID-FATHER",
+                             "INSERT INTO ",
+                             "INSERT INTO ",
+                             "INSERT INTO ",
+                             "INSERT INTO ",
+                             "INSERT INTO ",
+                             "INSERT INTO ",
+                             "INSERT INTO ",
+                             "INSERT INTO ",
+                             "INSERT INTO ",
+                             "INSERT INTO ",
+                             "INSERT INTO ",
+                             "INSERT INTO "};
         try
         {
 
@@ -269,5 +311,5 @@ public class ProgramLauncher
         {
             e.printStackTrace();
         }
-    }
+    }*/
 }

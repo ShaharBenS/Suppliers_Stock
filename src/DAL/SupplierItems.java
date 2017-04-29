@@ -31,7 +31,6 @@ public class SupplierItems {
             ps.executeUpdate();
             c.commit();
             ps.close();
-            stmt.close();
             return true;
         } catch (Exception e) {
             return false;
@@ -54,7 +53,6 @@ public class SupplierItems {
 
             c.commit();
             pstmt.close();
-            stmt.close();
             return true;
         } catch (SQLException e) {
             return false;
@@ -76,7 +74,6 @@ public class SupplierItems {
 
             c.commit();
             pstmt.close();
-            stmt.close();
             return true;
         } catch (SQLException e) {
             return false;
@@ -98,7 +95,6 @@ public class SupplierItems {
 
             c.commit();
             pstmt.close();
-            stmt.close();
             return true;
         } catch (SQLException e) {
             return false;
@@ -200,7 +196,6 @@ public class SupplierItems {
 
             c.commit();
             pstmt.close();
-            stmt.close();
             return true;
         } catch (Exception e) {
             return false;

@@ -35,7 +35,6 @@ public class Suppliers {
             ps.executeUpdate();
             c.commit();
             ps.close();
-            stmt.close();
             return true;
         } catch (Exception e) {
             System.out.println(e);

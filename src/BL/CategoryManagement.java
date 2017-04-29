@@ -121,12 +121,12 @@ public class CategoryManagement {
              toStrings[i] += items[i].toString();
              toStrings[i] += QUANTITIES.getQuantity(items[i].getItemID()).toString();
              toStrings[i] += PRICES.getPrice(items[i].getItemID()).toString();
-             toStrings[i] += "Final Cost: " + (Double) K_ID_V_PRICE.get(items[i].getItemID());
+             toStrings[i] += "Final Cost: " + (Double) K_ID_V_PRICE.get(items[i].getItemID())+"\n";
              toStrings[i] += "------- FULL ITEM -------\n\n";
          }
          return toStrings;
      }
-     catch(Exception e) {return new String[]{"No Results Were Found"};}
+     catch(Exception e) {return new String[]{"No Results Were Found\n"};}
     }
 
 }

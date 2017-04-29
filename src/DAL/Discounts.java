@@ -28,7 +28,6 @@ public class Discounts {
             ps.executeUpdate();
             c.commit();
             ps.close();
-            stmt.close();
             return true;
         } catch (Exception e) {
             return false;
@@ -53,7 +52,6 @@ public class Discounts {
 
             c.commit();
             pstmt.close();
-            stmt.close();
             return true;
         } catch (SQLException e) {
             return false;

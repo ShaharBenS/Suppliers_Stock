@@ -1,9 +1,8 @@
 package DAL;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import SharedClasses.OrderItem;
 import javafx.util.Pair;
@@ -24,12 +23,12 @@ public class OrdersItems {
 
     public boolean addOrderItem(OrderItem orderItem) {
         try {
-            PreparedStatement ps = c.prepareStatement("INSERT INTO OrdersItems (OrderID,ItemID, Quantity,SupplierID, FinalCost) " +
+            PreparedStatement ps = c.prepareStatement("INSERT INTO OrdersItems (OrderID,SupplierID, ItemID, Quantity, FinalCost) " +
                     "VALUES (?,?,?,?,?);");
             ps.setInt(1, orderItem.getOrderID());
-            ps.setInt(2, orderItem.getItemID());
-            ps.setInt(3,orderItem.getQuantity());
-            ps.setInt(4,orderItem.getSupplierID());
+            ps.setInt(2,orderItem.getSupplierID());
+            ps.setInt(3, orderItem.getItemID());
+            ps.setInt(4,orderItem.getQuantity());
             ps.setDouble(5,orderItem.getFinalCost());
 
             ps.executeUpdate();
@@ -45,18 +44,26 @@ public class OrdersItems {
     public Pair[] getAllFinalPrices()
     {
         Pair[] allProducts;
+        List<Pair> list = new ArrayList<>();
         try {
-            String sqlQuary = "SELECT OI.ItemID, OI.FinalCost FROM OrdersItems as OI JOIN Orders as O WHERE OI.OrderID = O.OrderID " +
-                                    "GROUP BY OI.ItemID " +
-                                    "HAVING MAX(OI.Date);";
-            stmt = c.createStatement();
-            ResultSet rs = stmt.executeQuery(sqlQuary);
-            allProducts = new Pair[rs.getFetchSize()];
-            for(int i=0; i<allProducts.length;i++){
-                allProducts[i] = new Pair(rs.getInt(1),rs.getDouble(2));
+            String sqlQuary = "SELECT ItemID, FinalCost from OrdersItems; "+
+                              "FROM OrdersItems CROSS JOIN Orders " +
+                              "WHERE OrdersItems.OrderID = Orders.OrderID ;"+
+                                    "GROUP BY OrdersItems.ItemID " +
+                                    "HAVING MAX(Orders.ArrivalDate);";
+            Statement stmt1 = c.createStatement();
+            ResultSet rs = stmt1.executeQuery(sqlQuary);
+            int count = 0;
+            while(rs.next())
+            {
+                count++;
+                list.add(new Pair(rs.getInt(1),rs.getDouble(2)));
             }
+            allProducts = new Pair[count];
+            allProducts = list.toArray(allProducts);
+
             rs.close();
-            stmt.close();
+            stmt1.close();
         } catch (Exception e) { return null; }
         return allProducts;
     }
@@ -117,6 +124,7 @@ public class OrdersItems {
             stmt.close();
             return true;
         } catch (Exception e) {
+            System.out.println(e);
             return false;
         }
     }

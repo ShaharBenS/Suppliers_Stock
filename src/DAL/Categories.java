@@ -48,13 +48,16 @@ public class Categories
     {
         Map allProducts;
         try {
-            String sqlQuary = "SELECT OI.ItemID, OI.FinalCost FROM OrdersItems as OI JOIN Orders as O WHERE OI.OrderID = O.OrderID " +
-                    "GROUP BY OI.ItemID " +
-                    "HAVING MAX(OI.Date);";
+            String sqlQuary = "SELECT ItemID, FinalCost from OrdersItems; "+
+                    "FROM OrdersItems CROSS JOIN Orders " +
+                    "WHERE OrdersItems.OrderID = Orders.OrderID ;"+
+                    "GROUP BY OrdersItems.ItemID " +
+                    "HAVING MAX(Orders.ArrivalDate);";
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery(sqlQuary);
             allProducts = new HashMap();
-            for(int i=0; i<rs.getFetchSize();i++){
+            while(rs.next())
+            {
                 allProducts.put(rs.getInt(1),rs.getDouble(2));
             }
             rs.close();
@@ -151,6 +154,7 @@ public class Categories
     {
         Item [] products = {};
         List<Item> productsList = new ArrayList<>();
+        Map m = new HashMap();
         int index = 0;
         int c_index = 0;
         try {
@@ -171,8 +175,12 @@ public class Categories
                 ResultSet resultSet = statement.executeQuery(query1);
                 while(resultSet.next())
                 {
-                    productsList.add(buildItemFromResultSet(resultSet));
-                    index++;
+                    Item temp = buildItemFromResultSet(resultSet);
+                    if(!m.containsKey(temp.getItemID())) {
+                        m.put(temp.getItemID(), null);
+                        productsList.add(temp);
+                        index++;
+                    }
                 }
                 List<Category> c_list = new ArrayList<>();
                 String query2 = "SELECT C.* " +

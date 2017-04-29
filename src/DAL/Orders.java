@@ -29,7 +29,7 @@ public class Orders {
     public boolean addOrder(Order order) {
         try {
             PreparedStatement ps = c.prepareStatement("INSERT INTO Orders (OrderID, SupplierID, Date, ContactID) " +
-                    "VALUES (?,?,?,?,?);");
+                    "VALUES (?,?,?,?);");
             ps.setInt(1, order.getOrderID());
             ps.setInt(2, order.getSupplier());
             ps.setString(3,order.getDate().toString());
@@ -134,6 +134,27 @@ public class Orders {
                 return true;
             } else return false;
         } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public boolean setArrivalDate(int i,Date newDate)
+    {
+        try {
+            String sql = "UPDATE Orders SET ArrivalDate = ? WHERE OrderID = ?";
+
+            PreparedStatement pstmt = c.prepareStatement(sql);
+
+            // set the corresponding param
+            pstmt.setString(1, newDate.toString());
+            pstmt.setInt(2, i);
+            // update
+            pstmt.executeUpdate();
+
+            c.commit();
+            pstmt.close();
+            return true;
+        } catch (SQLException e) {
             return false;
         }
     }

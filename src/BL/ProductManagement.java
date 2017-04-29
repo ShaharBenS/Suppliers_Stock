@@ -193,20 +193,23 @@ public class ProductManagement {
     }
 
     public String[] getAllItems() {
-        Pair[] K_ID_V_PRICE = SBL.getAllFinalPrices(); //KEY = ID | VALUE = PRICE (DOUBLE)
-        if(K_ID_V_PRICE == null) return new String[]{"No Items\n"};
+       try {
+           Pair[] K_ID_V_PRICE = SBL.getAllFinalPrices(); //KEY = ID | VALUE = PRICE (DOUBLE)
+           if (K_ID_V_PRICE == null) return new String[]{"No Items\n"};
 
-        String[] toStrings = new String[K_ID_V_PRICE.length];
-        for(int i = 0; i<K_ID_V_PRICE.length; i++) // init @param: quantities
-        {
-            toStrings[i] = "------- FULL ITEM -------\n";
-            toStrings[i] += (ITEMS.getItem((Integer) K_ID_V_PRICE[i].getValue())).toString();
-            toStrings[i] += (QUANTITIES.getQuantity((Integer) K_ID_V_PRICE[i].getValue())).toString();
-            toStrings[i] += (PRICES.getPrice((Integer) K_ID_V_PRICE[i].getValue())).toString();
-            toStrings[i] += "Final Cost: " + (Double) K_ID_V_PRICE[i].getValue();
-            toStrings[i] += "------- FULL ITEM -------\n\n";
-        }
-        return toStrings;
+           String[] toStrings = new String[K_ID_V_PRICE.length];
+           for (int i = 0; i < K_ID_V_PRICE.length; i++) // init @param: quantities
+           {
+               toStrings[i] = "------- FULL ITEM -------\n";
+               toStrings[i] += (ITEMS.getItem((Integer) K_ID_V_PRICE[i].getKey())).toString();
+               toStrings[i] += (QUANTITIES.getQuantity((Integer) K_ID_V_PRICE[i].getKey())).toString();
+               toStrings[i] += (PRICES.getPrice((Integer) K_ID_V_PRICE[i].getKey())).toString();
+               toStrings[i] += "Final Cost: " + (Double) K_ID_V_PRICE[i].getValue() + "\n";
+               toStrings[i] += "------- FULL ITEM -------\n\n";
+           }
+           return toStrings;
+       }
+       catch (Exception e) { return new String[]{"No Items Were Found\n"}; }
     }
 
     public String[] getAllDefectProducts() {

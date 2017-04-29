@@ -53,7 +53,7 @@ public class Quantities
 
         try
         {
-            String query = "SELECT * FROM QUANTITIES AS Q WHERE Q.itemID = "+id+";";
+            String query = "SELECT * FROM QUANTITIES AS Q WHERE Q.ItemID = "+id+";";
             Statement stmt = conn.createStatement();
             ResultSet resultSet = stmt.executeQuery(query);
             q = new Quantity(resultSet.getInt("ItemID"),resultSet.getString("LOCATION"),
