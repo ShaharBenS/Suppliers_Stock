@@ -122,9 +122,9 @@ public class Quantities
     public Quantity[] getAllDefectItems()
     {
         Quantity[] items = null;
-        List<Quantity> itemList = new ArrayList<Quantity>();
+        List<Quantity> itemList = new ArrayList<>();
         String query =  "SELECT * " +
-                "FROM QUANTITIES" +
+                "FROM QUANTITIES " +
                 "WHERE DEFECTS > 0";
 
         try

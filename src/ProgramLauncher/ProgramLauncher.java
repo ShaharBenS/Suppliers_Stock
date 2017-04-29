@@ -182,8 +182,8 @@ public class ProgramLauncher
 
 
             /*
-                OrdersItems : OrderID, catalogNumber, ItemName, Quantity, Cost,
-                              Discount, FinalCost, OrderID(FR), catalogNumber(FR),
+                OrdersItems : OrderID, SupplierID ,ItemID, Quantity, ,
+                              , FinalCost, OrderID(FR), catalogNumber(FR),
                               ItemName(FR), Cost(FR), Discount(FR).
              */
             stmt = c.createStatement();

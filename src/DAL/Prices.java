@@ -65,9 +65,9 @@ public class Prices
             return false;
         }
     }
-    private boolean updateField(String fieldName,int orderID,Object newValue)
+    private boolean updateField(String fieldName,int itemID,Object newValue)
     {
-        String query = "UPDATE PRICES SET "+fieldName+" = '"+newValue+"' WHERE ID = "+orderID+";";
+        String query = "UPDATE PRICES SET "+fieldName+" = '"+newValue+"' WHERE ItemID = "+itemID+";";
         try
         {
             Statement stmt = conn.createStatement();
