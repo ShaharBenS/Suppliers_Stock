@@ -110,6 +110,25 @@ public class CategoryManagement {
         String[] plist = new String[products.length];
         for (int i = 0; i < plist.length; i++)
             plist[i] = products[i].toString();*/
+
+        /**
+         *  here is what we should print:
+         *  ItemID
+         *  location
+         *  manufacture
+         *  curr amount
+         *  amount in store
+         *  amountr in warehouse
+         *  defect amount
+         *  minimal amount
+         *  category code
+         *  buy price
+         *  sell price
+         *  descount (%)
+         *  start date - NULL if not exist discount
+         *  end date - "" "" "" ""..
+         *
+         */
         return null;
     }
 

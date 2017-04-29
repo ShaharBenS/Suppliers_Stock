@@ -111,6 +111,12 @@ public class SupplierBL {
         }
     }
 
+    /* OMRI's FUNCTION */
+    public double getFinalPriceByID(int currID)
+    {
+
+        return 0;
+    }
 
     public Supplier getSupplier(int id) {
         return sup.getSupplier(id);

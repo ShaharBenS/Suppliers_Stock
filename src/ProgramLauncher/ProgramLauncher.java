@@ -13,9 +13,6 @@ import DAL.*;
 import PL.Menu;
 import PL.PL_Stock;
 import PL.PL_Supplier;
-import SharedClasses.Contact;
-import SharedClasses.Date;
-import SharedClasses.SupplierItem;
 
 /**
  * Created by Shahar on 06/04/17.
@@ -203,7 +200,7 @@ public class ProgramLauncher
 
 
             /*
-                Quantities : OrderID, Location, Defects, Warehouse, Minimum, Store, Order. (Current = Store+Warehouse+Defects)
+                Quantities : ItemID, Location, Defects, Warehouse, Minimum, Store, Order. (Current = Store+Warehouse+Defects)
              */
             stmt = c.createStatement();
             sql =   "CREATE TABLE IF NOT EXISTS QUANTITIES " +
@@ -218,7 +215,7 @@ public class ProgramLauncher
             stmt.close();
 
             /*
-                Prices : OrderID, SellPrice,, Percentage, DateStart, DateEnd.
+                Prices : ItemID, SellPrice,, Percentage, DateStart, DateEnd.
             */
             stmt = c.createStatement();
             sql = "CREATE TABLE IF NOT EXISTS PRICES" +

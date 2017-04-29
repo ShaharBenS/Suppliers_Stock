@@ -209,7 +209,7 @@ public class ProductManagement {
             toStrings[i] += items[i].toString();
             toStrings[i] += quantities[i].toString();
             toStrings[i] += prices[i].toString();
-            toStrings[i] += supplierItems[i].printPrice();
+            try {toStrings[i] += SBL.getFinalPriceByID(currID); } catch (Exception e) {}
             toStrings[i] += "------- FULL ITEM -------\n\n";
         }
         return toStrings;
