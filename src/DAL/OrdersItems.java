@@ -24,20 +24,22 @@ public class OrdersItems {
 
     public boolean addOrderItem(OrderItem orderItem) {
         try {
-            PreparedStatement ps = c.prepareStatement("INSERT INTO OrdersItems (OrderID, catalogNumber,SupplierID, ItemID, Quantity, FinalCost) " +
-                    "VALUES (?,?,?,?,?,?,?);");
+          //  PreparedStatement ps = c.prepareStatement("INSERT INTO OrdersItems (OrderID, catalogNumber,SupplierID, ItemID, Quantity, FinalCost) " +
+           //         "VALUES (?,?,?,?,?,?,?);");
+            PreparedStatement ps = c.prepareStatement("INSERT INTO OrdersItems (OrderID, ItemID,Quantity, SupplierID, FinalCost) " +
+                    "VALUES (?,?,?,?,?);");
             ps.setInt(1, orderItem.getOrderID());
-            ps.setInt(2, orderItem.getCatalogNumber());
-            ps.setInt(3,orderItem.getSupplierID());
-            ps.setInt(4, orderItem.getItemID());
-            ps.setInt(5,orderItem.getQuantity());
-            ps.setDouble(6,orderItem.getFinalCost());
+            ps.setInt(2, orderItem.getItemID());
+            ps.setInt(3,orderItem.getQuantity());
+            ps.setInt(4,orderItem.getSupplierID());
+            ps.setDouble(5,orderItem.getFinalCost());
 
             ps.executeUpdate();
             c.commit();
             ps.close();
             return true;
         } catch (Exception e) {
+            e.printStackTrace();
             return false;
         }
 

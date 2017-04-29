@@ -103,7 +103,8 @@ public class Discounts {
             String sqlQuary = "SELECT DiscountPercentage FROM Discounts WHERE SupplierID = '" + supId + "'and ItemID = '" + itemId +  " and Quantity = " + quantity +"';";
             stmt = c.createStatement();
             ResultSet rs = stmt.executeQuery(sqlQuary);
-            discount = rs.getInt(1);
+            if(rs.next())
+              discount = rs.getInt(1);
 
             rs.close();
             stmt.close();

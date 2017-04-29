@@ -10,6 +10,8 @@ import SharedClasses.OrderItem;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by rotem on 07/04/2017.
@@ -71,9 +73,13 @@ public class Orders {
             stmt = c.createStatement();
             ResultSet rs = stmt.executeQuery(sqlQuary);
             order+= rs.getInt(1);
+            order+= " ";
             order+=  rs.getInt(2);
+            order+= " ";
             order+= rs.getString(3);
+            order+= " ";
             order+= new Date(rs.getString(4));
+            order+= " ";
             order+= rs.getString(5);
             rs.close();
             stmt.close();
@@ -82,16 +88,17 @@ public class Orders {
         return order;
     }
     
-    public String[] getOrderSup(int supID){
-    	String[] ordersSup = null;
+    public List<String> getOrderSup(int supID){
+    	List<String>ordersSup = new ArrayList<>();
         try {
-            String sqlQuary = "SELECT * FROM Orders WHERE SupplierID = " + supID + ";";
+            String sqlQuary = "SELECT * FROM Orders WHERE SupplierID = '" + supID + "';";
             stmt = c.createStatement();
             ResultSet rs = stmt.executeQuery(sqlQuary);
-            ordersSup= new String[rs.getFetchSize()];
-            for(int i=0; i<ordersSup.length;i++){
-            	ordersSup[i] ="" +rs.getInt(1) + " " + rs.getInt(2) + " " + rs.getString(3) + " "+ new Date(rs.getString(4))+ " "+ rs.getString(5);
+            //System.out.println(rs.getFetchSize());
+            while (rs.next()){
+                ordersSup.add("" +rs.getInt(1) + " " + rs.getInt(2) + " " + rs.getString(3) + " "+ new Date(rs.getString(4))+ " "+ rs.getString(5));
             }
+
             rs.close();
             stmt.close();
         } catch (Exception e) {

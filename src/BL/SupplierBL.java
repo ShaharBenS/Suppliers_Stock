@@ -3,6 +3,8 @@ package BL;
 import DAL.*;
 import SharedClasses.*;
 import javafx.util.Pair;
+import java.util.List;
+
 
 
 public class SupplierBL {
@@ -13,7 +15,7 @@ public class SupplierBL {
     Suppliers sup;
     Orders order;
     OrdersItems OI;
-    public static  int OrderID=0;
+    public static  int OrderID=1;
 
     public SupplierBL(Contacts contacts, Discounts dis, Items item, SupplierItems si, Suppliers sup, Orders order, OrdersItems ordersItems) {
         this.contacts = contacts;
@@ -240,16 +242,16 @@ public class SupplierBL {
     	Order ord;
     	String orderGet = order.getOrder(orderID);
     	String[] splited = orderGet.split("\\s");
-    	ord= new Order(Integer.parseInt(splited[0]), Integer.parseInt(splited[1]), splited[2],new Date(splited[3]),splited[4],contacts.getContactPhone(splited[4]),OI.getOrderItems(orderID));
-    	return ord;
+        ord= new Order(Integer.parseInt(splited[0]), Integer.parseInt(splited[1]), splited[2],new Date(splited[3]),splited[4],contacts.getContactPhone(splited[4]),OI.getOrderItems(orderID));
+        return ord;
     }
     
     public Order[] getOrderOfSup(int supID){
     	Order[] toReturn;
-    	String[] orderSup=order.getOrderSup(supID);
-    	toReturn= new Order[orderSup.length];
-    	for(int i=0; i<orderSup.length;i++){
-            String[] splited = orderSup[i].split("\\s");
+    	List<String> orderSup=order.getOrderSup(supID);
+    	toReturn= new Order[orderSup.size()];
+    	for(int i=0; i<orderSup.size();i++){
+            String[] splited = orderSup.get(i).split("\\s");
             toReturn[i]= new Order(Integer.parseInt(splited[0]), Integer.parseInt(splited[1]), splited[2],new Date(splited[3]),splited[4],contacts.getContactPhone(splited[4]),OI.getOrderItems(Integer.parseInt(splited[0])));
     	}
     	return toReturn;
@@ -258,7 +260,9 @@ public class SupplierBL {
     public boolean addOrderItem(int orderID,int supplierID,int itemID, int quantity){
         int disco = dis.getDiscountPer(supplierID, itemID, quantity);
         double cost =si.getCost(itemID,supplierID);
-        double finalCost = (disco*cost)/100;
+        double finalCost = cost;
+        if(disco!=0)
+         finalCost= (disco*cost)/100;
         OrderItem orderItem = new OrderItem(orderID,supplierID,itemID, quantity, finalCost);
         return OI.addOrderItem(orderItem);
     }

@@ -190,12 +190,13 @@ public class ProgramLauncher
             stmt = c.createStatement();
             sql =    "CREATE TABLE IF NOT EXISTS OrdersItems " +
                     "(OrderID INT PRIMARY KEY  NOT NULL," +
-                    " ItemID TEXT NOT NULL,"+
+                    " ItemID INT NOT NULL,"+
                     " Quantity INT  NOT NULL," +
                     " SupplierID INT NOT NULL, " +
                     " FinalCost REAL  NOT NULL, " +
                     " FOREIGN KEY(OrderID) REFERENCES Orders(OrderID) ON UPDATE CASCADE ON DELETE CASCADE,"+
-                    " FOREIGN KEY(SupplierID, ItemID, Quantity) REFERENCES Discounts(SupplierID, ItemID, Quantity) ON UPDATE CASCADE ON DELETE CASCADE);";
+                    " FOREIGN KEY(SupplierID) REFERENCES Suppliers(ID) ON UPDATE CASCADE ON DELETE CASCADE,"+
+                    " FOREIGN KEY(ItemID) REFERENCES Items(ID) ON UPDATE CASCADE ON DELETE CASCADE);";
             stmt.execute(sql);
             stmt.close();
 
