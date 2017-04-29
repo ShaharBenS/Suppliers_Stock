@@ -43,8 +43,8 @@ public class PriceManagement
            else if(prop[0].length() == 3)
            {
                int disc = Integer.parseInt(prop[1]);
-               String[] start = prop[2].split("\\s+");
-               String[] end = prop[3].split("\\s+");
+               String[] start = prop[2].split("\\.");
+               String[] end = prop[3].split("\\.");
                if(start.length != 3 || end.length != 3) return false;
                SharedClasses.Date Dstart = new SharedClasses.Date(Integer.parseInt(start[2]),Integer.parseInt(start[1]),Integer.parseInt(start[0]));
                SharedClasses.Date Dend = new SharedClasses.Date(Integer.parseInt(end[2]),Integer.parseInt(end[1]),Integer.parseInt(end[0]));

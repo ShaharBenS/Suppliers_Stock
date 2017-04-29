@@ -185,10 +185,10 @@ public class ProductManagement {
         try {
             int id = Integer.parseInt(line);
             Quantity quantity = QUANTITIES.getQuantity(id);
-            if (quantity==null) return "ID not found!";
+            if (quantity==null) return "ID not found!\n";
             else return quantity.toStringStock();
         } catch (Exception e) {
-            return "Invalid ID";
+            return "Invalid ID\n";
         }
     }
 

@@ -5,6 +5,10 @@ import DAL.Items;
 import DAL.Prices;
 import DAL.Quantities;
 import SharedClasses.Category;
+import SharedClasses.Item;
+import javafx.util.Pair;
+
+import java.util.Map;
 
 /**
  * Created by Shahar on 29/03/17.
@@ -93,43 +97,36 @@ public class CategoryManagement {
     }
 
     public String[] productReportbyCategory(String line) {
-        String[] cats = line.split("\\s+");
-        Category[] cArr = new Category[cats.length];
-            for (int i = 0; i < cArr.length; i++) {
-                int id = 0;
-                try {
-                    id = Integer.parseInt(cats[i]);
-                } catch (Exception e) {
-                return new String[]{"1 or more INVALID ID"};
-            }
-            if (cats[i].length() != 3) return new String[]{"1 or more INVALID ID"};
-            cArr[i] = _CD.getCategory(id);
-        }
-        //TODO call getAllProductsbyCat and then call getPRices getQunat and getItem by given IDs.
-        /*Products[] products = PD.getAllProductsbyCat(cArr);
-        String[] plist = new String[products.length];
-        for (int i = 0; i < plist.length; i++)
-            plist[i] = products[i].toString();*/
+     try {
+         String[] cats = line.split("\\s+");
+         Category[] cArr = new Category[cats.length];
+         for (int i = 0; i < cArr.length; i++) {
+             int id = 0;
+             try {
+                 id = Integer.parseInt(cats[i]);
+             } catch (Exception e) {
+                 return new String[]{"1 or more INVALID ID"};
+             }
+             if (cats[i].length() != 3) return new String[]{"1 or more INVALID ID"};
+             cArr[i] = _CD.getCategory(id);
+         }
+         Item[] items = _CD.getAllProductsbyCat(cArr);
+         Map K_ID_V_PRICE = _CD.getAllFinalPricesMap(); //KEY = ID | VALUE = PRICE (DOUBLE)
+         if (K_ID_V_PRICE == null) return new String[]{"No Items\n"};
 
-        /**
-         *  here is what we should print:
-         *  ItemID
-         *  location
-         *  manufacture
-         *  curr amount
-         *  amount in store
-         *  amountr in warehouse
-         *  defect amount
-         *  minimal amount
-         *  category code
-         *  buy price
-         *  sell price
-         *  descount (%)
-         *  start date - NULL if not exist discount
-         *  end date - "" "" "" ""..
-         *
-         */
-        return null;
+         String[] toStrings = new String[items.length];
+         for (int i = 0; i < items.length; i++) // init @param: quantities
+         {
+             toStrings[i] = "------- FULL ITEM -------\n";
+             toStrings[i] += items[i].toString();
+             toStrings[i] += QUANTITIES.getQuantity(items[i].getItemID()).toString();
+             toStrings[i] += PRICES.getPrice(items[i].getItemID()).toString();
+             toStrings[i] += "Final Cost: " + (Double) K_ID_V_PRICE.get(items[i].getItemID());
+             toStrings[i] += "------- FULL ITEM -------\n\n";
+         }
+         return toStrings;
+     }
+     catch(Exception e) {return new String[]{"No Results Were Found"};}
     }
 
 }

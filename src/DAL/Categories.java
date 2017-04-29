@@ -3,10 +3,13 @@ package DAL;
 import SharedClasses.Category;
 import SharedClasses.Item;
 import SharedClasses.Quantity;
+import javafx.util.Pair;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Shahar on 29/03/17.
@@ -40,6 +43,26 @@ public class Categories
         }
 
     }
+
+    public Map getAllFinalPricesMap()
+    {
+        Map allProducts;
+        try {
+            String sqlQuary = "SELECT OI.ItemID, OI.FinalCost FROM OrdersItems as OI JOIN Orders as O WHERE OI.OrderID = O.OrderID " +
+                    "GROUP BY OI.ItemID " +
+                    "HAVING MAX(OI.Date);";
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery(sqlQuary);
+            allProducts = new HashMap();
+            for(int i=0; i<rs.getFetchSize();i++){
+                allProducts.put(rs.getInt(1),rs.getDouble(2));
+            }
+            rs.close();
+            stmt.close();
+        } catch (Exception e) { return null; }
+        return allProducts;
+    }
+
     public boolean categoryExists(int id)
     {
         String query = "SELECT * FROM CATEGORY WHERE ID = "+id+";";
