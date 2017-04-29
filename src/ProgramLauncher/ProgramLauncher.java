@@ -14,6 +14,8 @@ import PL.Menu;
 import PL.PL_Stock;
 import PL.PL_Supplier;
 
+import javax.swing.plaf.nimbus.State;
+
 /**
  * Created by Shahar on 06/04/17.
  */
@@ -235,5 +237,37 @@ public class ProgramLauncher
         }
 
         return c;
+    }
+
+
+    private static void initializeDatabase(Connection conn)
+    {
+        String [] Queries = {"",
+                             "",
+                             "",
+                             "",
+                             "",
+                             "",
+                             "",
+                             "",
+                             "",
+                             "",
+                             "",
+                             "",
+                             ""};
+        try
+        {
+
+            for(int i = 0;i < Queries.length;i++)
+            {
+                Statement stmt = conn.createStatement();
+                stmt.executeUpdate(Queries[i]);
+            }
+            conn.commit();
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
     }
 }
