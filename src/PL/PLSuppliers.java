@@ -275,7 +275,7 @@ public class PLSuppliers {
                     case 8:
                         if (bl.getDeliveryMethod(ID).equals("without delivery")) {
                             System.out.println("please change the supplier's delivery method first");
-                            break;
+                            continue;
                         }
                         System.out.println("Please enter supplier's supply time, one of the days");
                         String SupplyTime = sc.nextLine();
@@ -354,7 +354,13 @@ public class PLSuppliers {
         }
         boolean Exists = bl.checkSupExist(ID);
         if (Exists) {
-            System.out.println(bl.getSupllierContact(ID));
+            String con=bl.getSupplierContact(ID);
+            if(con.length()==0){
+                System.out.println("This supplier has no contacts");
+            }
+            else {
+                System.out.println(con);
+            }
         } else {
             System.out.println("ERROR! invalid supplier ID");
         }

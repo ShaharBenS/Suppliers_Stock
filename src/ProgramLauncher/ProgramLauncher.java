@@ -11,8 +11,11 @@ import BL.ProductManagement;
 import BL.SupplierBL;
 import DAL.*;
 import PL.Menu;
+import PL.PL_Orders;
 import PL.PL_Stock;
 import PL.PL_Supplier;
+
+import javax.swing.plaf.nimbus.State;
 
 /**
  * Created by Shahar on 06/04/17.
@@ -45,7 +48,8 @@ public class ProgramLauncher
         // PL INIT
         PL_Stock PL_STOCK = new PL_Stock(PRODUCT_MANAGEMENT, PRICE_MANAGEMENT, CATEGORY_MANAGEMENT);
         PL_Supplier pl_sup= new PL_Supplier (SBL);
-        Menu MENU = new Menu(PL_STOCK, pl_sup);
+        PL_Orders pl_ord= new PL_Orders(SBL);
+        Menu MENU = new Menu(PL_STOCK, pl_sup, pl_ord);
 
 
         // start
@@ -100,7 +104,7 @@ public class ProgramLauncher
                     "(ID   TEXT NOT NULL," +
                     "SupplierID INT  NOT NULL," +
                     " FullName   TEXT  NOT NULL, " +
-                    " PhoneNumber           TEXT    NOT NULL, " +
+                    " PhoneNumber TEXT NOT NULL, " +
                     " Email	TEXT," +
                     "PRIMARY KEY(SupplierID, ID),"+
                     "FOREIGN KEY(SupplierID) REFERENCES Suppliers(ID) " +
@@ -163,19 +167,17 @@ public class ProgramLauncher
             stmt.execute(sql);
             stmt.close();
 
-
             /*
                 Orders : OrderID, SupplierID, SupplierName, Date, ContactNumber, SupplierID(FR), ContactNumber(FR).
              */
             stmt = c.createStatement();
             sql = "CREATE TABLE IF NOT EXISTS Orders " +
                     "(OrderID INT PRIMARY KEY  NOT NULL," +
-                    "SupplierID INT   NOT NULL," +
-                    "SupplierName TEXT NOT NULL,"+
+                    " SupplierID INT   NOT NULL," +
+                    " SupplierName TEXT NOT NULL,"+
                     " Date TEXT  NOT NULL, " +
-                    " ContactNumber TEXT  NOT NULL, " +
-                    " FOREIGN KEY(SupplierID) REFERENCES Suppliers(ID) ON UPDATE CASCADE ON DELETE CASCADE,"+
-                    "FOREIGN KEY(ContactNumber) REFERENCES Contacts(PhoneNumber) ON DELETE CASCADE ON UPDATE CASCADE); " ;
+                    " ContactID TEXT  NOT NULL, " +
+                    " FOREIGN KEY(SupplierID , ContactID) REFERENCES Contacts(SupplierID, ID) ON UPDATE CASCADE ON DELETE CASCADE);";
             stmt.execute(sql);
             stmt.close();
 
@@ -219,7 +221,7 @@ public class ProgramLauncher
             stmt = c.createStatement();
             sql = "CREATE TABLE IF NOT EXISTS PRICES" +
                     "(ItemID INT REFERENCES Items(ID) ON UPDATE CASCADE ON DELETE CASCADE ," +
-                    "SellPrice INT NOT NULL," +
+                    "SellPrice REAL NOT NULL," +
                     "Percentage INT,"+
                     "DateStart DATE," +
                     "DateEnd DATE);";
@@ -235,5 +237,37 @@ public class ProgramLauncher
         }
 
         return c;
+    }
+
+
+    private static void initializeDatabase(Connection conn)
+    {
+        String [] Queries = {"",
+                             "",
+                             "",
+                             "",
+                             "",
+                             "",
+                             "",
+                             "",
+                             "",
+                             "",
+                             "",
+                             "",
+                             ""};
+        try
+        {
+
+            for(int i = 0;i < Queries.length;i++)
+            {
+                Statement stmt = conn.createStatement();
+                stmt.executeUpdate(Queries[i]);
+            }
+            conn.commit();
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
     }
 }

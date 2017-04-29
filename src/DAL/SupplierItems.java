@@ -221,4 +221,18 @@ public class SupplierItems {
         }
 
     }
+
+    public  boolean checkIfItemExist(int ItemID){
+        try {
+            stmt = c.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM SupplierItems where ItemID = " + ItemID + ";");
+            if (rs.next()) {
+                rs.close();
+                stmt.close();
+                return true;
+            } else return false;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }

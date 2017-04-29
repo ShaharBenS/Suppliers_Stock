@@ -10,19 +10,21 @@ public class Menu {
 
     private PL_Stock pl_stock;
     private PL_Supplier pl_sup;
+    private PL_Orders pl_ord;
     private Scanner scanner;
 
     private final String[] MENU =
             {   "Choose an Option:",
-                    "1) Stocks Management",
-                    "2) Supplier Management",
+                    "1) Supplier Management",
+                    "2) Stocks Management",
                     "3) Order Management",
                     "4) Exit"};
 
 
-    public Menu(PL_Stock pl_stock, PL_Supplier pl_sup) {
+    public Menu(PL_Stock pl_stock, PL_Supplier pl_sup, PL_Orders pl_ord) {
         this.pl_stock = pl_stock;
         this.pl_sup = pl_sup;
+        this.pl_ord= pl_ord;
         this.scanner = new Scanner(System.in);
     }
 
@@ -46,13 +48,13 @@ public class Menu {
             switch (operation)
             {
                 case 1:
-                    pl_stock.start();
-                    break;
-                case 2:
                     pl_sup.start();
                     break;
+                case 2:
+                    pl_stock.start();
+                    break;
                 case 3:
-
+                    pl_ord.orderCase();
                     break;
                 case 4: {
                     System.out.println("Bye!");

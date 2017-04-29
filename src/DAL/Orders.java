@@ -26,13 +26,13 @@ public class Orders {
 
     public boolean addOrder(Order order) {
         try {
-            PreparedStatement ps = c.prepareStatement("INSERT INTO Orders (OrderID, SupplierID, SupplierName, Date, ContactNumber) " +
+            PreparedStatement ps = c.prepareStatement("INSERT INTO Orders (OrderID, SupplierID, SupplierName, Date, ContactID) " +
                     "VALUES (?,?,?,?,?);");
             ps.setInt(1, order.getOrderID());
             ps.setInt(2, order.getSupplier());
             ps.setString(3, order.getSupplierName());
             ps.setString(4,order.getDate().toString());
-            ps.setString(5,order.getContactNum());
+            ps.setString(5,order.getContactID());
 
             ps.executeUpdate();
             c.commit();
@@ -44,14 +44,14 @@ public class Orders {
     }
     
     
-    public boolean setContactNum(int orderID,String conNum){
+    public boolean setContactID(int orderID,String conID){
     	 try {
-             String sql = "UPDATE Orders SET ContactNumber = ? WHERE OrderID = ?";
+             String sql = "UPDATE Orders SET ContactID = ? WHERE OrderID = ?";
 
              PreparedStatement pstmt = c.prepareStatement(sql);
 
              // set the corresponding param
-             pstmt.setString(1, conNum);
+             pstmt.setString(1, conID);
              pstmt.setInt(2, orderID);
              // update
              pstmt.executeUpdate();
@@ -64,13 +64,17 @@ public class Orders {
          }
     }
     
-    public Order getOrder(int orderID){
-    	Order order = null;
+    public String getOrder(int orderID){
+    	String order = "";
         try {
             String sqlQuary = "SELECT * FROM Orders WHERE OrderID = " + orderID + ";";
             stmt = c.createStatement();
             ResultSet rs = stmt.executeQuery(sqlQuary);
-            order = new Order(rs.getInt(1), rs.getInt(2), rs.getString(3), new Date(rs.getString(4)), rs.getString(5));
+            order+= rs.getInt(1);
+            order+=  rs.getInt(2);
+            order+= rs.getString(3);
+            order+= new Date(rs.getString(4));
+            order+= rs.getString(5);
             rs.close();
             stmt.close();
         } catch (Exception e) {
@@ -78,15 +82,15 @@ public class Orders {
         return order;
     }
     
-    public Order[] getOrderSup(int supID){
-    	Order[] ordersSup = null;
+    public String[] getOrderSup(int supID){
+    	String[] ordersSup = null;
         try {
             String sqlQuary = "SELECT * FROM Orders WHERE SupplierID = " + supID + ";";
             stmt = c.createStatement();
             ResultSet rs = stmt.executeQuery(sqlQuary);
-            ordersSup= new Order[rs.getFetchSize()];
+            ordersSup= new String[rs.getFetchSize()];
             for(int i=0; i<ordersSup.length;i++){
-            	ordersSup[i] = new Order(rs.getInt(1), rs.getInt(2), rs.getString(3), new Date(rs.getString(4)), rs.getString(5));
+            	ordersSup[i] ="" +rs.getInt(1) + " " + rs.getInt(2) + " " + rs.getString(3) + " "+ new Date(rs.getString(4))+ " "+ rs.getString(5);
             }
             rs.close();
             stmt.close();
@@ -129,20 +133,4 @@ public class Orders {
             return false;
         }
     }
-
-    public boolean checkItemExistInOrder(int orderID, int itemID){
-        try {
-            stmt = c.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM OrdersItems where catalogNumber = '" + orderID + "' and itemID = '" + itemID + "';");
-            if (rs.next()) {
-                rs.close();
-                stmt.close();
-                return true;
-            } else return false;
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-
 }

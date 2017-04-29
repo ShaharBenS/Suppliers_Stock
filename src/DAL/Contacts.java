@@ -120,7 +120,7 @@ public class Contacts {
         return con;
     }
 
-    public String getSupllierContact(int id) {
+    public String getSupplierContact(int id) {
         String ans = "";
         try {
             String sqlQuary = "SELECT * FROM Contacts WHERE SupplierID = '" + id + "';";
@@ -188,10 +188,10 @@ public class Contacts {
         return ans;
     }
 
-    public String getContactNum(int supId) {
+    public String getContactID(int supId) {
         String ans = "";
         try {
-            String sqlQuary = "SELECT PhoneNumber FROM Contacts WHERE SupplierID = '" + supId + "';";
+            String sqlQuary = "SELECT ID FROM Contacts WHERE SupplierID = '" + supId + "';";
             stmt = c.createStatement();
             ResultSet rs = stmt.executeQuery(sqlQuary);
             ans = rs.getString(1);

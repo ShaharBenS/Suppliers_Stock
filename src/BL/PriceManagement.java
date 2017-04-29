@@ -19,7 +19,7 @@ public class PriceManagement
        if(prop.length != 2) return false;
        try{
            int id = Integer.parseInt(prop[0]);
-           int newPrice = Integer.parseInt(prop[1]);
+           double newPrice = Double.parseDouble(prop[1]);
            return PRICES.updateSellPrice(id, newPrice);
        } catch(Exception e){ return  false; }
    }

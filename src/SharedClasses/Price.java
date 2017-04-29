@@ -6,12 +6,12 @@ package SharedClasses;
 public class Price
 {
     private int itemID;
-    private int sell_price;
+    private double sell_price;
     private int perecentage;
     private Date start;
     private Date end;
 
-    public Price(int itemID, int sell_price, int perecentage, Date start, Date end) {
+    public Price(int itemID, double sell_price, int perecentage, Date start, Date end) {
         this.itemID = itemID;
         this.sell_price = sell_price;
         this.perecentage = perecentage;
@@ -27,11 +27,11 @@ public class Price
         this.itemID = itemID;
     }
 
-    public int getSell_price() {
+    public double getSell_price() {
         return sell_price;
     }
 
-    public void setSell_price(int sell_price) {
+    public void setSell_price(double sell_price) {
         this.sell_price = sell_price;
     }
 

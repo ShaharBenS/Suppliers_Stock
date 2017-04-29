@@ -9,22 +9,25 @@ public class Order {
     private int supplierID;
     private String supName;
     private Date date;
+    private String ContactID;
     private String ContactNum;
     private OrderItem[] orderItems;
 
-    public Order(int OrderID, int supplierID, String supName, Date date, String ContactNum, OrderItem[] orderItems){
+    public Order(int OrderID, int supplierID, String supName, Date date,  String ContactID,String ContactNum, OrderItem[] orderItems){
         this.orderID = OrderID;
         this.supplierID = supplierID;
         this.supName= supName;
         this.date = new Date(date);
+        this.ContactID= ContactID;
         this.ContactNum = ContactNum;
         this.orderItems = orderItems;
     }
-    public Order(int OrderID, int supplierID, String supName, Date date, String ContactNum){
+    public Order(int OrderID, int supplierID, String supName, Date date,String ContactID, String ContactNum){
         this.orderID = OrderID;
         this.supplierID = supplierID;
         this.supName= supName;
         this.date = new Date(date);
+        this.ContactID= ContactID;
         this.ContactNum = ContactNum;
     }
     
@@ -33,6 +36,7 @@ public class Order {
         this.supplierID = ord.getSupplier();
         this.supName= ord.getSupplierName();
         this.date = ord.getDate();
+        this.ContactID= ord.getContactID();
         this.ContactNum = ord.getContactNum();
         this.orderItems = orderItems;
     }
@@ -52,6 +56,10 @@ public class Order {
     public Date getDate(){return date;}
 
     public void setDate(Date date){this.date = date;}
+
+    public String getContactID(){ return ContactID;}
+
+    public void setContactID(String contactID){this.ContactID=contactID;}
 
     public String getContactNum(){return ContactNum;};
 

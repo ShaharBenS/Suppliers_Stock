@@ -37,32 +37,9 @@ public class Discounts {
     }
 
 
-    public boolean setQuantity(int supId, int itemId, int Quantity) {
+    public boolean setDiscountPercentage(int supId, int itemId,int quantity, int DiscountPercentage) {
         try {
-            String sql = "UPDATE Discounts SET Quantity = ? WHERE SupplierID = ? and ItemID = ?";
-
-            PreparedStatement pstmt = c.prepareStatement(sql);
-
-            // set the corresponding param
-            pstmt.setInt(1, Quantity);
-            pstmt.setInt(2, supId);
-            pstmt.setInt(3, itemId);
-            // update
-            pstmt.executeUpdate();
-
-            c.commit();
-            pstmt.close();
-            stmt.close();
-            return true;
-        } catch (SQLException e) {
-            return false;
-        }
-    }
-
-
-    public boolean setDiscountPercentage(int supId, int itemId, int DiscountPercentage) {
-        try {
-            String sql = "UPDATE Discounts SET DiscountPercentage = ? WHERE SupplierID = ? and ItemID = ?";
+            String sql = "UPDATE Discounts SET DiscountPercentage = ? WHERE SupplierID = ? and ItemID = ? and Quantity=?";
 
             PreparedStatement pstmt = c.prepareStatement(sql);
 
@@ -70,6 +47,7 @@ public class Discounts {
             pstmt.setInt(1, DiscountPercentage);
             pstmt.setInt(2, supId);
             pstmt.setInt(3, itemId);
+            pstmt.setInt(4, quantity);
             // update
             pstmt.executeUpdate();
 

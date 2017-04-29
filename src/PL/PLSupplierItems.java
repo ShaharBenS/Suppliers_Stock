@@ -86,18 +86,30 @@ public class PLSupplierItems {
                 System.out.println("Please enter item's id");
                 ItemID = Integer.parseInt(sc.nextLine());
 
-                System.out.println("Please enter the catalog number of the item");
-                CatalogNumber = Integer.parseInt(sc.nextLine());
+                boolean itemEx= bl.checkIfItemExistInSupItems(ItemID);
 
-                System.out.println("Please enter item's price");
-                Cost = Double.parseDouble(sc.nextLine());
+                if(!itemEx) {
+                    System.out.println("Please enter the catalog number of the item");
+                    CatalogNumber = Integer.parseInt(sc.nextLine());
+
+                    System.out.println("Please enter item's price");
+                    Cost = Double.parseDouble(sc.nextLine());
+                }
+                else{
+                    System.out.println("ItemID is already exist, please delete supplier's item before.");
+                    return;
+                }
             } catch (Exception e) {
                 System.out.println("invalid input");
                 return;
             }
 
-            bl.addSupplierItem(ID, ItemID, CatalogNumber, Cost);
-            System.out.println("Supplier's item has been added");
+            if(bl.addSupplierItem(ID, ItemID, CatalogNumber, Cost)) {
+                System.out.println("Supplier's item has been added");
+            }
+            else{
+                System.out.println("something went wrong");
+            }
         } else {
             System.out.println("Supplier ID is not exist, please enter supplier first.");
             return;

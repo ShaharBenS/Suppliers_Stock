@@ -136,7 +136,7 @@ public class PL_Orders
     private String getPhoneNum(int supID) {
         String conNum = "";
         System.out.println("the contacts who works with supplier "+ supID + "are:");
-        System.out.println(bl.getSupllierContact(supID));
+        System.out.println(bl.getSupplierContact(supID));
         System.out.println("Please choose one contact number");
 
         try {
@@ -201,7 +201,7 @@ public class PL_Orders
             switch (option) {
                 case 1:
                     //new order
-                    case1();
+                    case11();
                     break;
                 case 2:
                     //new item to order
@@ -274,7 +274,7 @@ public class PL_Orders
             option = Integer.parseInt(sc.nextLine());
             switch (option) {
                 case 1:
-                    //update contact num
+                    //update contact id
                     case21();
                     break;
                 case 2:

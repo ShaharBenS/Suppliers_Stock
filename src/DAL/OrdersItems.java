@@ -123,5 +123,19 @@ public class OrdersItems {
         }
     }
 
+    public boolean checkItemExistInOrder(int orderID, int itemID){
+        try {
+            stmt = c.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM OrdersItems where catalogNumber = '" + orderID + "' and itemID = '" + itemID + "';");
+            if (rs.next()) {
+                rs.close();
+                stmt.close();
+                return true;
+            } else return false;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
 
 }

@@ -198,7 +198,7 @@ public class PLDiscount {
                     if (bl.checkExistDis(supID, itemID, quantity)) {
                         discount = getDiscount();
                         if (discount != 0) {
-                            bl.setDiscount(supID, itemID, discount, 2);
+                            bl.setDiscount(supID, itemID,quantity, discount);
                             System.out.println("updated successfully");
                         } else {
                             System.out.println("ERROR");

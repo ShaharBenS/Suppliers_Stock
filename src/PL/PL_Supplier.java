@@ -47,8 +47,7 @@ public class PL_Supplier {
                         break;
                     case 5:
                         Continue = false;
-                        exit();
-                        break;
+                        return;
                     default:
                         System.out.println("ERROR! wrong operation");
                         mainMenu();
@@ -61,14 +60,6 @@ public class PL_Supplier {
     }
 
 
-    private void exit() {
-        System.out.println("Bye Bye");
-        try {
-            Thread.sleep(SLEEP_TIME);
-        } catch (Exception e) {
-        }
-    }
-
 
     private void printOptions() {
         System.out.println("Please choose a topic to work on:");
@@ -76,7 +67,7 @@ public class PL_Supplier {
         System.out.println("2- Supplier's items");
         System.out.println("3- Contacts");
         System.out.println("4- Discounts");
-        System.out.println("5- Exit");
+        System.out.println("5- Back");
 
     }
 
