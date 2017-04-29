@@ -50,7 +50,7 @@ public class Prices
             PreparedStatement p_stmt = conn.prepareStatement("INSERT INTO PRICES (ItemID,SellPrice,Percentage,DateStart," +
                     "DateEnd) VALUES(?,?,?,?,?);");
             p_stmt.setInt(1,price.getItemID());
-            p_stmt.setInt(2,price.getSell_price());
+            p_stmt.setDouble(2,price.getSell_price());
             p_stmt.setInt(3,price.getPerecentage());
             p_stmt.setDate(4,price.getStart() == null ? null : price.getStart().toSQLdate());
             p_stmt.setDate(5, price.getEnd() == null ? null : price.getEnd().toSQLdate());
@@ -81,7 +81,7 @@ public class Prices
             return false;
         }
     }
-    public boolean updateSellPrice(int orderId,int sellPrice)
+    public boolean updateSellPrice(int orderId,double sellPrice)
     {
         return updateField("SellPrice",orderId,sellPrice);
     }
