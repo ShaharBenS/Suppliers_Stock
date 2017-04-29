@@ -2,6 +2,7 @@ package BL;
 
 import DAL.*;
 import SharedClasses.*;
+import javafx.util.Pair;
 
 
 public class SupplierBL {
@@ -112,10 +113,9 @@ public class SupplierBL {
     }
 
     /* OMRI's FUNCTION */
-    public double getFinalPriceByID(int currID)
+    public Pair[] getAllFinalPrices()
     {
-
-        return 0;
+        return OI.getAllFinalPrices();
     }
 
     public Supplier getSupplier(int id) {

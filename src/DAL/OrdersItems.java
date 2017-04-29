@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import SharedClasses.OrderItem;
+import javafx.util.Pair;
+
 /**
  * Created by rotem on 07/04/2017.
  */
@@ -40,7 +42,25 @@ public class OrdersItems {
         }
 
     }
-    
+
+    public Pair[] getAllFinalPrices()
+    {
+        Pair[] allProducts;
+        try {
+            String sqlQuary = "SELECT OI.ItemID, OI.FinalCost FROM OrdersItems as OI JOIN Orders as O WHERE OI.OrderID = O.OrderID " +
+                                    "GROUP BY OI.ItemID " +
+                                    "HAVING MAX(OI.Date);";
+            stmt = c.createStatement();
+            ResultSet rs = stmt.executeQuery(sqlQuary);
+            allProducts = new Pair[rs.getFetchSize()];
+            for(int i=0; i<allProducts.length;i++){
+                allProducts[i] = new Pair(rs.getInt(1),rs.getDouble(2));
+            }
+            rs.close();
+            stmt.close();
+        } catch (Exception e) { return null; }
+        return allProducts;
+    }
     
     public boolean setQuantity(int orderID,int itemID,int quantity){
    	 try {
@@ -71,7 +91,8 @@ public class OrdersItems {
             ResultSet rs = stmt.executeQuery(sqlQuary);
             orderItems= new OrderItem[rs.getFetchSize()];
             for(int i=0; i<orderItems.length;i++){
-            	orderItems[i] = new OrderItem(rs.getInt(1),rs.getInt(3), rs.getInt(4), rs.getInt(5),rs.getDouble(6) );
+            	orderItems[i] = new OrderItem(rs.getInt(1),rs.getInt(2),
+                        rs.getInt(3), rs.getInt(4),rs.getDouble(5) );
             }
             rs.close();
             stmt.close();
