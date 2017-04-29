@@ -81,19 +81,19 @@ public class SupplierBL {
     public boolean setSupplier(int id, Object change, int code) {// 1- ID,2-name, 3- BankNum, 4- BranchNum, 5-AccountNum, 6-payment, 7-DeliveryMethod,8-SupplyTime, 9-address
         switch (code) {
             case 1:
-                int newID = ((Integer) change).intValue();
+                int newID = (Integer) change;
                 return sup.setID(id, newID);
             case 2:
                 String name = (String) change;
                 return sup.setName(id, name);
             case 3:
-                int BankNum = ((Integer) change).intValue();
+                int BankNum = (Integer) change;
                 return sup.setBankNum(id, BankNum);
             case 4:
-                int BranchNum = ((Integer) change).intValue();
+                int BranchNum = (Integer) change;
                 return sup.setBranchNum(id, BranchNum);
             case 5:
-                int AccountNum = ((Integer) change).intValue();
+                int AccountNum = (Integer) change;
                 return sup.setAccountNum(id, AccountNum);
             case 6:
                 String payment = (String) change;
@@ -138,10 +138,10 @@ public class SupplierBL {
     public boolean setSupplierItem(int supId, int itemId, Object change, int code) {// 1- CatalogNumber, 2-Cost
         switch (code) {
             case 1:
-                int CatalogNumber = ((Integer) change).intValue();
+                int CatalogNumber = (Integer) change;
                 return si.setCatalogNumber(supId, itemId, CatalogNumber);
             case 2:
-                double Cost = ((Double) change).doubleValue();
+                double Cost = (Double) change;
                 return si.setCost(supId, itemId, Cost);
             default:
                 return false;
@@ -218,7 +218,7 @@ public class SupplierBL {
 
     public int addOrder(int supplierId, Date date){
         String conID=contacts.getContactID(supplierId);
-        Order ord = new Order(OrderID++,supplierId, sup.getSupplierName(supplierId),date, conID,contacts.getContactPhone(conID));
+        Order ord = new Order(OrderID++,supplierId,date, conID);
         if(!order.addOrder(ord))
         {
             return -1;
@@ -242,8 +242,8 @@ public class SupplierBL {
     	Order ord;
     	String orderGet = order.getOrder(orderID);
     	String[] splited = orderGet.split("\\s");
-        ord= new Order(Integer.parseInt(splited[0]), Integer.parseInt(splited[1]), splited[2],new Date(splited[3]),splited[4],contacts.getContactPhone(splited[4]),OI.getOrderItems(orderID));
-        return ord;
+    	ord= new Order(Integer.parseInt(splited[0]), Integer.parseInt(splited[1]),new Date(splited[2]),splited[3],OI.getOrderItems(orderID));
+    	return ord;
     }
     
     public Order[] getOrderOfSup(int supID){
@@ -252,7 +252,7 @@ public class SupplierBL {
     	toReturn= new Order[orderSup.size()];
     	for(int i=0; i<orderSup.size();i++){
             String[] splited = orderSup.get(i).split("\\s");
-            toReturn[i]= new Order(Integer.parseInt(splited[0]), Integer.parseInt(splited[1]), splited[2],new Date(splited[3]),splited[4],contacts.getContactPhone(splited[4]),OI.getOrderItems(Integer.parseInt(splited[0])));
+            toReturn[i]= new Order(Integer.parseInt(splited[0]), Integer.parseInt(splited[1]), new Date(splited[2]),splited[3],OI.getOrderItems(Integer.parseInt(splited[0])));
     	}
     	return toReturn;
     }

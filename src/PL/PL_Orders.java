@@ -427,11 +427,11 @@ public class PL_Orders
             Supplier sup = bl.getSupplier(order.getSupplier());
             String ans ="";
             ans+="Order Number: " + order.getOrderID()+ "\n";
-            ans+= "Supplier Name: " + order.getSupplierName() + "\n";
+            ans+= "Supplier Name: " + sup.getName() + "\n";
             ans+= "Supplier ID: " + order.getSupplier() + "\n";
             ans += "Address: " + sup.getAddress() + "\n";
             ans += "Order Date: " + order.getDate() + "\n";
-            ans += "Contact Number: " + order.getContactNum() + "\n";
+            ans += "Contact Number: " + bl.getContactPhone(order.getContactID()) + "\n";
             System.out.println(ans);
         } else {
             System.out.println("ERROR! something went wrong");

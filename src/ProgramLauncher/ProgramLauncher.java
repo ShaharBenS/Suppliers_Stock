@@ -168,14 +168,13 @@ public class ProgramLauncher
             stmt.close();
 
             /*
-                Orders : OrderID, SupplierID, SupplierName, Date, ContactNumber, SupplierID(FR), ContactNumber(FR).
+                Orders : OrderID, SupplierID, Date, ContactNumber, SupplierID(FR), ContactNumber(FR).
              */
             stmt = c.createStatement();
             sql = "CREATE TABLE IF NOT EXISTS Orders " +
                     "(OrderID INT PRIMARY KEY  NOT NULL," +
                     " SupplierID INT   NOT NULL," +
-                    " SupplierName TEXT NOT NULL,"+
-                    " Date TEXT  NOT NULL, " +
+                    " Date DATE  NOT NULL, " +
                     " ContactID TEXT  NOT NULL, " +
                     " FOREIGN KEY(SupplierID , ContactID) REFERENCES Contacts(SupplierID, ID) ON UPDATE CASCADE ON DELETE CASCADE);";
             stmt.execute(sql);

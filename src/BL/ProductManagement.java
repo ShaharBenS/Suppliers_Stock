@@ -86,7 +86,7 @@ public class ProductManagement {
             int id = Integer.parseInt(prop[0]);
             int newAmount = Integer.parseInt(prop[1]);
             boolean ans = QUANTITIES.updateWarehouse(id, newAmount);
-            if(ans) checkIfNeedToAlert(id);
+            if(ans) checkIfNeedToOrder(id);
             return ans;
         } catch (Exception e) { return false; }
     }
@@ -173,7 +173,7 @@ public class ProductManagement {
             int id = Integer.parseInt(prop[0]);
             int newMinimal = Integer.parseInt(prop[1]);
             boolean ans = QUANTITIES.updateMinimum(id, newMinimal);
-            checkIfNeedToAlert(id);
+            checkIfNeedToOrder(id);
             return ans;
         } catch (Exception e) {
             return false;
@@ -223,7 +223,7 @@ public class ProductManagement {
         return toStringsDefects;
     }
 
-    private void checkIfNeedToAlert(int id) {
+    private void checkIfNeedToOrder(int id) {
         Quantity quantity = QUANTITIES.getQuantity(id);
         if (quantity.getWarehouse() <= quantity.getMinimum()) {
             int supplierID = SBL.getSupplierID(id);

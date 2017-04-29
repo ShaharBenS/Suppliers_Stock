@@ -28,13 +28,12 @@ public class Orders {
 
     public boolean addOrder(Order order) {
         try {
-            PreparedStatement ps = c.prepareStatement("INSERT INTO Orders (OrderID, SupplierID, SupplierName, Date, ContactID) " +
+            PreparedStatement ps = c.prepareStatement("INSERT INTO Orders (OrderID, SupplierID, Date, ContactID) " +
                     "VALUES (?,?,?,?,?);");
             ps.setInt(1, order.getOrderID());
             ps.setInt(2, order.getSupplier());
-            ps.setString(3, order.getSupplierName());
-            ps.setString(4,order.getDate().toString());
-            ps.setString(5,order.getContactID());
+            ps.setString(3,order.getDate().toString());
+            ps.setString(4,order.getContactID());
 
             ps.executeUpdate();
             c.commit();
@@ -76,11 +75,9 @@ public class Orders {
             order+= " ";
             order+=  rs.getInt(2);
             order+= " ";
-            order+= rs.getString(3);
+            order+= new Date(rs.getString(3));
             order+= " ";
-            order+= new Date(rs.getString(4));
-            order+= " ";
-            order+= rs.getString(5);
+            order+= rs.getString(4);
             rs.close();
             stmt.close();
         } catch (Exception e) {
@@ -96,7 +93,7 @@ public class Orders {
             ResultSet rs = stmt.executeQuery(sqlQuary);
             //System.out.println(rs.getFetchSize());
             while (rs.next()){
-                ordersSup.add("" +rs.getInt(1) + " " + rs.getInt(2) + " " + rs.getString(3) + " "+ new Date(rs.getString(4))+ " "+ rs.getString(5));
+                ordersSup.add("" +rs.getInt(1) + " " + rs.getInt(2) + " "+ new Date(rs.getDate(3))+ " "+ rs.getString(4));
             }
 
             rs.close();

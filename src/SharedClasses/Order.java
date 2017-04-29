@@ -7,37 +7,29 @@ package SharedClasses;
 public class Order {
     private int orderID;
     private int supplierID;
-    private String supName;
     private Date date;
     private String ContactID;
-    private String ContactNum;
     private OrderItem[] orderItems;
 
-    public Order(int OrderID, int supplierID, String supName, Date date,  String ContactID,String ContactNum, OrderItem[] orderItems){
+    public Order(int OrderID, int supplierID, Date date,  String ContactID, OrderItem[] orderItems){
         this.orderID = OrderID;
         this.supplierID = supplierID;
-        this.supName= supName;
         this.date = new Date(date);
         this.ContactID= ContactID;
-        this.ContactNum = ContactNum;
         this.orderItems = orderItems;
     }
-    public Order(int OrderID, int supplierID, String supName, Date date,String ContactID, String ContactNum){
+    public Order(int OrderID, int supplierID, Date date,String ContactID){
         this.orderID = OrderID;
         this.supplierID = supplierID;
-        this.supName= supName;
         this.date = new Date(date);
         this.ContactID= ContactID;
-        this.ContactNum = ContactNum;
     }
     
     public Order(Order ord, OrderItem[] orderItems){
     	this.orderID = ord.getOrderID();
         this.supplierID = ord.getSupplier();
-        this.supName= ord.getSupplierName();
         this.date = ord.getDate();
         this.ContactID= ord.getContactID();
-        this.ContactNum = ord.getContactNum();
         this.orderItems = orderItems;
     }
 
@@ -49,9 +41,8 @@ public class Order {
 
     public void setSupplierID(int supID){this.supplierID=supID;}
 
-    public String getSupplierName(){return supName;}
-
-    public void setSupplierName(String supName){this.supName=supName;}
+    public void setSupplierName(String supName){
+    }
 
     public Date getDate(){return date;}
 
@@ -60,10 +51,6 @@ public class Order {
     public String getContactID(){ return ContactID;}
 
     public void setContactID(String contactID){this.ContactID=contactID;}
-
-    public String getContactNum(){return ContactNum;};
-
-    public void setContactNum(String contactNum){this.ContactNum = contactNum;}
 
     public OrderItem[] getOrderItems() {
         return orderItems;

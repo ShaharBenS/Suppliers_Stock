@@ -24,9 +24,7 @@ public class OrdersItems {
 
     public boolean addOrderItem(OrderItem orderItem) {
         try {
-          //  PreparedStatement ps = c.prepareStatement("INSERT INTO OrdersItems (OrderID, catalogNumber,SupplierID, ItemID, Quantity, FinalCost) " +
-           //         "VALUES (?,?,?,?,?,?,?);");
-            PreparedStatement ps = c.prepareStatement("INSERT INTO OrdersItems (OrderID, ItemID,Quantity, SupplierID, FinalCost) " +
+            PreparedStatement ps = c.prepareStatement("INSERT INTO OrdersItems (OrderID,ItemID, Quantity,SupplierID, FinalCost) " +
                     "VALUES (?,?,?,?,?);");
             ps.setInt(1, orderItem.getOrderID());
             ps.setInt(2, orderItem.getItemID());
@@ -39,7 +37,6 @@ public class OrdersItems {
             ps.close();
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
             return false;
         }
 
@@ -120,7 +117,6 @@ public class OrdersItems {
             stmt.close();
             return true;
         } catch (Exception e) {
-            System.out.println(e);
             return false;
         }
     }
