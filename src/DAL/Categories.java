@@ -72,7 +72,6 @@ public class Categories
             ResultSet result = statement.executeQuery(query);
             return result.next();
         } catch (SQLException e) {
-            e.printStackTrace();
             return true;
         }
     }
@@ -129,7 +128,6 @@ public class Categories
 
         } catch (SQLException e)
         {
-            e.printStackTrace();
             return false;
         }
     }
@@ -146,7 +144,6 @@ public class Categories
 
         } catch (SQLException e)
         {
-            e.printStackTrace();
             return false;
         }
     }
@@ -159,8 +156,8 @@ public class Categories
         try {
             while (cArr.length != 0)
             {
-                String query1 = "SELECT ITEMS.ID" +
-                                "FROM ITEMS" +
+                String query1 = "SELECT ITEMS.ID " +
+                                "FROM ITEMS " +
                                 "WHERE (";
                 for (int i = 0; i < cArr.length; i++) {
                     if (i == cArr.length - 1) {
@@ -208,7 +205,7 @@ public class Categories
         }
         catch (SQLException e)
         {
-            e.printStackTrace();
+           return null;
         }
         return products;
     }
@@ -227,7 +224,7 @@ public class Categories
         }
         catch (SQLException e)
         {
-            e.printStackTrace();
+            return null;
         }
         return c;
     }
@@ -238,13 +235,10 @@ public class Categories
 
         try{
             item.setItemID(resultSet.getInt("ID"));
-            item.setName(resultSet.getString("NAME"));
-            item.setCategoryNumber(resultSet.getInt("CategoryNumber"));
-            item.setManufacture(resultSet.getString("Manufacture"));
         }
         catch (SQLException e)
         {
-            e.printStackTrace();
+            return null;
         }
         return item;
     }
