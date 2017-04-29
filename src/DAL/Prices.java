@@ -37,7 +37,7 @@ public class Prices
         }
         catch (Exception e)
         {
-            e.printStackTrace();
+            return null;
         }
 
         return price;

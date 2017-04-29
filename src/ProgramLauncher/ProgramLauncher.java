@@ -59,7 +59,6 @@ public class ProgramLauncher
 
         } catch (SQLException | InterruptedException e)
         {
-            e.printStackTrace();
         }
 
     }

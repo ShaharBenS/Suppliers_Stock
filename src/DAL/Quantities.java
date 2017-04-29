@@ -63,7 +63,6 @@ public class Quantities
         }
         catch (Exception e)
         {
-            e.printStackTrace();
         }
 
         return q;
@@ -161,7 +160,7 @@ public class Quantities
                     result.getInt("STORE"),result.getInt("ORDER_AMOUNT"));
         } catch (SQLException e)
         {
-            e.printStackTrace();
+
             return null;
         }
     }
