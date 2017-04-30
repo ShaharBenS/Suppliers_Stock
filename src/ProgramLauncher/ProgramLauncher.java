@@ -42,13 +42,13 @@ public class ProgramLauncher
         Suppliers SUPPLIERS = new Suppliers(conn);
 
         // BL INIT
-        SupplierBL SBL = new SupplierBL(CONTACTS, DISCOUNTS, ITEMS, SUPPLIER_ITEMS, SUPPLIERS, ORDERS, ORDERS_ITEMS);
+        SupplierBL SBL = new SupplierBL(CONTACTS, DISCOUNTS, ITEMS, SUPPLIER_ITEMS, SUPPLIERS, ORDERS, ORDERS_ITEMS,QUANTITIES);
         ProductManagement PRODUCT_MANAGEMENT = new ProductManagement(ITEMS, PRICES, QUANTITIES, SBL);
         CategoryManagement CATEGORY_MANAGEMENT = new CategoryManagement(CATEGORIES, ITEMS, PRICES, QUANTITIES);
         PriceManagement PRICE_MANAGEMENT = new PriceManagement(PRICES);
 
         // PL INIT
-        PL_Stock PL_STOCK = new PL_Stock(PRODUCT_MANAGEMENT, PRICE_MANAGEMENT, CATEGORY_MANAGEMENT);
+        PL_Stock PL_STOCK = new PL_Stock(PRODUCT_MANAGEMENT, PRICE_MANAGEMENT, CATEGORY_MANAGEMENT, SBL);
         PL_Supplier pl_sup= new PL_Supplier (SBL);
         PL_Orders pl_ord= new PL_Orders(SBL);
         Menu MENU = new Menu(PL_STOCK, pl_sup, pl_ord);

@@ -271,7 +271,7 @@ public class SupplierBL {
     public boolean setOrderArrivalDate(String line)
     {
         try{
-            String [] splitted = line.split("\\s+");
+            String [] splitted = line.split("\\s");
             int id = Integer.parseInt(splitted[0]);
             Date a_date = new Date(splitted[1]);
             if(order.getArrivalDate(id) == null)
@@ -287,7 +287,7 @@ public class SupplierBL {
             }
             OrderItem [] orderItems = OI.getOrderItems(id);
             for (OrderItem orderItem : orderItems) {
-                quantities.updateWarehouse(orderItem.getItemID(), orderItem.getQuantity());
+                quantities.updateWarehouse(orderItem.getItemID(),quantities.getQuantity(orderItem.getItemID()).getWarehouse() + orderItem.getQuantity());
             }
             return true;
         }

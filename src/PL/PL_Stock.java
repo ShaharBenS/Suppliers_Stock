@@ -27,7 +27,7 @@ public class PL_Stock
             "6) Update item ID" ,
             "7) Update item Location" ,
             "8) Update item Manufacture" ,
-            "9) Update Warehouse Stock From Arrived Order." ,  // TODO Order Arrival
+            "9) Update Warehouse Stock From Arrived Order." ,
             "10) Update item Amount in Store",
             "11) Update item Minimal Amount" ,
             "12) Update item Amount of Defects" ,
