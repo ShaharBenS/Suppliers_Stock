@@ -300,10 +300,9 @@ public class ProgramLauncher
         try
         {
 
-            for(int i = 0;i < Queries.length;i++)
-            {
+            for (String Query : Queries) {
                 Statement stmt = conn.createStatement();
-                stmt.executeUpdate(Queries[i]);
+                stmt.executeUpdate(Query);
             }
             conn.commit();
         }

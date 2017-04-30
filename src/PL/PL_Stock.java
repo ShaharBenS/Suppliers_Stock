@@ -5,6 +5,7 @@ import java.util.Scanner;
 import BL.CategoryManagement;
 import BL.PriceManagement;
 import BL.ProductManagement;
+import BL.SupplierBL;
 
 
 public class PL_Stock
@@ -13,6 +14,7 @@ public class PL_Stock
     private ProductManagement ProductM;
     private PriceManagement PriceM;
     private CategoryManagement CategoryM;
+    private SupplierBL SBL;
 
     private final String[] MENU = {"Choose an option:" ,
             "1) Add new Item" ,
@@ -25,7 +27,7 @@ public class PL_Stock
             "6) Update item ID" ,
             "7) Update item Location" ,
             "8) Update item Manufacture" ,
-            "9) Update item Amount in Warehouse" ,  // TODO Order Arrival
+            "9) Update Warehouse Stock From Arrived Order." ,  // TODO Order Arrival
             "10) Update item Amount in Store",
             "11) Update item Minimal Amount" ,
             "12) Update item Amount of Defects" ,
@@ -39,11 +41,12 @@ public class PL_Stock
             "19) Show all Items",
             "20) Back"};
 
-    public PL_Stock(ProductManagement pm, PriceManagement price_m, CategoryManagement cm)
+    public PL_Stock(ProductManagement pm, PriceManagement price_m, CategoryManagement cm,SupplierBL sbl)
     {
         this.CategoryM = cm;
         this.PriceM = price_m;
         this.ProductM = pm;
+        this.SBL = sbl;
     }
 
     /*
@@ -120,9 +123,9 @@ public class PL_Stock
                     break;
                 case 9:
                     System.out.print("Enter properties in the following structure:\n" +
-                            "[ID] [NEW AMOUNT IN WAREHOUSE]\n");
+                            "[Arriving Order ID] [Arrival Date] ** Date: DD.MM.YY **\n");
                     prop = scanner.nextLine();
-                    printUpdate(ProductM.updateItemAmountInWarehouse(prop));
+                    printUpdate(SBL.setOrderArrivalDate(prop));
                     break;
                 case 10:
                     System.out.print("Enter properties in the following structure:\n" +

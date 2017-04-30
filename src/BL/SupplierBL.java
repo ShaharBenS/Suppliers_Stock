@@ -266,7 +266,17 @@ public class SupplierBL {
         OrderItem orderItem = new OrderItem(orderID,supplierID,itemID, quantity, finalCost);
         return OI.addOrderItem(orderItem);
     }
-    
+    public boolean setOrderArrivalDate(String line)
+    {
+        try{
+            String [] splitted = line.split("\\s+");
+            return order.setArrivalDate(Integer.parseInt(splitted[0]),new Date(splitted[1]));
+        }
+        catch (Exception e)
+        {
+            return false;
+        }
+    }
     public boolean removeOrder(int orderID) {
         return order.removeOrder(orderID);
     }
