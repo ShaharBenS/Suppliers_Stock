@@ -27,19 +27,20 @@ public class PL_Stock
             "6) Update item ID" ,
             "7) Update item Location" ,
             "8) Update item Manufacture" ,
-            "9) Update Warehouse Stock From Arrived Order." ,
+            "9) Update Warehouse Stock From Arrived Order" ,
             "10) Update item Amount in Store",
             "11) Update item Minimal Amount" ,
             "12) Update item Amount of Defects" ,
             "13) Update item Category Code" ,
-            "14) Update item Sell Price\n" ,
+            "14) Update item Order Amount" ,
+            "15) Update item Sell Price\n" ,
             "** OTHER USEFUL OPERATIONS **",
-            "15) Add new Discount",
-            "16) Stock report by item ID",
-            "17) Stock report by category/ies",
-            "18) Defect Items report",
-            "19) Show all Items",
-            "20) Back"};
+            "16) Add new Discount",
+            "17) Stock report by item ID",
+            "18) Stock report by category/ies",
+            "19) Defect Items report",
+            "20) Show all Items",
+            "21) Back"};
 
     public PL_Stock(ProductManagement pm, PriceManagement price_m, CategoryManagement cm,SupplierBL sbl)
     {
@@ -153,23 +154,29 @@ public class PL_Stock
                     break;
                 case 14:
                     System.out.print("Enter properties in the following structure:\n" +
+                            "[ID] [NEW ORDER AMOUNT]\n");
+                    prop = scanner.nextLine();
+                    printUpdate(ProductM.updateOrderAmount(prop));
+                    break;
+                case 15:
+                    System.out.print("Enter properties in the following structure:\n" +
                             "[ID] [NEW SELL PRICE]\n");
                     prop = scanner.nextLine();
                     printUpdate(PriceM.updateSellPrice(prop));
                     break;
-                case 15:
+                case 16:
                     System.out.print("Enter properties in the following structure:\n" +
                             "[ID-of item or category] [DISCOUNT(in %)] [START DATE] [END DATE] **DATE FORM: DD.MM.YYYY\n");
                     prop = scanner.nextLine();
                     printUpdate(PriceM.addDiscount(prop));
                     break;
-                case 16:
+                case 17:
                     System.out.print("Enter properties in the following structure:\n" +
                             "[ID]\n");
                     prop = scanner.nextLine();
                     System.out.print(ProductM.ItemReport(prop));
                     break;
-                case 17:
+                case 18:
                     System.out.print("Enter properties in the following structure:\n" +
                             "[ID CATEGORY 1] [ID CATEGORY 2] ...... [ID CATEGORY n]\n");
                     prop = scanner.nextLine();
@@ -177,17 +184,17 @@ public class PL_Stock
                     for(int i=0; i<productsbyCat.length; i++)
                         System.out.print(productsbyCat[i]);
                     break;
-                case 18:
+                case 19:
                     String[] prodDef = ProductM.getAllDefectProducts();
                     for(int i=0; i<prodDef.length; i++)
                         System.out.print(prodDef[i]);
                     break;
-                case 19:
+                case 20:
                     String[] prod = ProductM.getAllItems();
                     for(int i=0; i<prod.length; i++)
                         System.out.print(prod[i]);
                     break;
-                case 20:
+                case 21:
                     return; // GOING BACK!
                 default: System.out.print("Invalid Operation!!! Try again...\n\n\n");
                     break;

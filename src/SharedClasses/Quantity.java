@@ -118,6 +118,7 @@ public class Quantity {
         str += "WAREHOUSE AMOUNT: " + warehouse + "\n";
         str += "DEFECT AMOUNT: " + defects + "\n";
         str += "MINIMAL AMOUNT: " + minimum + "\n";
+        str += "AMOUNT TO ORDER: " + amount_to_order + "\n";
         str += "----- QUANTITY -----" + "\n";
 
         return str;

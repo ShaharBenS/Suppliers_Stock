@@ -107,6 +107,25 @@ public class Items {
         }
     }
 
+    public boolean setOrderAmount(int id, int amount){
+        try {
+            String sql = "UPDATE QUANTITIES SET ORDER_AMOUNT = ? WHERE ItemID = ?";
+
+            PreparedStatement pstmt = c.prepareStatement(sql);
+
+            // set the corresponding param
+            pstmt.setInt(1, amount);
+            pstmt.setInt(2, id);
+            // update
+            pstmt.executeUpdate();
+
+            c.commit();
+            pstmt.close();
+            return true;
+        } catch (SQLException e) {
+            return false;
+        }
+    }
 
     public boolean setCategory(int id, int category){
         try {

@@ -251,7 +251,7 @@ public class ProgramLauncher
                     "(ItemID INT REFERENCES Items(ID) ON UPDATE CASCADE ON DELETE CASCADE ," +
                     "LOCATION TEXT NOT NULL," +
                     "MINIMUM INT NOT NULL," +
-                    "ORDER_AMOUNT INT DEFAULT 0," +  //TODO set minimum*3 and add option to change it.
+                    "ORDER_AMOUNT INT DEFAULT 0," +
                     "WAREHOUSE INT NOT NULL," +
                     "STORE INT NOT NULL," +
                     "DEFECTS INT NOT NULL);";

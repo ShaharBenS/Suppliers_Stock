@@ -88,7 +88,6 @@ public class Orders {
             String sqlQuary = "SELECT * FROM Orders WHERE SupplierID = '" + supID + "';";
             stmt = c.createStatement();
             ResultSet rs = stmt.executeQuery(sqlQuary);
-            //System.out.println(rs.getFetchSize());
             while (rs.next()){
                 ordersSup.add("" +rs.getInt(1) + " " + rs.getInt(2) + " "+ new Date(rs.getDate(3))+ " "+ rs.getString(4));
             }
