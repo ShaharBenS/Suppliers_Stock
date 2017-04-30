@@ -80,7 +80,7 @@ public class ProgramLauncher
 
         SUPPLIER_ITEMS.addSupplierItem(new SupplierItem(100000, 111111, 100000, 12.5));
 
-        ORDERS.addOrder(new Order(123456, 100000, new Date(new java.util.Date()),"20202020"));
+        ORDERS.addOrder(new Order(1, 100000, new Date(new java.util.Date()),"20202020"));
 
         ORDERS_ITEMS.addOrderItem(new OrderItem(123456, 100000, 111111, 30, 12.5));
 
@@ -91,6 +91,7 @@ public class ProgramLauncher
 
         ORDERS.setArrivalDate(123456,new Date(new java.util.Date()));
 
+        SBL.initOrderID();
 
         // start
         MENU.start();

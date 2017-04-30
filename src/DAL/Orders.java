@@ -175,4 +175,17 @@ public class Orders {
             return null;
         }
     }
+
+    public int getHighestOrderID()
+    {
+        try {
+            Statement stmt = c.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT MAX(Orders.OrderID) FROM Orders;");
+            return rs.getInt(1);
+
+        } catch (Exception e)
+        {
+            return 0;
+        }
+    }
 }

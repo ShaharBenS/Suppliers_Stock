@@ -2,6 +2,7 @@ package BL;
 
 import DAL.*;
 import SharedClasses.*;
+import com.sun.org.apache.xpath.internal.operations.Or;
 import javafx.util.Pair;
 import java.util.List;
 
@@ -16,7 +17,7 @@ public class SupplierBL {
     Orders order;
     OrdersItems OI;
     Quantities quantities;
-    public static  int OrderID=1;
+    public static int OrderID;
 
     public SupplierBL(Contacts contacts, Discounts dis, Items item, SupplierItems si, Suppliers sup, Orders order, OrdersItems ordersItems,Quantities quantities) {
         this.contacts = contacts;
@@ -27,6 +28,12 @@ public class SupplierBL {
         this.order = order;
         this.OI = ordersItems;
         this.quantities = quantities;
+    }
+
+    public void initOrderID()
+    {
+        int o_id = order.getHighestOrderID()+1;
+        OrderID = o_id;
     }
 
 
