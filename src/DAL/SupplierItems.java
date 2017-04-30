@@ -150,15 +150,14 @@ public class SupplierItems {
     public int getSupplierID(int itemID){
     	int supID =0;
         try {
-            String sqlQuary = "SELECT SupplierID FROM SupplierItems WHERE ItemID = '" + itemID + "';";
+            String sqlQuary = "SELECT SupplierID FROM SupplierItems WHERE ItemID = " + itemID + ";";
             stmt = c.createStatement();
             ResultSet rs = stmt.executeQuery(sqlQuary);
             supID = rs.getInt(1);
 
             rs.close();
             stmt.close();
-        } catch (Exception e) {
-        }
+        } catch (Exception e) { return 0; }
         return supID;
     }
 

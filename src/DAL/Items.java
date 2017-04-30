@@ -40,13 +40,12 @@ public class Items {
     public int existOrder(int supplierID)
     {
         int oid=0;
-        String query = "SELECT OrderID, SupplierID FROM Orders WHERE ArrivalDate = null;";
+        String query = "SELECT OrderID, SupplierID FROM Orders WHERE ArrivalDate is null and SupplierID = "+supplierID+";";
         try
         {
             Statement statement = c.createStatement();
             ResultSet result = statement.executeQuery(query);
 
-            int index = 0;
             while(result.next())
             {
                 if(result.getInt(2) == supplierID) return result.getInt(1);

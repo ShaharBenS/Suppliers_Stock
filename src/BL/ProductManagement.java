@@ -247,7 +247,7 @@ public class ProductManagement {
             if(oid == 0) //there is no open order
                 orderID = SBL.addOrder(supplierID,new Date(new java.util.Date()),0);
             else orderID = oid;
-            SBL.addOrderItem(orderID,supplierID,id,quantity.getAmount_to_order());
+            if(!SBL.addOrderItem(orderID, supplierID, id, quantity.getAmount_to_order())) return;
             Order order = SBL.getOrder(orderID);
             System.out.println(order.toString());
         }

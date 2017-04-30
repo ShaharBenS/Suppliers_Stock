@@ -48,11 +48,14 @@ public class Categories
     {
         Map allProducts;
         try {
-            String sqlQuary = "SELECT ItemID, FinalCost from OrdersItems; "+
-                    "FROM OrdersItems CROSS JOIN Orders " +
-                    "WHERE OrdersItems.OrderID = Orders.OrderID ;"+
-                    "GROUP BY OrdersItems.ItemID " +
-                    "HAVING MAX(Orders.ArrivalDate);";
+            String sqlQuary = "SELECT OI.ItemID, OI.FinalCost " +
+                            "FROM OrdersItems as OI CROSS JOIN Orders as O " +
+                            "WHERE OI.OrderID = O.OrderID " +
+                            "GROUP BY OI.ItemID " +
+                            "HAVING O.Date >= (SELECT Max(Orders.Date) " +
+                            "FROM OrdersItems CROSS JOIN Orders " +
+                            "WHERE OrdersItems.OrderID = Orders.OrderID AND ItemID = OI.ItemID " +
+                            "GROUP BY ItemID);";
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery(sqlQuary);
             allProducts = new HashMap();
@@ -160,7 +163,7 @@ public class Categories
         try {
             while (cArr.length != 0)
             {
-                String query1 = "SELECT ITEMS.ID " +
+                String query1 = "SELECT * " +
                                 "FROM ITEMS " +
                                 "WHERE (";
                 for (int i = 0; i < cArr.length; i++) {
@@ -243,6 +246,10 @@ public class Categories
 
         try{
             item.setItemID(resultSet.getInt("ID"));
+            item.setName(resultSet.getString("NAME"));
+            item.setManufacture(resultSet.getString("Manufacture"));
+            item.setCategoryNumber(resultSet.getInt("CategoryNumber"));
+
         }
         catch (SQLException e)
         {
