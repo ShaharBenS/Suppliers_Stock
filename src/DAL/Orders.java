@@ -2,6 +2,7 @@ package DAL;
 
 import java.sql.*;
 
+import ProgramLauncher.ProgramLauncher;
 import SharedClasses.Date;
 import SharedClasses.Item;
 import SharedClasses.Order;
@@ -25,16 +26,21 @@ public class Orders {
 
     public boolean addOrder(Order order) {
         try {
-            PreparedStatement ps = c.prepareStatement("INSERT INTO Orders (OrderID, SupplierID, Date, ContactID) " +
-                    "VALUES (?,?,?,?);");
+            PreparedStatement ps = c.prepareStatement("INSERT INTO Orders (OrderID, SupplierID, Date, ContactID,OrderFrequency) " +
+                    "VALUES (?,?,?,?,?);");
             ps.setInt(1, order.getOrderID());
             ps.setInt(2, order.getSupplier());
             ps.setString(3,order.getDate().toString());
             ps.setString(4,order.getContactID());
+            ps.setInt(5,order.getFrequency());
 
             ps.executeUpdate();
             c.commit();
             ps.close();
+            if(order.getFrequency() > 0)
+            {
+                ProgramLauncher.checkPeriodicOrders.interrupt();
+            }
             return true;
         } catch (Exception e) {
             return false;
@@ -142,7 +148,7 @@ public class Orders {
             PreparedStatement pstmt = c.prepareStatement(sql);
 
             // set the corresponding param
-            pstmt.setString(1, newDate.toString());
+            pstmt.setString(1, newDate == null ? null : newDate.toString());
             pstmt.setInt(2, i);
             // update
             pstmt.executeUpdate();
@@ -185,6 +191,53 @@ public class Orders {
         } catch (Exception e)
         {
             return 0;
+        }
+    }
+
+    public Order[] getPeriodicOrders()
+    {
+        List<Order> orderList = new ArrayList<>();
+        Order[] ordersArray;
+        try {
+            Statement stmt = c.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM ORDERS WHERE ORDERS.OrderFrequecny > 0;");
+            int count = 0;
+            while(rs.next())
+            {
+                count++;
+                orderList.add(new Order(rs.getInt("OrderID"),rs.getInt("SupplierID"),
+                        new Date(rs.getDate("Date")),rs.getString("ContactID"),
+                        rs.getInt("OrderFrequency")));
+            }
+            ordersArray = new Order[count];
+            ordersArray = orderList.toArray(ordersArray);
+            return ordersArray;
+
+        } catch (Exception e)
+        {
+            ordersArray = new Order[0];
+            return ordersArray;
+        }
+    }
+
+    public boolean setDate(int orderID, Date date)
+    {
+        try {
+            String sql = "UPDATE Orders SET Date = ? WHERE OrderID = ?";
+
+            PreparedStatement pstmt = c.prepareStatement(sql);
+
+            // set the corresponding param
+            pstmt.setString(1, date.toString());
+            pstmt.setInt(2, orderID);
+            // update
+            pstmt.executeUpdate();
+
+            c.commit();
+            pstmt.close();
+            return true;
+        } catch (SQLException e) {
+            return false;
         }
     }
 }

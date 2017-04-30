@@ -5,6 +5,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 import BL.CategoryManagement;
 import BL.PriceManagement;
@@ -24,8 +28,10 @@ import javax.swing.plaf.nimbus.State;
  */
 public class ProgramLauncher
 {
-    public static void main(String [] args)
-    {
+    public static Scanner sc = new Scanner(System.in);
+    public static Thread checkPeriodicOrders;
+    public static boolean continuePeriodCheck = true;
+    public static void main(String [] args) throws InterruptedException {
         Connection conn = getConnectionAndInitDatabase("Database.db");
 
         // DAL INIT
@@ -93,8 +99,76 @@ public class ProgramLauncher
 
         SBL.initOrderID();
 
+        checkPeriodicOrders = new Thread(()->{
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+
+            }
+            while(continuePeriodCheck){
+
+                Order [] orders = ORDERS.getPeriodicOrders();
+                List<Order> warnings = new ArrayList<>();
+
+                for(Order order:orders)
+                {
+                    // check if tomorrow the order comes
+                    java.sql.Date lastDate = order.getDate().toSQLdate();
+                    java.sql.Date todayDate = new Date(new java.util.Date()).toSQLdate();
+                    long diff = todayDate.getTime() - lastDate.getTime();
+                    long days = TimeUnit.MILLISECONDS.toDays(diff);
+                    int frequency = order.getFrequency();
+
+                    if(days - frequency == 0)
+                    {
+                        ORDERS.setDate(order.getOrderID(),new Date(new java.util.Date()));
+                        ORDERS.setArrivalDate(order.getOrderID(),null);
+                    }
+                    if(frequency - days == 1)
+                    {
+                        warnings.add(order);
+                    }
+                }
+
+
+                orders = warnings.toArray(orders);
+                if(orders.length > 0)
+                {
+                    System.out.println("Periodic Order for tomorrow found!");
+                    for(Order order:orders)
+                    {
+                        System.out.println(order.toString());
+                        OrderItem [] OI = ORDERS_ITEMS.getOrderItems(order.getOrderID());
+                        for (OrderItem aOI : OI) {
+                            System.out.println(aOI.toString());
+                            System.out.println("The current Amount is: " + QUANTITIES.getQuantity(aOI.getItemID()).getCurrent());
+                            System.out.println("Would you like to change the amount to order? Enter 'yes' to change");
+                            String choice = sc.nextLine();
+                            if (choice.equals("yes")) {
+                                System.out.println("New Amount: ");
+                                int amount = Integer.parseInt(sc.nextLine());
+                                boolean result = ORDERS_ITEMS.setQuantity(order.getOrderID(), aOI.getItemID(), amount);
+                                System.out.println("Update status: " + result);
+                            }
+                        }
+                    }
+                }
+
+
+                try {
+                    Thread.sleep(24*60*60);
+                } catch (InterruptedException e)
+                {
+                }
+            }
+        });
+        checkPeriodicOrders.start();
         // start
         MENU.start();
+        continuePeriodCheck = false;
+        checkPeriodicOrders.interrupt();
+        checkPeriodicOrders.join();
+
 
         try
         {
@@ -213,12 +287,13 @@ public class ProgramLauncher
                 Orders : OrderID, SupplierID, Date, ContactNumber, SupplierID(FR), ContactNumber(FR).
              */
             stmt = c.createStatement();
-            sql = "CREATE TABLE IF NOT EXISTS Orders " +
+            sql =   "CREATE TABLE IF NOT EXISTS Orders " +
                     "(OrderID INT PRIMARY KEY  NOT NULL," +
                     " SupplierID INT   NOT NULL," +
                     " Date  DATE  NOT NULL, " +
                     " ContactID TEXT  NOT NULL, " +
-                    "ArrivalDate Date DEFAULT NULL," +
+                    " ArrivalDate Date DEFAULT NULL," +
+                    " OrderFrequency INT NOT NULL DEFAULT 0," +
                     " FOREIGN KEY(SupplierID , ContactID) REFERENCES Contacts(SupplierID, ID) ON UPDATE CASCADE ON DELETE CASCADE);";
             stmt.execute(sql);
             stmt.close();

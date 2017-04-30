@@ -9,6 +9,7 @@ public class Order {
     private int supplierID;
     private Date date;
     private String ContactID;
+    private int Frequency;
     private OrderItem[] orderItems;
 
     @Override
@@ -32,14 +33,22 @@ public class Order {
         this.date = new Date(date);
         this.ContactID= ContactID;
         this.orderItems = orderItems;
+        Frequency = 0;
     }
     public Order(int OrderID, int supplierID, Date date,String ContactID){
         this.orderID = OrderID;
         this.supplierID = supplierID;
         this.date = new Date(date);
         this.ContactID= ContactID;
+        Frequency = 0;
     }
-    
+    public Order(int OrderID, int supplierID, Date date,String ContactID,int frequency){
+        this.orderID = OrderID;
+        this.supplierID = supplierID;
+        this.date = new Date(date);
+        this.ContactID= ContactID;
+        this.Frequency = frequency;
+    }
     public Order(Order ord, OrderItem[] orderItems){
     	this.orderID = ord.getOrderID();
         this.supplierID = ord.getSupplier();
@@ -73,5 +82,13 @@ public class Order {
 
     public void setOrderItems(OrderItem[] orderItems) {
         this.orderItems = orderItems;
+    }
+
+    public int getFrequency() {
+        return Frequency;
+    }
+
+    public void setFrequency(int frequency) {
+        Frequency = frequency;
     }
 }

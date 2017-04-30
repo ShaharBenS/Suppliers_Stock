@@ -5,7 +5,7 @@ import SharedClasses.*;
 import com.sun.org.apache.xpath.internal.operations.Or;
 import javafx.util.Pair;
 import java.util.List;
-
+import java.util.concurrent.TimeUnit;
 
 
 public class SupplierBL {
@@ -225,9 +225,10 @@ public class SupplierBL {
     }
 
 
-    public int addOrder(int supplierId, Date date){
+    public int addOrder(int supplierId, Date date,int frequency){
         String conID=contacts.getContactID(supplierId);
         Order ord = new Order(OrderID++,supplierId,date, conID);
+        ord.setFrequency(frequency);
         if(!order.addOrder(ord))
         {
             return -1;
@@ -283,6 +284,18 @@ public class SupplierBL {
             Date a_date = new Date(splitted[1]);
             if(order.getArrivalDate(id) == null)
             {
+                Order ord = getOrder(id);
+                java.sql.Date lastDate = ord.getDate().toSQLdate();
+                java.sql.Date todayDate = new Date(new java.util.Date()).toSQLdate();
+                long diff = todayDate.getTime() - lastDate.getTime();
+                long days = TimeUnit.MILLISECONDS.toDays(diff);
+                int frequency = ord.getFrequency();
+
+                if(frequency - days > 0)
+                {
+                    return false;
+                }
+
                 if(!order.setArrivalDate(id,a_date))
                 {
                     return false;
