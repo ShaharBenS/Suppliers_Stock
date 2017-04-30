@@ -242,7 +242,11 @@ public class ProductManagement {
         Quantity quantity = QUANTITIES.getQuantity(id);
         if (quantity.getWarehouse() <= quantity.getMinimum()) {
             int supplierID = SBL.getSupplierID(id);
-            int orderID = SBL.addOrder(supplierID,new Date(new java.util.Date()),0);
+            int oid = ITEMS.existOrder(supplierID);
+            int orderID;
+            if(oid == 0) //there is no open order
+                orderID = SBL.addOrder(supplierID,new Date(new java.util.Date()),0);
+            else orderID = oid;
             SBL.addOrderItem(orderID,supplierID,id,quantity.getAmount_to_order());
             Order order = SBL.getOrder(orderID);
             System.out.println(order.toString());
