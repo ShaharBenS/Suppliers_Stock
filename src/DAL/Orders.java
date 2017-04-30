@@ -1,15 +1,12 @@
 package DAL;
 
-import java.sql.Connection;
+import java.sql.*;
 
 import SharedClasses.Date;
 import SharedClasses.Item;
 import SharedClasses.Order;
 import SharedClasses.OrderItem;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -156,6 +153,26 @@ public class Orders {
             return true;
         } catch (SQLException e) {
             return false;
+        }
+    }
+
+    public Date getArrivalDate(int id)
+    {
+        try {
+            Statement stmt = c.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT Orders.ArrivalDate FROM Orders where OrderID = '" + id + "';");
+
+            java.sql.Date sql_date = rs.getDate("ArrivalDate");
+            if(sql_date == null)
+            {
+                return null;
+            }
+            else
+            {
+                return new Date(sql_date);
+            }
+        } catch (Exception e) {
+            return null;
         }
     }
 }

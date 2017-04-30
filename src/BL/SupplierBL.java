@@ -15,9 +15,10 @@ public class SupplierBL {
     Suppliers sup;
     Orders order;
     OrdersItems OI;
+    Quantities quantities;
     public static  int OrderID=1;
 
-    public SupplierBL(Contacts contacts, Discounts dis, Items item, SupplierItems si, Suppliers sup, Orders order, OrdersItems ordersItems) {
+    public SupplierBL(Contacts contacts, Discounts dis, Items item, SupplierItems si, Suppliers sup, Orders order, OrdersItems ordersItems,Quantities quantities) {
         this.contacts = contacts;
         this.dis = dis;
         this.item = item;
@@ -25,6 +26,7 @@ public class SupplierBL {
         this.sup = sup;
         this.order = order;
         this.OI = ordersItems;
+        this.quantities = quantities;
     }
 
 
@@ -270,7 +272,24 @@ public class SupplierBL {
     {
         try{
             String [] splitted = line.split("\\s+");
-            return order.setArrivalDate(Integer.parseInt(splitted[0]),new Date(splitted[1]));
+            int id = Integer.parseInt(splitted[0]);
+            Date a_date = new Date(splitted[1]);
+            if(order.getArrivalDate(id) == null)
+            {
+                if(!order.setArrivalDate(id,a_date))
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+            OrderItem [] orderItems = OI.getOrderItems(id);
+            for (OrderItem orderItem : orderItems) {
+                quantities.updateWarehouse(orderItem.getItemID(), orderItem.getQuantity());
+            }
+            return true;
         }
         catch (Exception e)
         {
