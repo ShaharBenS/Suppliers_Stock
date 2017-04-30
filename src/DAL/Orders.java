@@ -148,7 +148,7 @@ public class Orders {
             PreparedStatement pstmt = c.prepareStatement(sql);
 
             // set the corresponding param
-            pstmt.setString(1, newDate.toString());
+            pstmt.setString(1, newDate == null ? null : newDate.toString());
             pstmt.setInt(2, i);
             // update
             pstmt.executeUpdate();
@@ -217,6 +217,27 @@ public class Orders {
         {
             ordersArray = new Order[0];
             return ordersArray;
+        }
+    }
+
+    public boolean setDate(int orderID, Date date)
+    {
+        try {
+            String sql = "UPDATE Orders SET Date = ? WHERE OrderID = ?";
+
+            PreparedStatement pstmt = c.prepareStatement(sql);
+
+            // set the corresponding param
+            pstmt.setString(1, date.toString());
+            pstmt.setInt(2, orderID);
+            // update
+            pstmt.executeUpdate();
+
+            c.commit();
+            pstmt.close();
+            return true;
+        } catch (SQLException e) {
+            return false;
         }
     }
 }

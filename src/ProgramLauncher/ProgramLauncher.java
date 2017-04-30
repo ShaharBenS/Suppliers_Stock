@@ -5,6 +5,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 import BL.CategoryManagement;
 import BL.PriceManagement;
@@ -24,7 +28,9 @@ import javax.swing.plaf.nimbus.State;
  */
 public class ProgramLauncher
 {
+    public static Scanner sc = new Scanner(System.in);
     public static Thread checkPeriodicOrders;
+    public static boolean continuePeriodCheck = true;
     public static void main(String [] args) throws InterruptedException {
         Connection conn = getConnectionAndInitDatabase("Database.db");
 
@@ -94,32 +100,72 @@ public class ProgramLauncher
         SBL.initOrderID();
 
         checkPeriodicOrders = new Thread(()->{
-            while(!Thread.currentThread().isInterrupted()){
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+
+            }
+            while(continuePeriodCheck){
 
                 Order [] orders = ORDERS.getPeriodicOrders();
+                List<Order> warnings = new ArrayList<>();
+
+                for(Order order:orders)
+                {
+                    // check if tomorrow the order comes
+                    java.sql.Date lastDate = order.getDate().toSQLdate();
+                    java.sql.Date todayDate = new Date(new java.util.Date()).toSQLdate();
+                    long diff = todayDate.getTime() - lastDate.getTime();
+                    long days = TimeUnit.MILLISECONDS.toDays(diff);
+                    int frequency = order.getFrequency();
+
+                    if(days - frequency == 0)
+                    {
+                        ORDERS.setDate(order.getOrderID(),new Date(new java.util.Date()));
+                        ORDERS.setArrivalDate(order.getOrderID(),null);
+                    }
+                    if(frequency - days == 1)
+                    {
+                        warnings.add(order);
+                    }
+                }
 
 
-                /*
-                    Order Warning
-                 */
+                orders = warnings.toArray(orders);
                 if(orders.length > 0)
                 {
                     System.out.println("Periodic Order for tomorrow found!");
                     for(Order order:orders)
                     {
-
+                        System.out.println(order.toString());
+                        OrderItem [] OI = ORDERS_ITEMS.getOrderItems(order.getOrderID());
+                        for (OrderItem aOI : OI) {
+                            System.out.println(aOI.toString());
+                            System.out.println("The current Amount is: " + QUANTITIES.getQuantity(aOI.getItemID()).getCurrent());
+                            System.out.println("Would you like to change the amount to order? Enter 'yes' to change");
+                            String choice = sc.nextLine();
+                            if (choice.equals("yes")) {
+                                System.out.println("New Amount: ");
+                                int amount = Integer.parseInt(sc.nextLine());
+                                boolean result = ORDERS_ITEMS.setQuantity(order.getOrderID(), aOI.getItemID(), amount);
+                                System.out.println("Update status: " + result);
+                            }
+                        }
                     }
                 }
 
 
                 try {
                     Thread.sleep(24*60*60);
-                } catch (InterruptedException e) {
+                } catch (InterruptedException e)
+                {
                 }
             }
         });
+        checkPeriodicOrders.start();
         // start
         MENU.start();
+        continuePeriodCheck = false;
         checkPeriodicOrders.interrupt();
         checkPeriodicOrders.join();
 
