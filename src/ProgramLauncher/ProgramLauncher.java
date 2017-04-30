@@ -1,16 +1,5 @@
 package ProgramLauncher;
 
-import java.io.File;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Scanner;
-import java.util.concurrent.TimeUnit;
-
 import BL.CategoryManagement;
 import BL.PriceManagement;
 import BL.ProductManagement;
@@ -22,7 +11,14 @@ import PL.PL_Stock;
 import PL.PL_Supplier;
 import SharedClasses.*;
 
-import javax.swing.plaf.nimbus.State;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Shahar on 06/04/17.
