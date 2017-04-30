@@ -2,8 +2,10 @@ package DAL;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
+import ProgramLauncher.ProgramLauncher;
 import SharedClasses.OrderItem;
 import javafx.util.Pair;
 
@@ -34,6 +36,23 @@ public class OrdersItems {
             ps.executeUpdate();
             c.commit();
             ps.close();
+
+            Statement stmt = c.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT Orders.OrderFrequency FROM ORDERS WHERE Orders.OrderID = "+orderItem.getOrderID()+" ;");
+            if(rs.getInt(1) > 0)
+            {
+                Iterator iterator = ProgramLauncher.alreadyWarned.iterator();
+                while(iterator.hasNext())
+                {
+                    OrderItem oi = (OrderItem) iterator.next();
+                    if(oi.getItemID() == orderItem.getItemID() && orderItem.getOrderID() == oi.getOrderID())
+                    {
+                        ProgramLauncher.alreadyWarned.remove(oi);
+                    }
+                }
+                ProgramLauncher.checkPeriodicOrders.interrupt();
+            }
+
             return true;
         } catch (Exception e) {
             return false;
@@ -70,7 +89,7 @@ public class OrdersItems {
     
     public boolean setQuantity(int orderID,int itemID,int quantity){
    	 try {
-            String sql = "UPDATE OrdersItems SET quantity = ? WHERE OrderID = ? and catalogNumber=?";
+            String sql = "UPDATE OrdersItems SET quantity = ? WHERE OrderID = ? and ItemID=?";
 
             PreparedStatement pstmt = c.prepareStatement(sql);
 

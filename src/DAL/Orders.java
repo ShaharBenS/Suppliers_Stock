@@ -37,10 +37,8 @@ public class Orders {
             ps.executeUpdate();
             c.commit();
             ps.close();
-            if(order.getFrequency() > 0)
-            {
-                ProgramLauncher.checkPeriodicOrders.interrupt();
-            }
+
+
             return true;
         } catch (Exception e) {
             return false;
@@ -200,13 +198,13 @@ public class Orders {
         Order[] ordersArray;
         try {
             Statement stmt = c.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM ORDERS WHERE ORDERS.OrderFrequecny > 0;");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM ORDERS WHERE ORDERS.OrderFrequency > 0;");
             int count = 0;
             while(rs.next())
             {
                 count++;
                 orderList.add(new Order(rs.getInt("OrderID"),rs.getInt("SupplierID"),
-                        new Date(rs.getDate("Date")),rs.getString("ContactID"),
+                        new Date(rs.getString("Date")),rs.getString("ContactID"),
                         rs.getInt("OrderFrequency")));
             }
             ordersArray = new Order[count];
@@ -238,6 +236,19 @@ public class Orders {
             return true;
         } catch (SQLException e) {
             return false;
+        }
+    }
+
+    public int getFrequency(int orderID)
+    {
+        try {
+            Statement stmt = c.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT OrderFrequency FROM Orders WHERE OrderID = "+orderID+";");
+            return rs.getInt(1);
+
+        } catch (Exception e)
+        {
+            return 0;
         }
     }
 }

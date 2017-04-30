@@ -253,6 +253,7 @@ public class SupplierBL {
     	String orderGet = order.getOrder(orderID);
     	String[] splited = orderGet.split("\\s");
     	ord= new Order(Integer.parseInt(splited[0]), Integer.parseInt(splited[1]),new Date(splited[2]),splited[3],OI.getOrderItems(orderID));
+    	ord.setFrequency(order.getFrequency(ord.getOrderID()));
     	return ord;
     }
     
@@ -289,7 +290,7 @@ public class SupplierBL {
                 java.sql.Date todayDate = new Date(new java.util.Date()).toSQLdate();
                 long diff = todayDate.getTime() - lastDate.getTime();
                 long days = TimeUnit.MILLISECONDS.toDays(diff);
-                int frequency = ord.getFrequency();
+                int frequency = order.getFrequency(id);
 
                 if(frequency - days > 0)
                 {
@@ -308,7 +309,11 @@ public class SupplierBL {
             OrderItem [] orderItems = OI.getOrderItems(id);
             for (OrderItem orderItem : orderItems) {
                 int item_id = orderItem.getItemID();
-                quantities.updateWarehouse(item_id,quantities.getQuantity(item_id).getWarehouse() + orderItem.getQuantity());
+                Quantity quantity = quantities.getQuantity(item_id);
+                if(quantity!=null)
+                {
+                    quantities.updateWarehouse(item_id,quantity.getWarehouse() + orderItem.getQuantity());
+                }
             }
             return true;
         }

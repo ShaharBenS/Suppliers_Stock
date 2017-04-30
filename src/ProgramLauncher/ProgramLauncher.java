@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
@@ -28,7 +29,8 @@ import javax.swing.plaf.nimbus.State;
  */
 public class ProgramLauncher
 {
-    public static Scanner sc = new Scanner(System.in);
+    public static List<OrderItem> alreadyWarned = new ArrayList<>();
+    private static Scanner sc = new Scanner(System.in);
     public static Thread checkPeriodicOrders;
     public static boolean continuePeriodCheck = true;
     public static void main(String [] args) throws InterruptedException {
@@ -82,26 +84,35 @@ public class ProgramLauncher
 
 
         ITEMS.addItem(new Item(111111, "KORNFLEKS", 102, "SHKEL-INC"));
-
+        ITEMS.addItem(new Item(222222,"Steak",101,"COWS-KILLERS"));
 
         SUPPLIER_ITEMS.addSupplierItem(new SupplierItem(100000, 111111, 100000, 12.5));
+        SUPPLIER_ITEMS.addSupplierItem(new SupplierItem(200000, 222222, 100001, 12.5));
+
+        DISCOUNTS.addDiscount(new Discount(200000,222222,20,10));
 
         ORDERS.addOrder(new Order(1, 100000, new Date(new java.util.Date()),"20202020"));
+        ORDERS.addOrder(new Order(2,200000,new Date(new java.util.Date()),"30303030",1));
 
-        ORDERS_ITEMS.addOrderItem(new OrderItem(123456, 100000, 111111, 30, 12.5));
+        ORDERS_ITEMS.addOrderItem(new OrderItem(1, 100000, 111111, 30, 12.5));
+        ORDERS_ITEMS.addOrderItem(new OrderItem(2,200000,222222,40,10));
 
         QUANTITIES.addItemQuantity(new Quantity(111111, "SHELF 2-A",0,
                 30,10, 0, 30));
 
         PRICES.addItemPrice(new Price(111111, 20.5, 0, null, null));
 
-        ORDERS.setArrivalDate(123456,new Date(new java.util.Date()));
+        QUANTITIES.addItemQuantity(new Quantity(222222,"SHELF 3-B",0,0,10,0,30));
+
+        PRICES.addItemPrice(new Price(222222,25,0,null,null));
+
+        ORDERS.setArrivalDate(1,new Date(new java.util.Date()));
 
         SBL.initOrderID();
 
         checkPeriodicOrders = new Thread(()->{
             try {
-                Thread.sleep(5000);
+                Thread.sleep(3000);
             } catch (InterruptedException e) {
 
             }
@@ -109,7 +120,7 @@ public class ProgramLauncher
 
                 Order [] orders = ORDERS.getPeriodicOrders();
                 List<Order> warnings = new ArrayList<>();
-
+                int count = 0;
                 for(Order order:orders)
                 {
                     // check if tomorrow the order comes
@@ -117,7 +128,7 @@ public class ProgramLauncher
                     java.sql.Date todayDate = new Date(new java.util.Date()).toSQLdate();
                     long diff = todayDate.getTime() - lastDate.getTime();
                     long days = TimeUnit.MILLISECONDS.toDays(diff);
-                    int frequency = order.getFrequency();
+                    int frequency = ORDERS.getFrequency(order.getOrderID());
 
                     if(days - frequency == 0)
                     {
@@ -126,29 +137,46 @@ public class ProgramLauncher
                     }
                     if(frequency - days == 1)
                     {
+                        count++;
                         warnings.add(order);
                     }
                 }
 
-
+                orders = new Order[count];
                 orders = warnings.toArray(orders);
+
+
                 if(orders.length > 0)
                 {
-                    System.out.println("Periodic Order for tomorrow found!");
-                    for(Order order:orders)
-                    {
-                        System.out.println(order.toString());
-                        OrderItem [] OI = ORDERS_ITEMS.getOrderItems(order.getOrderID());
-                        for (OrderItem aOI : OI) {
-                            System.out.println(aOI.toString());
-                            System.out.println("The current Amount is: " + QUANTITIES.getQuantity(aOI.getItemID()).getCurrent());
-                            System.out.println("Would you like to change the amount to order? Enter 'yes' to change");
-                            String choice = sc.nextLine();
-                            if (choice.equals("yes")) {
-                                System.out.println("New Amount: ");
-                                int amount = Integer.parseInt(sc.nextLine());
-                                boolean result = ORDERS_ITEMS.setQuantity(order.getOrderID(), aOI.getItemID(), amount);
-                                System.out.println("Update status: " + result);
+                    synchronized (System.in) {
+                        for (Order order : orders) {
+                            //System.out.println(order.toStringWithoutOrderItems());
+                            OrderItem[] OI = ORDERS_ITEMS.getOrderItems(order.getOrderID());
+                            for (OrderItem aOI : OI) {
+                                Iterator iterator = alreadyWarned.iterator();
+                                boolean continue_ = false;
+                                while (iterator.hasNext()) {
+                                    OrderItem oi = (OrderItem) iterator.next();
+                                    if (oi.getOrderID() == aOI.getOrderID() && aOI.getItemID() == oi.getItemID()) {
+                                        continue_ = true;
+                                    }
+                                }
+                                if (continue_) {
+                                    continue;
+                                }
+                                System.out.println("Periodic Order for tomorrow found, OrderID: "+aOI.getOrderID());
+                                System.out.println(aOI.toString());
+                                Quantity q = QUANTITIES.getQuantity(aOI.getItemID());
+                                System.out.println("The current Amount is: " + (q == null ? "0" : q.getCurrent()));
+                                System.out.println("Would you like to change the amount to order? Enter 'yes' to change");
+                                String choice = sc.nextLine();
+                                if (choice.equals("yes")) {
+                                    System.out.println("New Amount: ");
+                                    int amount = Integer.parseInt(sc.nextLine());
+                                    boolean result = ORDERS_ITEMS.setQuantity(order.getOrderID(), aOI.getItemID(), amount);
+                                    System.out.println("Update status: " + result);
+                                    alreadyWarned.add(aOI);
+                                }
                             }
                         }
                     }

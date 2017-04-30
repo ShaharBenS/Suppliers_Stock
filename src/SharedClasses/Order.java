@@ -26,7 +26,16 @@ public class Order {
         ans+="***** ORDER *****\n";
         return  ans;
     }
-
+    public String toStringWithoutOrderItems()
+    {
+        String ans ="";
+        ans+="***** ORDER *****\n";
+        ans+="ORDER ID: "+orderID+"\n";
+        ans+="SUPPLIER ID: "+supplierID+"\n";
+        ans+="Date: "+date.toString()+"\n";
+        ans+="***** ORDER *****\n";
+        return  ans;
+    }
     public Order(int OrderID, int supplierID, Date date, String ContactID, OrderItem[] orderItems){
         this.orderID = OrderID;
         this.supplierID = supplierID;
