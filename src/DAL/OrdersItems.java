@@ -95,11 +95,16 @@ public class OrdersItems {
             String sqlQuary = "SELECT * FROM OrdersItems WHERE OrderID = " + orderID + ";";
             stmt = c.createStatement();
             ResultSet rs = stmt.executeQuery(sqlQuary);
-            orderItems= new OrderItem[rs.getFetchSize()];
-            for(int i=0; i<orderItems.length;i++){
-            	orderItems[i] = new OrderItem(rs.getInt(1),rs.getInt(2),
-                        rs.getInt(3), rs.getInt(4),rs.getDouble(5) );
+            int count = 0;
+            List<OrderItem> orderItemsList = new ArrayList<>();
+            while(rs.next())
+            {
+                count++;
+                orderItemsList.add(new OrderItem(rs.getInt("OrderID"),rs.getInt("SupplierID"),
+                        rs.getInt("ItemID"), rs.getInt("Quantity"),rs.getDouble("FinalCost")));
             }
+            orderItems= new OrderItem[count];
+            orderItems = orderItemsList.toArray(orderItems);
             rs.close();
             stmt.close();
         } catch (Exception e) {

@@ -287,7 +287,8 @@ public class SupplierBL {
             }
             OrderItem [] orderItems = OI.getOrderItems(id);
             for (OrderItem orderItem : orderItems) {
-                quantities.updateWarehouse(orderItem.getItemID(),quantities.getQuantity(orderItem.getItemID()).getWarehouse() + orderItem.getQuantity());
+                int item_id = orderItem.getItemID();
+                quantities.updateWarehouse(item_id,quantities.getQuantity(item_id).getWarehouse() + orderItem.getQuantity());
             }
             return true;
         }

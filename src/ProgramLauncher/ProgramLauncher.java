@@ -48,7 +48,7 @@ public class ProgramLauncher
         PriceManagement PRICE_MANAGEMENT = new PriceManagement(PRICES);
 
         // PL INIT
-        PL_Stock PL_STOCK = new PL_Stock(PRODUCT_MANAGEMENT, PRICE_MANAGEMENT, CATEGORY_MANAGEMENT, SBL);
+        PL_Stock PL_STOCK = new PL_Stock(PRODUCT_MANAGEMENT, PRICE_MANAGEMENT, CATEGORY_MANAGEMENT,SBL);
         PL_Supplier pl_sup= new PL_Supplier (SBL);
         PL_Orders pl_ord= new PL_Orders(SBL);
         Menu MENU = new Menu(PL_STOCK, pl_sup, pl_ord);

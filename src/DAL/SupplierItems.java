@@ -138,7 +138,7 @@ public class SupplierItems {
             String sqlQuary = "SELECT Cost FROM SupplierItems WHERE SupplierID = '" + supId + "'and ItemID = '" + itemId + "';";
             stmt = c.createStatement();
             ResultSet rs = stmt.executeQuery(sqlQuary);
-            cost = rs.getInt(1);
+            cost = rs.getDouble(1);
 
             rs.close();
             stmt.close();
