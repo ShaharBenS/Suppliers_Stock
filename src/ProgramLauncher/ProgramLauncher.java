@@ -32,7 +32,7 @@ public class ProgramLauncher
     public static List<OrderItem> alreadyWarned = new ArrayList<>();
     private static Scanner sc = new Scanner(System.in);
     public static Thread checkPeriodicOrders;
-    public static boolean continuePeriodCheck = true;
+    private static boolean continuePeriodCheck = true;
     public static void main(String [] args) throws InterruptedException {
         Connection conn = getConnectionAndInitDatabase("Database.db");
 
@@ -145,10 +145,10 @@ public class ProgramLauncher
                 orders = new Order[count];
                 orders = warnings.toArray(orders);
 
-
                 if(orders.length > 0)
                 {
-                    synchronized (System.in) {
+                    synchronized (System.in)
+                    {
                         for (Order order : orders) {
                             //System.out.println(order.toStringWithoutOrderItems());
                             OrderItem[] OI = ORDERS_ITEMS.getOrderItems(order.getOrderID());
@@ -177,6 +177,7 @@ public class ProgramLauncher
                                     System.out.println("Update status: " + result);
                                     alreadyWarned.add(aOI);
                                 }
+                                alreadyWarned.add(aOI);
                             }
                         }
                     }

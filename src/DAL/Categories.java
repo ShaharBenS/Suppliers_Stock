@@ -48,11 +48,14 @@ public class Categories
     {
         Map allProducts;
         try {
-            String sqlQuary = "SELECT ItemID, FinalCost from OrdersItems; "+
-                    "FROM OrdersItems CROSS JOIN Orders " +
-                    "WHERE OrdersItems.OrderID = Orders.OrderID ;"+
-                    "GROUP BY OrdersItems.ItemID " +
-                    "HAVING MAX(Orders.ArrivalDate);";
+            String sqlQuary = "SELECT OI.ItemID, OI.FinalCost " +
+                            "FROM OrdersItems as OI CROSS JOIN Orders as O " +
+                            "WHERE OI.OrderID = O.OrderID " +
+                            "GROUP BY OI.ItemID " +
+                            "HAVING O.Date >= (SELECT Max(Orders.Date) " +
+                            "FROM OrdersItems CROSS JOIN Orders " +
+                            "WHERE OrdersItems.OrderID = Orders.OrderID AND ItemID = OI.ItemID " +
+                            "GROUP BY ItemID);";
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery(sqlQuary);
             allProducts = new HashMap();
