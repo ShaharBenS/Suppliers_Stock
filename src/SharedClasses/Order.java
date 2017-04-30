@@ -12,7 +12,22 @@ public class Order {
     private int Frequency;
     private OrderItem[] orderItems;
 
-    public Order(int OrderID, int supplierID, Date date,  String ContactID, OrderItem[] orderItems){
+    @Override
+    public String toString() {
+        String ans ="";
+        ans+="***** ORDER *****\n";
+        ans+="ORDER ID: "+orderID+"\n";
+        ans+="SUPPLIER ID: "+supplierID+"\n";
+        ans+="Date: "+date.toString()+"\n";
+        for(int i=0; i<orderItems.length; i++)
+        {
+            ans+=orderItems[i].toString();
+        }
+        ans+="***** ORDER *****\n";
+        return  ans;
+    }
+
+    public Order(int OrderID, int supplierID, Date date, String ContactID, OrderItem[] orderItems){
         this.orderID = OrderID;
         this.supplierID = supplierID;
         this.date = new Date(date);

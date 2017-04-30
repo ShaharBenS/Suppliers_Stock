@@ -39,7 +39,7 @@ public class ProductManagement {
             if (iParts[4].length() != 3) return false;
             double sell = Double.parseDouble(iParts[6]);
             item = new Item(id, iParts[5], cCode, iParts[2]);
-            quantity = new Quantity(id, iParts[1],0,0,minimal,0,0);
+            quantity = new Quantity(id, iParts[1],0,0,minimal,0,minimal*3);
             price = new Price(id, sell, 0, null,null);
 
         } catch (Exception e) { return false; }
@@ -154,6 +154,18 @@ public class ProductManagement {
         }
     }
 
+    public boolean updateOrderAmount(String line){
+        String[] prop = line.split("\\s+");
+        if (prop.length != 2) return false;
+        try {
+            int id = Integer.parseInt(prop[0]);
+            int newOrderAmount = Integer.parseInt(prop[1]);
+            return ITEMS.setOrderAmount(id, newOrderAmount);
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     public boolean updateItemCategoryCode(String line) {
         String[] prop = line.split("\\s+");
         if (prop.length != 2) return false;
@@ -230,9 +242,10 @@ public class ProductManagement {
         Quantity quantity = QUANTITIES.getQuantity(id);
         if (quantity.getWarehouse() <= quantity.getMinimum()) {
             int supplierID = SBL.getSupplierID(id);
-            int orderID = SBL.addOrder(supplierID,new Date(new java.util.Date()),0);
-            SBL.addOrderItem(orderID,supplierID,id,quantity.getAmount_to_order() );
-            //TODO:: ^^ when need to alert, return -1 and printing "java.sql.SQLException: ResultSet closed"
+            int orderID = SBL.addOrder(supplierID,new Date(new java.util.Date()));
+            SBL.addOrderItem(orderID,supplierID,id,quantity.getAmount_to_order());
+            Order order = SBL.getOrder(orderID);
+            System.out.println(order.toString());
         }
     }
 

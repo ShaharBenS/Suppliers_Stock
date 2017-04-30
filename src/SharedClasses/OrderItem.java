@@ -22,6 +22,19 @@ public class OrderItem {
         this.finalCost = finalCost;
     }
 
+    @Override
+    public String toString() {
+        String ans="";
+        ans+= "*** ORDER ITEM ***\n";
+        ans+= "Catalog Number: "+catalogNumber+"\n";
+        ans+= "Item ID: "+ItemID+"\n";
+        ans+= "Quantity: "+quantity+"\n";
+        ans+= "Cost: "+cost+"\n";
+        ans+= "Discount: "+discount+"\n";
+        ans+= "Final Cost: "+finalCost+"\n";
+        ans+= "*** ORDER ITEM ***\n";
+        return ans;
+    }
 
     public int getOrderID(){return orderID;}
 
