@@ -225,9 +225,10 @@ public class SupplierBL {
     }
 
 
-    public int addOrder(int supplierId, Date date){
+    public int addOrder(int supplierId, Date date,int frequency){
         String conID=contacts.getContactID(supplierId);
         Order ord = new Order(OrderID++,supplierId,date, conID);
+        ord.setFrequency(frequency);
         if(!order.addOrder(ord))
         {
             return -1;

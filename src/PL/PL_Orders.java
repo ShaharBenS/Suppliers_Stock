@@ -223,12 +223,23 @@ public class PL_Orders
         }
     }
 
+
     //addNewOrder
     public void case11() {
+        System.out.println("Enter 1 to add a new Order\n" +
+                            "Enter 2 to add a new Periodic Order [DAYS]");
+
+        int choice = Integer.parseInt(sc.nextLine());
         int supID = getSupID();
+        int frequency = 0;
         //check if the supplier exist
         if (supID != 0) {
-            int ans = bl.addOrder(supID, new Date(new java.util.Date()));
+            if(choice == 2)
+            {
+                System.out.println("Enter order frequency");
+                frequency = Integer.parseInt(sc.nextLine());
+            }
+            int ans = bl.addOrder(supID, new Date(new java.util.Date()),frequency);
             if(ans == -1 ) {
                 System.out.println("ERROR! something went wrong");
                 case1();

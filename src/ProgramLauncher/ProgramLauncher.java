@@ -24,8 +24,8 @@ import javax.swing.plaf.nimbus.State;
  */
 public class ProgramLauncher
 {
-    public static void main(String [] args)
-    {
+    public static Thread checkPeriodicOrders;
+    public static void main(String [] args) throws InterruptedException {
         Connection conn = getConnectionAndInitDatabase("Database.db");
 
         // DAL INIT
@@ -93,8 +93,36 @@ public class ProgramLauncher
 
         SBL.initOrderID();
 
+        checkPeriodicOrders = new Thread(()->{
+            while(!Thread.currentThread().isInterrupted()){
+
+                Order [] orders = ORDERS.getPeriodicOrders();
+
+
+                /*
+                    Order Warning
+                 */
+                if(orders.length > 0)
+                {
+                    System.out.println("Periodic Order for tomorrow found!");
+                    for(Order order:orders)
+                    {
+
+                    }
+                }
+
+
+                try {
+                    Thread.sleep(24*60*60);
+                } catch (InterruptedException e) {
+                }
+            }
+        });
         // start
         MENU.start();
+        checkPeriodicOrders.interrupt();
+        checkPeriodicOrders.join();
+
 
         try
         {
@@ -213,12 +241,13 @@ public class ProgramLauncher
                 Orders : OrderID, SupplierID, Date, ContactNumber, SupplierID(FR), ContactNumber(FR).
              */
             stmt = c.createStatement();
-            sql = "CREATE TABLE IF NOT EXISTS Orders " +
+            sql =   "CREATE TABLE IF NOT EXISTS Orders " +
                     "(OrderID INT PRIMARY KEY  NOT NULL," +
                     " SupplierID INT   NOT NULL," +
                     " Date  DATE  NOT NULL, " +
                     " ContactID TEXT  NOT NULL, " +
-                    "ArrivalDate Date DEFAULT NULL," +
+                    " ArrivalDate Date DEFAULT NULL," +
+                    " OrderFrequency INT NOT NULL DEFAULT 0," +
                     " FOREIGN KEY(SupplierID , ContactID) REFERENCES Contacts(SupplierID, ID) ON UPDATE CASCADE ON DELETE CASCADE);";
             stmt.execute(sql);
             stmt.close();

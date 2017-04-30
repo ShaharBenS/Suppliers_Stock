@@ -230,7 +230,7 @@ public class ProductManagement {
         Quantity quantity = QUANTITIES.getQuantity(id);
         if (quantity.getWarehouse() <= quantity.getMinimum()) {
             int supplierID = SBL.getSupplierID(id);
-            int orderID = SBL.addOrder(supplierID,new Date(new java.util.Date()));
+            int orderID = SBL.addOrder(supplierID,new Date(new java.util.Date()),0);
             SBL.addOrderItem(orderID,supplierID,id,quantity.getAmount_to_order() );
             //TODO:: ^^ when need to alert, return -1 and printing "java.sql.SQLException: ResultSet closed"
         }
